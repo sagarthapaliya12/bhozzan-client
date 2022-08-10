@@ -10,5 +10,6 @@ To host this project run
 ```bash
   cd <ProjectName> 
 
-  expo start
+  expo start (For emulators)
+  expo start --tunnel (For USB debugging)
 ```
