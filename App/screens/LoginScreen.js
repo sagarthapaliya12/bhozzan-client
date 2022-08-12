@@ -28,12 +28,14 @@ const styles = StyleSheet.create({
 	screenContainer: {
 		flex: 1,
 		backgroundColor: colors.screen,
+        justifyContent: "flex-end",
+        alignItems: "center"
 	},
 
 	logoContainer: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
+		position: "absolute",
+        top: 70,
+        alignItems: "center"
 	},
 	logo: {
 		width: 100,
@@ -43,7 +45,6 @@ const styles = StyleSheet.create({
 	},
 	btnContainer: {
 		padding: 30,
-		height: "100%",
 		width: "100%",
         // backgroundColor: "red"
 	},
