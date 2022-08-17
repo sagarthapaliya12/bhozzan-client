@@ -11,10 +11,9 @@ export default {
 		fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
 	},
 	link: {
-		color: colors.medium,
-		// cursor: 'pointer',
+		color: colors.medium,		
 		fontSize: 14,
 		textAlign: "right",
-		// backgroundColor: "green",
+		textDecorationLine: "underline",
 	},
 };

@@ -1,14 +1,16 @@
 import React from "react";
-import { Image, View, StyleSheet, Text } from "react-native";
+import { Image, View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import * as Yup from "yup";
+
 import Screen from "../components/Screen";
 import colors from "../config/colors";
-import * as Yup from "yup";
 
 import Form from "../components/forms/Form";
 import FormField from "../components/forms/FormField";
 import SubmitButton from "../components/forms/SubmitButton";
 import AppButton from "../components/AppButton";
-import defaultStyles from "../config/styles"
+import defaultStyles from "../config/styles";
 
 const validationSchema = Yup.object().shape({
 	email: Yup.string().required().email().label("Email"),
@@ -18,7 +20,7 @@ const validationSchema = Yup.object().shape({
 function LoginScreen(props) {
 	return (
 		<Screen>
-			<View style={styles.screenContainer}>
+			<KeyboardAwareScrollView contentContainerStyle={styles.screenContainer}>
 				<View style={styles.logoContainer}>
 					<Image
 						source={require("../assets/App-Logo.jpg")}
@@ -53,15 +55,15 @@ function LoginScreen(props) {
 						<SubmitButton title="Login" />
 					</Form>
 
-					<Text onPress={() => console.log("clicked")} style={defaultStyles.link}>
-						Forgot Password?
-					</Text>
+					<TouchableOpacity onPress={() => console.log("clicked")}>
+						<Text style={defaultStyles.link}>Forgot Password?</Text>
+					</TouchableOpacity>
 				</View>
 
 				<View style={styles.btnContainer}>
 					<AppButton title="register" />
 				</View>
-			</View>
+			</KeyboardAwareScrollView>
 		</Screen>
 	);
 }
@@ -70,30 +72,33 @@ const styles = StyleSheet.create({
 	screenContainer: {
 		flex: 1,
 		backgroundColor: colors.screen,
-		justifyContent: "flex-end",
+		// justifyContent: "flex-end",
 		alignItems: "center",
+		// overflowX: "hidden"
 	},
 
 	logoContainer: {
-		position: "absolute",
-		top: 70,
+		display: "flex",
 		alignItems: "center",
+		justifyContent: "center",
 	},
 	logo: {
 		width: 100,
 		height: 100,
 		borderRadius: 50,
-		top: 30,
+		top: 60,
 	},
 	formContainer: {
+		display: "flex",
 		width: "90%",
-		position: "absolute",
-		top: 300,
+		marginVertical: 150
 	},
 	btnContainer: {
 		padding: 10,
 		width: "90%",
-		bottom: 0,
+		marginVertical: 50
+		
+		// position: "absolute"
 	},
 });
 

@@ -1,5 +1,14 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	Image,
+	StyleSheet,
+	TouchableOpacity,
+	TouchableNativeFeedback,
+	TouchableHighlight,
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 import "yup-phone";
 
@@ -31,115 +40,137 @@ const validationSchema = Yup.object().shape({
 
 function RegisterScreen() {
 	return (
-		<Screen style={styles.container}>
-			<View style={styles.logoContainer}>
-				<Image
-					source={require("../assets/App-Logo.jpg")}
-					style={styles.logo}
-				></Image>
-			</View>
+		<Screen>
+			<KeyboardAwareScrollView>
+				<View style={styles.container}>
+					<View style={styles.logoContainer}>
+						<Image
+							source={require("../assets/App-Logo.jpg")}
+							style={styles.logo}
+						></Image>
+					</View>
 
-			<View style={styles.formContainer}>
-				<Form
-					initialValues={{
-						first: "",
-						last: "",
-						number: "",
-						email: "",
-						password: "",
-						confirmPassword: "",
-					}}
-					onSubmit={(values) => console.log(values)}
-					validationSchema={validationSchema}
-				>
-					<FormField
-						autoCorrect={false}
-						icon="account"
-						name="first"
-						placeholder="First Name"
-					/>
-					<FormField
-						autoCorrect={false}
-						icon="account"
-						name="last"
-						placeholder="Last Name"
-					/>
-					<FormField
-						autoCorrect={false}
-						icon="phone"
-						name="number"
-						placeholder="Phone Number"
-					/>
-					<FormField
-						autoCapitalize="none"
-						autoCorrect={false}
-						icon="email"
-						keyboardType="email-address"
-						name="email"
-						placeholder="Email"
-						textContentType="emailAddress"
-					/>
-					<FormField
-						autoCapitalize="none"
-						autoCorrect={false}
-						icon="lock"
-						name="password"
-						placeholder="Password"
-						secureTextEntry
-						textContentType="password"
-					/>
-					<FormField
-						autoCapitalize="none"
-						autoCorrect={false}
-						icon="lock"
-						name="confirmPassword"
-						placeholder="Confirm password"
-						secureTextEntry
-						textContentType="password"
-					/>
-					<SubmitButton title="Register" />
-				</Form>
-			</View>
+					<View style={styles.formContainer}>
+						<Form
+							initialValues={{
+								first: "",
+								last: "",
+								number: "",
+								email: "",
+								password: "",
+								confirmPassword: "",
+							}}
+							onSubmit={(values) => console.log(values)}
+							validationSchema={validationSchema}
+						>
+							<FormField
+								autoCorrect={false}
+								icon="account"
+								name="first"
+								placeholder="First Name"
+							/>
+							<FormField
+								autoCorrect={false}
+								icon="account"
+								name="last"
+								placeholder="Last Name"
+							/>
+							<FormField
+								autoCorrect={false}
+								icon="phone"
+								name="number"
+								placeholder="Phone Number"
+							/>
+							<FormField
+								autoCapitalize="none"
+								autoCorrect={false}
+								icon="email"
+								keyboardType="email-address"
+								name="email"
+								placeholder="Email"
+								textContentType="emailAddress"
+							/>
+							<FormField
+								autoCapitalize="none"
+								autoCorrect={false}
+								icon="lock"
+								name="password"
+								placeholder="Password"
+								secureTextEntry
+								textContentType="password"
+							/>
+							<FormField
+								autoCapitalize="none"
+								autoCorrect={false}
+								icon="lock"
+								name="confirmPassword"
+								placeholder="Confirm password"
+								secureTextEntry
+								textContentType="password"
+							/>
+							<SubmitButton title="Register" />
+						</Form>
 
-			<Text style={{ color: defaultStyles.colors.medium }}>
-				Already have an account?
-				<Text onPress={() => console.log("clicked")} style={defaultStyles.link}>
-					Login
-				</Text>
-			</Text>
+						<View
+							style={{ justifyContent: "flex-start", alignItems: "flex-end" }}
+						>
+							<Text
+								style={{
+									color: defaultStyles.colors.medium,
+									textAlign: "right",
+								}}
+							>
+								Already have an account?
+								<TouchableNativeFeedback onPress={() => console.log("clicked")}>
+									<Text style={styles.text}>Login</Text>
+								</TouchableNativeFeedback>
+							</Text>
+						</View>
+					</View>
 
-			<Text onPress={() => console.log("clicked")} style={defaultStyles.link}>
-				Register Your Restaurant Here
-			</Text>
+					<TouchableOpacity onPress={() => console.log("clicked")}>
+						<Text style={defaultStyles.link}>
+							Register Your Restaurant Here
+						</Text>
+					</TouchableOpacity>
+				</View>
+			</KeyboardAwareScrollView>
 		</Screen>
 	);
 }
 
 const styles = StyleSheet.create({
-	logoContainer: {
-		position: "absolute",
-		top: 25,
+	container: {
+		flex: 1,
+		backgroundColor: defaultStyles.colors.screen,
 		alignItems: "center",
+		padding: 20,
 	},
+
+	logoContainer: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+
 	logo: {
 		width: 100,
 		height: 100,
 		borderRadius: 50,
 		top: 20,
 	},
-	
+
 	formContainer: {
+		display: "flex",
 		width: "90%",
-		position: "fixed",
-		top: 20,
+		marginVertical: 40,
 	},
 
-	container: {
-		flex: 1,
-		backgroundColor: defaultStyles.colors.screen,
-		justifyContent: "flex-end",
-		alignItems: "center",
-		padding: 20,
+	text: {
+		color: defaultStyles.colors.medium,
+		fontSize: 14,
+		textAlign: "right",
+		textDecorationLine: "underline",
 	},
 });
 
