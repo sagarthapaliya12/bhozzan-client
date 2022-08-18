@@ -91,13 +91,13 @@ const styles = StyleSheet.create({
 	formContainer: {
 		display: "flex",
 		width: "90%",
-		marginVertical: 150
+		marginVertical: 150,
 	},
 	btnContainer: {
 		padding: 10,
 		width: "90%",
-		marginVertical: 50
-		
+		marginVertical: 50,
+
 		// position: "absolute"
 	},
 });
