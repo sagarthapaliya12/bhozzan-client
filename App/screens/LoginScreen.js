@@ -17,7 +17,7 @@ const validationSchema = Yup.object().shape({
 	password: Yup.string().required().min(4).label("Password"),
 });
 
-function LoginScreen(props) {
+function LoginScreen({navigation}) {
 	return (
 		<Screen>
 			<KeyboardAwareScrollView contentContainerStyle={styles.screenContainer}>
@@ -52,7 +52,7 @@ function LoginScreen(props) {
 							secureTextEntry
 							textContentType="password"
 						/>
-						<SubmitButton title="Login" />
+						<SubmitButton title="Login" onPress={()=> navigation.navigate("Notifications")}/>
 					</Form>
 
 					<TouchableOpacity onPress={() => console.log("clicked")}>
@@ -61,7 +61,7 @@ function LoginScreen(props) {
 				</View>
 
 				<View style={styles.btnContainer}>
-					<AppButton title="register" />
+					<AppButton title="Register" onPress={()=> navigation.navigate("RegisterScreen")} />
 				</View>
 			</KeyboardAwareScrollView>
 		</Screen>

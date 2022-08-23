@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, MaterialCommunityIcons } from 'react-native';
-import { MaterialCommunityIcons } from 'react-native'
+import { View, MaterialCommunityIcons, StyleSheet } from 'react-native';
+
 
 function Icon(name, size=40, backgroundColor = "#ffff", iconColor = "#0000") {
     return (
@@ -9,7 +9,7 @@ function Icon(name, size=40, backgroundColor = "#ffff", iconColor = "#0000") {
             height: size,
             width: size,
             borderRadius: size/2,
-            backgroundColor
+            backgroundColor,
         }}
         >
             <MaterialCommunityIcons name={name} color = {iconColor} size={size*0.5}/>
