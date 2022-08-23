@@ -108,7 +108,7 @@ function RegisterScreen() {
 								secureTextEntry
 								textContentType="password"
 							/>
-							<SubmitButton title="Register" />
+							<SubmitButton title="Register" onPress={()=> navigation.navigate("LoginScreen")} />
 						</Form>
 
 						<View
