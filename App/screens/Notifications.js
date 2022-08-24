@@ -6,7 +6,7 @@ import { View, Text, StyleSheet } from 'react-native';
 function Notifications(props) {
 return (
    <View style={styles.container}>
-        <Text> this is notifications page</Text>
+        <Text> this is the notifications page</Text>
    </View>
 );
 }

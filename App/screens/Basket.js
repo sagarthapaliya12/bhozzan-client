@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 function Basket(props) {
 return (
 <View style={styles.container}>
-    <Text> Welcome to basket page </Text>
+    <Text> Welcome to the basket page </Text>
 </View>
 );
 }
