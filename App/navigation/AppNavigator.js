@@ -8,14 +8,28 @@ import More from "../screens/More";
 import Notifications from "../screens/Notifications";
 import Chat from "./../screens/Chat";
 import Basket from "./../screens/Basket";
+import FeedNavigator from "./FeedNavigator";
+import colors from "./../config/colors";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => (
-	<Tab.Navigator>
+	<Tab.Navigator
+		screenOptions={{
+			headerStyle: {
+				backgroundColor: colors.screen,
+				height: 80,
+			},
+			tabBarStyle: {
+				backgroundColor: "#1D2227",
+			},
+			headerTintColor: colors.white,
+			headerTitleAlign: "center",
+		}}
+	>
 		<Tab.Screen
 			name="Home"
-			component={HomeScreen}
+			component={FeedNavigator}
 			options={{
 				tabBarIcon: ({ color, size }) => (
 					<MaterialCommunityIcons name="home" color={color} size={size} />

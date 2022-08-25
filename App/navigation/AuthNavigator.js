@@ -9,16 +9,16 @@ import HomeScreen from '../screens/HomeScreen';
 const Stack = createStackNavigator();
 
 const AuthNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={{headerShown: false}}>
     <Stack.Screen
       name="LoginScreen"
       component={LoginScreen}
-      options={{ headerShown: false }}
     />
     <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
     <Stack.Screen name="HomeScreen" component={HomeScreen} />
-    {/* <Stack.Screen name="RestaurantProfile" component={RestaurantProfile} /> */}
+
   </Stack.Navigator>
 );
 
 export default AuthNavigator;
+
