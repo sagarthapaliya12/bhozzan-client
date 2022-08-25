@@ -1,20 +1,21 @@
-import { SafeAreaView,  StyleSheet, ScrollView } from 'react-native';
+import {View, StyleSheet, ScrollView } from 'react-native';
+
 import BrowseCategories from '../components/HomeScreen/BrowseCategories';
 import colors from '../config/colors';
 import React from 'react';
 import TopRestaurants from '../components/HomeScreen/TopRestaurants';
 import LocalCusines from '../components/HomeScreen/LocalCusines';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView>
         <BrowseCategories />
         <LocalCusines />
-        <TopRestaurants />
+        <TopRestaurants onPress={()=> navigation.navigate("RestaurantProfile")} />
       </ScrollView>
-    </SafeAreaView>
-  );
+    </View>
+  ); 
 };
 
 export default HomeScreen;
@@ -23,6 +24,5 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.screen,
     flex: 1,
-    top: 20,
   },
 });
