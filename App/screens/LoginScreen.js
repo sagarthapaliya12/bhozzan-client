@@ -52,7 +52,7 @@ function LoginScreen({navigation}) {
 							secureTextEntry
 							textContentType="password"
 						/>
-						<SubmitButton title="Login" onPress={()=> navigation.navigate("Notifications")}/>
+						<SubmitButton title="Login" onPress={()=> navigation.navigate("HomeScreen")}/>
 					</Form>
 
 					<TouchableOpacity onPress={() => console.log("clicked")}>

@@ -1,14 +1,18 @@
-import { SafeAreaView, View, Text, StyleSheet, Image } from 'react-native';
+import { SafeAreaView,  StyleSheet, ScrollView } from 'react-native';
 import BrowseCategories from '../components/HomeScreen/BrowseCategories';
 import colors from '../config/colors';
 import React from 'react';
 import TopRestaurants from '../components/HomeScreen/TopRestaurants';
+import LocalCusines from '../components/HomeScreen/LocalCusines';
 
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <BrowseCategories />
-      <TopRestaurants/>
+      <ScrollView>
+        <BrowseCategories />
+        <LocalCusines />
+        <TopRestaurants />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -20,5 +24,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.screen,
     flex: 1,
     top: 20,
-  }
+  },
 });

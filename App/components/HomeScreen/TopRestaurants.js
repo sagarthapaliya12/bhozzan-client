@@ -42,16 +42,17 @@ const TopRestaurants = () => {
   const displayRestaurants = () => {
     return Restaurants.map((item) => {
       return (
-        <View style={styles.restaurantContainer}>
+        <View
+          key={item.id}
+          style={styles.restaurantContainer}
+          onPress={() => navigation.navigate('RestaurantProfile')}
+        >
           <View style={styles.thumbnailContainer}>
             <Image style={styles.restaurantImage} source={item.thumbnail} />
           </View>
           <View style={styles.restaurantDetail}>
             <View style={styles.profileContainer}>
-              <Image
-                style={styles.restaurantProfile}
-                source={require('../../assets/restaurants/kfc-profile.png')}
-              />
+              <Image style={styles.restaurantProfile} source={item.profile} />
             </View>
             <View>
               <Text style={styles.restaurantName}>{item.name}</Text>
@@ -64,7 +65,7 @@ const TopRestaurants = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>Top Restaurants</Text>
       <ScrollView horizontal>{displayRestaurants()}</ScrollView>
     </View>
@@ -74,11 +75,15 @@ const TopRestaurants = () => {
 export default TopRestaurants;
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 20,
+  },
   title: {
     color: colors.white,
     fontSize: 20,
     fontWeight: '700',
     margin: 10,
+    marginBottom: 20,
   },
   restaurantContainer: {
     marginHorizontal: 20,

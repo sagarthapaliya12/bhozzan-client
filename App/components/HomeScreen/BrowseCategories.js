@@ -43,7 +43,7 @@ const BrowseCategories = () => {
   const displayCategories = () => {
     return Categories.map((item) => {
       return (
-        <View key={item.id} style={styles.container}>
+        <View key={item.id} style={styles.itemContainer}>
           <View style={styles.circularBackground}>
             <Image style={styles.icon} source={item.img} />
           </View>
@@ -54,7 +54,7 @@ const BrowseCategories = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>Browse Categories</Text>
       <View style={styles.categoryContainer}>
         <ScrollView horizontal>{displayCategories()}</ScrollView>
@@ -66,6 +66,9 @@ const BrowseCategories = () => {
 export default BrowseCategories;
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 20,
+  },
   title: {
     color: colors.white,
     fontSize: 20,
@@ -92,8 +95,9 @@ const styles = StyleSheet.create({
     color: colors.gray,
     paddingTop: 10,
   },
-  container: {
+  itemContainer: {
     alignItems: 'center',
-    marginHorizontal: 10
+    borderRadius: 25,
+    marginHorizontal: 10,
   },
 });

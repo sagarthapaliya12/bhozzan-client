@@ -8,11 +8,13 @@ import AppNavigator from "./App/navigation/AppNavigator";
 
 import LoginScreen from "./App/screens/LoginScreen";
 import RegisterScreen from "./App/screens/RegisterScreen";
+import RestaurantProfile from "./App/screens/RestaurantProfile";
 
 export default function App() {
 	return (
 		<NavigationContainer theme={navigationTheme}>
 			<AppNavigator />
 		</NavigationContainer>
+		// <RestaurantProfile/>
 	);
 }
