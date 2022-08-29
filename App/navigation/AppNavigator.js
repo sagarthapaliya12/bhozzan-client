@@ -13,6 +13,7 @@ import colors from "./../config/colors";
 
 const Tab = createBottomTabNavigator();
 
+
 const AppNavigator = () => (
 	<Tab.Navigator
 		screenOptions={{
@@ -25,6 +26,7 @@ const AppNavigator = () => (
 			},
 			headerTintColor: colors.white,
 			headerTitleAlign: "center",
+		    animationDuration: 800,
 		}}
 	>
 		<Tab.Screen
