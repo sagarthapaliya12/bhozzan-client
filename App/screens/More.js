@@ -4,8 +4,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import AppText from "./../components/AppText";
+import AppButton from "../components/AppButton";
 
-function More(props) {
+function More({navigation}) {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity
@@ -17,11 +18,20 @@ function More(props) {
 
 			<View style={styles.info}>
 				<Image source={require("../assets/Avatar.jpg")} style={styles.avatar} />
-				<AppText style={{color: "white"}}>Sabin Karki</AppText>
+				<AppText style={{ color: "white" }}>Sabin Karki</AppText>
 
 				<View style={styles.details}>
 					<MaterialCommunityIcons name="email" size={30} color="white" />
-					<AppText style={{color: "white", marginLeft: 10}}>sth@gmail.com</AppText>
+					<AppText style={{ color: "white", marginLeft: 10 }}>
+						sth@gmail.com
+					</AppText>
+				</View>
+
+				<View style={styles.editBtn}>
+					<AppButton
+						title="Edit"
+						onPress={() => navigation.navigate("EditProfile")}
+					/>
 				</View>
 			</View>
 		</View>
@@ -54,6 +64,11 @@ const styles = StyleSheet.create({
 	},
 	details: {
 		flexDirection: "row",
+	},
+	editBtn: {
+		width: "50%",
+		justifyContent: "center",
+		marginVertical: 20
 	},
 });
 
