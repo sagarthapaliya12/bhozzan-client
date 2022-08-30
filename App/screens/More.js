@@ -68,7 +68,12 @@ function More({ navigation }) {
 						renderItem={({ item }) => (
 							<ListItem
 								title={item.title}
-								
+								// iconComponent={
+								// 	<Icon
+								// 		name={item.iconComponent.name}
+								// 		backgroundColor={item.iconComponent.backgroundColor}
+								// 	/>
+								// }
 								onPress={() => console.log("Message Selected")}
 							/>
 						)}
@@ -117,8 +122,8 @@ const styles = StyleSheet.create({
 		marginVertical: 20,
 	},
 	bottomContainer: {
-		width: "100%",
-		marginVertical: 30,
+		width: "85%",
+		marginVertical: 60,
 		color: colors.white,
 	},
 });

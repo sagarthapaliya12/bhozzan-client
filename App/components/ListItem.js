@@ -11,10 +11,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import Icon from "./Icon";
 
-const ListItem = ({ image, title, description, onPress, IconComponent }) => (
+
+const ListItem = ({ image, title, description, onPress, iconComponent }) => (
 	<TouchableHighlight underlayColor={colors.light} onPress={onPress}>
 		<View style={styles.container}>
-			{IconComponent && <Icon />}
+			{iconComponent && <Icon/>}
 			{image && <Image source={image} style={styles.image} />}
 			<View style={styles.details}>
 				<Text numberOfLines={1} style={styles.title}>
