@@ -27,7 +27,7 @@ const Restaurants = [
 	},
 	{
 		id: 2,
-		name: "Everest Airirang Korean Restaurant Profile",
+		name: "Everest Korean Restaurant",
 		location: "Jhamsikhel",
 		thumbnail: everestArirangKoreanRestaurantThumbnail,
 		profile: everestArirangKoreanRestaurant,

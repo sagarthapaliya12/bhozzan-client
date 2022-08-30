@@ -1,12 +1,39 @@
 import React from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+	View,
+	StyleSheet,
+	Image,
+	TouchableOpacity,
+	FlatList,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import AppText from "./../components/AppText";
 import AppButton from "../components/AppButton";
+import ListItem from "../components/ListItem";
+import Icon from "../components/Icon";
 
-function More({navigation}) {
+const buttonItems = [
+	{
+		id: "1",
+		title: "Order History",
+		icon: {
+			name: "cards-heart",
+			backgroundColor: "#000",
+		},
+	},
+	{
+		id: "2",
+		title: "My Favorites",
+		icon: {
+			name: "cards-heart",
+			backgroundColor: colors.danger,
+		},
+	},
+];
+
+function More({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity
@@ -29,8 +56,27 @@ function More({navigation}) {
 
 				<View style={styles.editBtn}>
 					<AppButton
-						title="Edit"
+						title="Edit Profile"
 						onPress={() => navigation.navigate("EditProfile")}
+					/>
+				</View>
+
+				<View style={styles.bottomContainer}>
+					<FlatList
+						data={buttonItems}
+						keyExtractor={(item) => item.id}
+						renderItem={({ item }) => (
+							<ListItem
+								title={item.title}
+								
+								onPress={() => console.log("Message Selected")}
+							/>
+						)}
+						ItemSeparatorComponent={() => (
+							<View
+								style={{ width: "100%", height: 1, backgroundColor: "#c5cdd9" }}
+							/>
+						)}
 					/>
 				</View>
 			</View>
@@ -68,7 +114,12 @@ const styles = StyleSheet.create({
 	editBtn: {
 		width: "50%",
 		justifyContent: "center",
-		marginVertical: 20
+		marginVertical: 20,
+	},
+	bottomContainer: {
+		width: "100%",
+		marginVertical: 30,
+		color: colors.white,
 	},
 });
 
