@@ -1,26 +1,26 @@
 import {React, useState} from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import ListItem from "./../components/ListItem";
-import Screen from './../components/Screen';
+import ListItem from "../../components/ListItem";
+import Screen from '../../components/Screen';
 
 const messages = [
 	{
 		id: 1,
 		title: "Hamro Newari Bhansa",
 		description: "Get flat 10% discount on Authentic Newari Cousines Week",
-		image: require("../assets/restaurants/everest-arirang-korean-restaurant.jpg"),
+		image: require("../../assets/restaurants/everest-arirang-korean-restaurant.jpg"),
 	},
 	{
 		id: 2,
 		title: "Kathmandu GreenView Hotel",
 		description: "One tree planted on every Rs.1000 and above order",
-		image: require("../assets/restaurants/kfc-profile.png"),
+		image: require("../../assets/restaurants/kfc-profile.png"),
 	},
 	{
 		id: 3,
 		title: "Thakali Khana Ghar",
 		description: "Hajur kata, Thakali Khana yeta",
-		image: require("../assets/restaurants/kfc.jpg"),
+		image: require("../../assets/restaurants/kfc.jpg"),
 	},
 ];
 

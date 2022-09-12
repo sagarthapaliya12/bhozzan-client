@@ -13,9 +13,9 @@ import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import colors from '../config/colors';
-import pizzaHut from '../assets/pizza-hut.png';
-import Menu from './../components/RestaurantProfile/Menu';
+import colors from '../../config/colors';
+import pizzaHut from '../../assets/pizza-hut.png';
+import Menu from './../../components/RestaurantProfile/Menu';
 
 
 const { height, width } = Dimensions.get('window');

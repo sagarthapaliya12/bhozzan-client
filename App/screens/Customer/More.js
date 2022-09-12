@@ -8,11 +8,11 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import colors from "../config/colors";
-import AppText from "./../components/AppText";
-import AppButton from "../components/AppButton";
-import ListItem from "../components/ListItem";
-import Icon from "../components/Icon";
+import colors from "../../config/colors";
+import AppText from "./../../components/AppText";
+import AppButton from "../../components/AppButton";
+import ListItem from "../../components/ListItem";
+import Icon from "../../components/Icon";
 
 const buttonItems = [
 	{
@@ -44,7 +44,7 @@ function More({ navigation }) {
 			</TouchableOpacity>
 
 			<View style={styles.info}>
-				<Image source={require("../assets/Avatar.jpg")} style={styles.avatar} />
+				<Image source={require("../../assets/Avatar.jpg")} style={styles.avatar} />
 				<AppText style={{ color: "white" }}>Sabin Karki</AppText>
 
 				<View style={styles.details}>

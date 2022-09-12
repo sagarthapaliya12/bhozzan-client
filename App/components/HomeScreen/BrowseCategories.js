@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import desserts from '../../assets/categories/desserts.png';
 import fastFood from '../../assets/categories/fast-food.png';
 import soup from '../../assets/categories/soup.png';
@@ -39,16 +46,18 @@ const Categories = [
   },
 ];
 
-const BrowseCategories = () => {
+const BrowseCategories = ({ onPress }) => {
   const displayCategories = () => {
     return Categories.map((item) => {
       return (
-        <View key={item.id} style={styles.itemContainer}>
-          <View style={styles.circularBackground}>
-            <Image style={styles.icon} source={item.img} />
+        <TouchableWithoutFeedback key={item.id} onPress={onPress}>
+          <View style={styles.itemContainer}>
+            <View style={styles.circularBackground}>
+              <Image style={styles.icon} source={item.img} />
+            </View>
+            <Text style={styles.categoryName}>{item.title}</Text>
           </View>
-          <Text style={styles.categoryName}>{item.title}</Text>
-        </View>
+        </TouchableWithoutFeedback>
       );
     });
   };
