@@ -12,7 +12,6 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView>
         <BrowseCategories
           onPress={() => {
-            console.log('Testtttttttttttttt');
             navigation.navigate('BrowseCategory');
           }}
         />

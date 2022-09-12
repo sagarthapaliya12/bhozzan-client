@@ -15,8 +15,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import colors from '../../config/colors';
 import pizzaHut from '../../assets/pizza-hut.png';
-import Menu from './../../components/RestaurantProfile/Menu';
-
+import Menu from '../../components/RestaurantProfile/Menu';
 
 const { height, width } = Dimensions.get('window');
 
@@ -74,7 +73,7 @@ const RestaurantProfile = () => {
         </View>
 
         <View>
-         <Menu/>
+          <Menu />
         </View>
       </SafeAreaView>
     </ScrollView>
