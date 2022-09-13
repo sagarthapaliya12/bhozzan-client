@@ -13,7 +13,10 @@ import AppButton from "../components/AppButton";
 import defaultStyles from "../config/styles";
 
 const validationSchema = Yup.object().shape({
-	email: Yup.string().required().email().label("Email"),
+	number: Yup.string()
+		.phone("NP", true, "${path} is invalid")
+		.required()
+		.label("Phone Number"),
 	password: Yup.string().required().min(4).label("Password"),
 });
 
@@ -30,19 +33,16 @@ function LoginScreen({navigation}) {
 
 				<View style={styles.formContainer}>
 					<Form
-						initialValues={{ email: "", password: "" }}
+						initialValues={{ number: "", password: "" }}
 						onSubmit={(values) => console.log(values)}
 						validationSchema={validationSchema}
 					>
 						<FormField
-							autoCapitalize="none"
-							autoCorrect={false}
-							icon="email"
-							keyboardType="email-address"
-							name="email"
-							placeholder="Email"
-							textContentType="emailAddress"
-						/>
+								autoCorrect={false}
+								icon="phone"
+								name="number"
+								placeholder="Phone Number"
+							/>
 						<FormField
 							autoCapitalize="none"
 							autoCorrect={false}

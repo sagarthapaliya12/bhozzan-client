@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
 		.required()
 		.label("Phone Number"),
 
-	email: Yup.string().required().email().label("Email"),
+	address: Yup.string().required().min(4).label("Address"),
 
 	password: Yup.string().required().min(6).max(14).label("Password"),
 	confirmPassword: Yup.string()
@@ -84,11 +84,10 @@ function RegisterScreen() {
 							<FormField
 								autoCapitalize="none"
 								autoCorrect={false}
-								icon="email"
-								keyboardType="email-address"
-								name="email"
-								placeholder="Email"
-								textContentType="emailAddress"
+								icon="city"						
+								name="address"
+								placeholder="Address"
+								
 							/>
 							<FormField
 								autoCapitalize="none"
