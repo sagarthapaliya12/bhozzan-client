@@ -41,6 +41,7 @@ const validationSchema = Yup.object().shape({
 
 function RegisterScreen() {
   const register = async (values) => {
+    console.log("asdfasf");
     delete values.confirmPassword;
     console.log(values);
     const { data } = await api.post("/user/register", values);
@@ -58,21 +59,32 @@ function RegisterScreen() {
           <View style={styles.formContainer}>
             <Form
               initialValues={{
-                first: "",
-                last: "",
-                number: "",
+                firstName: "",
+                lastName: "",
                 password: "",
                 confirmPassword: "",
+                phoneNumber: "",
+                address: "",
               }}
-              onSubmit={(values) => register(values)}
               validationSchema={validationSchema}
+              onSubmit={(values) => register(values)}
             >
-              <FormField autoCorrect={false} icon="account" name="first" placeholder="First Name" />
-              <FormField autoCorrect={false} icon="account" name="last" placeholder="Last Name" />
+              <FormField
+                autoCorrect={false}
+                icon="account"
+                name="firstName"
+                placeholder="First Name"
+              />
+              <FormField
+                autoCorrect={false}
+                icon="account"
+                name="lastName"
+                placeholder="Last Name"
+              />
               <FormField
                 autoCorrect={false}
                 icon="phone"
-                name="number"
+                name="phoneNumber"
                 placeholder="Phone Number"
               />
               <FormField
