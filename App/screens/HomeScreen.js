@@ -11,16 +11,11 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <ScrollView>
         <BrowseCategories
-          onPress={() => {
-            navigation.navigate('BrowseCategory');
-          }}
+          onPress={() => navigation.navigate('BrowseCategory')}
         />
         <LocalCusines />
         <TopRestaurants
-          onPress={() => {
-            console.log('Tpop Resydgashdkb');
-            navigation.navigate('RestaurantProfile');
-          }}
+          onPress={() => navigation.navigate('RestaurantProfile')}
         />
       </ScrollView>
     </View>
