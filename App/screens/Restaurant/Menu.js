@@ -1,80 +1,72 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  Dimensions,
-  ScrollView,
-} from 'react-native';
-import { Entypo } from '@expo/vector-icons';
-import React from 'react';
-import colors from '../../config/colors';
+import { View, Text, StyleSheet, TouchableHighlight, Dimensions, ScrollView } from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import React from "react";
+import colors from "../../config/colors";
 
-
-const { height, width } = Dimensions.get('window');
+const { height, width } = Dimensions.get("window");
 
 const MenuItems = [
   {
     id: 1,
-    title: 'Chicken Pizza',
-    category: 'pizza',
-    price: '600',
+    title: "Chicken Pizza",
+    category: "pizza",
+    price: "600",
   },
   {
     id: 2,
-    title: 'Mushroom Pizza',
-    category: 'pizza',
-    price: '500',
+    title: "Mushroom Pizza",
+    category: "pizza",
+    price: "500",
   },
   {
     id: 3,
-    title: 'Meat Lovers',
-    category: 'pizza',
-    price: '850',
+    title: "Meat Lovers",
+    category: "pizza",
+    price: "850",
   },
   {
     id: 4,
-    title: 'Buff Momo',
-    category: 'momo',
-    price: '110',
+    title: "Buff Momo",
+    category: "momo",
+    price: "110",
   },
   {
     id: 5,
-    title: 'Buff C Momo',
-    category: 'momo',
-    price: '130',
+    title: "Buff C Momo",
+    category: "momo",
+    price: "130",
   },
   {
     id: 6,
-    title: 'Veg Chowmein',
-    category: 'chowmein',
-    price: '150',
+    title: "Veg Chowmein",
+    category: "chowmein",
+    price: "150",
   },
   {
     id: 7,
-    title: 'Chicken Fried Momo',
-    category: 'momo',
-    price: '150',
+    title: "Chicken Fried Momo",
+    category: "momo",
+    price: "150",
   },
 ];
 
 const Menu = () => {
   return (
-    <ScrollView style={styles.container}>
-      <View style={{ position: 'relative' }}>
+    <View style={styles.container}>
+      <View style={{ position: "relative" }}>
         <View
           style={{
             backgroundColor: colors.gray,
             height: 2,
             width: width,
-            position: 'absolute',
+            position: "absolute",
             top: 16,
           }}
         />
         <View style={styles.menuContainer}>
           <Text style={styles.title}>PIZZA</Text>
         </View>
-        <View style={{ alignItems: 'flex-end' }}>
+        <View style={{ alignItems: "flex-end" }}>
           <TouchableHighlight style={styles.editButton}>
             <Entypo name="edit" size={24} color={colors.screen} />
           </TouchableHighlight>
@@ -83,36 +75,35 @@ const Menu = () => {
       {MenuItems.map((item) => {
         return (
           <View key={item.id} style={styles.menuItem}>
-            <Text style={{ color: colors.gray, fontSize: 18 }}>
-              {item.title}
-            </Text>
+            <Text style={{ color: colors.gray, fontSize: 18 }}>{item.title}</Text>
             <View style={styles.priceCart}>
               <View>
-                <Text style={{ color: colors.primary, fontSize: 20 }}>
-                  Rs.&nbsp;{item.price}
-                </Text>
+                <Text style={{ color: colors.primary, fontSize: 20 }}>Rs.&nbsp;{item.price}</Text>
               </View>
             </View>
           </View>
         );
       })}
-    </ScrollView>
+    </View>
   );
 };
 
 export default Menu;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.screen },
+  container: {
+    flex: 1,
+    backgroundColor: colors.screen,
+  },
   menuContainer: {
-    // backgroundColor: colors.gray,
-    alignItems: 'center',
+    backgroundColor: colors.screen,
+    alignItems: "center",
   },
   title: {
     paddingHorizontal: 20,
     paddingVertical: 5,
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
     backgroundColor: colors.gray,
   },
   editButton: {
@@ -120,16 +111,16 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     width: width,
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
-  priceCart: { alignItems: 'center' },
+  priceCart: { alignItems: "center" },
 });
