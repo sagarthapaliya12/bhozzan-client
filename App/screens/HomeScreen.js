@@ -1,10 +1,10 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 
-import BrowseCategories from '../components/HomeScreen/BrowseCategories';
+import BrowseCategories from '../components/Customer/HomeScreen/BrowseCategories';
 import colors from '../config/colors';
 import React from 'react';
-import TopRestaurants from '../components/HomeScreen/TopRestaurants';
-import LocalCusines from '../components/HomeScreen/LocalCusines';
+import TopRestaurants from '../components/Customer/HomeScreen/TopRestaurants';
+import LocalCusines from '../components/Customer/HomeScreen/LocalCusines';
 
 const HomeScreen = ({ navigation }) => {
   return (

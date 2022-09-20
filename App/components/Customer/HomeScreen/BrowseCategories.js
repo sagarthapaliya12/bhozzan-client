@@ -6,12 +6,12 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import desserts from '../../assets/categories/desserts.png';
-import fastFood from '../../assets/categories/fast-food.png';
-import soup from '../../assets/categories/soup.png';
-import salads from '../../assets/categories/salads.png';
-import snacks from '../../assets/categories/snacks.png';
-import colors from '../../config/colors';
+import desserts from '../../../assets/categories/desserts.png'
+import fastFood from '../../../assets/categories/fast-food.png';
+import soup from '../../../assets/categories/soup.png';
+import salads from '../../../assets/categories/salads.png';
+import snacks from '../../../assets/categories/snacks.png';
+import colors from '../../../config/colors';
 
 const Categories = [
   {

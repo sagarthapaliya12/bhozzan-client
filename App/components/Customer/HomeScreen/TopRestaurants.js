@@ -9,11 +9,11 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import colors from '../../config/colors';
-import kfcRestaurantThumbnail from '../../assets/restaurants/kfc.jpg';
-import kfcRestaurantProfile from '../../assets/restaurants/kfc-profile.png';
-import everestArirangKoreanRestaurantThumbnail from '../../assets/restaurants/everest-arirang-korean-restaurant.jpg';
-import everestArirangKoreanRestaurant from '../../assets/restaurants/kfc-profile.png';
+import colors from '../../../config/colors';
+import kfcRestaurantThumbnail from '../../../assets/restaurants/kfc.jpg';
+import kfcRestaurantProfile from '../../../assets/restaurants/kfc-profile.png';
+import everestArirangKoreanRestaurantThumbnail from '../../../assets/restaurants/everest-arirang-korean-restaurant.jpg';
+import everestArirangKoreanRestaurant from '../../../assets/restaurants/kfc-profile.png';
 
 const { height, width } = Dimensions.get('window');
 

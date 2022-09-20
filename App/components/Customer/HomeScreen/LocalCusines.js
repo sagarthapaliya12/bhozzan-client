@@ -6,9 +6,9 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import colors from '../../config/colors';
-import newariFood from '../../assets/local-cuisines/newari-food.jpg';
-import dhido from '../../assets/local-cuisines/dhido.jpg';
+import colors from '../../../config/colors';
+import newariFood from '../../../assets/local-cuisines/newari-food.jpg';
+import dhido from '../../../assets/local-cuisines/dhido.jpg';
 
 const { height, width } = Dimensions.get('window');
 

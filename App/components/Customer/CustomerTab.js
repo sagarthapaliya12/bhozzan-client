@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import HomeScreen from '../screens/HomeScreen';
-import Chat from './../screens/Chat';
-import FeedNavigator from './FeedNavigator';
-import colors from './../config/colors';
-import Basket from './../screens/Customer/Basket';
-import Notifications from './../screens/Customer/Notifications';
-import More from './../screens/Customer/More';
+import HomeScreen from "../../screens/HomeScreen";
+import colors from "../../config/colors";
+import Basket from "../../screens/Customer/Basket";
+import Notifications from "../../screens/Customer/Notifications";
+import More from "../../screens/Customer/More";
+import FeedNavigator from "../../navigation/FeedNavigator";
+import Chat from "./../../screens/Chat";
 
 const Tab = createBottomTabNavigator();
 
-const AppNavigator = () => (
+const CustomerTab = () => (
   <Tab.Navigator
     screenOptions={{
       headerStyle: {
@@ -21,10 +21,10 @@ const AppNavigator = () => (
         height: 80,
       },
       tabBarStyle: {
-        backgroundColor: '#1D2227',
+        backgroundColor: "#1D2227",
       },
       headerTintColor: colors.white,
-      headerTitleAlign: 'center',
+      headerTitleAlign: "center",
       animationDuration: 800,
     }}
   >
@@ -67,6 +67,7 @@ const AppNavigator = () => (
         ),
       }}
     />
+    
     <Tab.Screen
       name="More"
       component={More}
@@ -79,4 +80,4 @@ const AppNavigator = () => (
   </Tab.Navigator>
 );
 
-export default AppNavigator;
+export default CustomerTab;

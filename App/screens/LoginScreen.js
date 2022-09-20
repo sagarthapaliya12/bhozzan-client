@@ -23,6 +23,7 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const login = async (values) => {
+    console.log('juju', values)
     const { data } = await api.post("/user/login", values);
     console.log(data);
   };
@@ -35,7 +36,7 @@ function LoginScreen({ navigation }) {
 
         <View style={styles.formContainer}>
           <Form
-            initialValues={{ phoneNumber: "9861958825", password: "Ul89@hhh" }}
+            initialValues={{ phoneNumber: "", password: "" }}
             onSubmit={(values) => login(values)}
             validationSchema={validationSchema}
           >

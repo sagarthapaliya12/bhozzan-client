@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
-import colors from '../../config/colors';
+import colors from '../../../config/colors';
 import { useState } from 'react';
 
 const { height, width } = Dimensions.get('window');

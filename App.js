@@ -3,12 +3,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import navigationTheme from "./App/navigation/navigationTheme";
 
 import AuthNavigator from "./App/navigation/AuthNavigator";
-import AppNavigator from "./App/navigation/AppNavigator";
+import CustomerTab from './App/components/Customer/CustomerTab';
+ 
 
 export default function App() {
 	return (
 		<NavigationContainer theme={navigationTheme}>
-			<AppNavigator />
+			<CustomerTab />
 			{/* <AuthNavigator /> */}
 		</NavigationContainer>
 		// <RestaurantProfile/>
