@@ -1,14 +1,21 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View,Text, StyleSheet } from 'react-native';
+
+import colors from '../../config/colors';
+import Screen from './../../components/Screen';
 
 function Dashboard(props) {
 return (
-<View style={styles.container}></View>
+<Screen style={styles.container}>
+   
+</Screen>
 );
 }
 
 const styles = StyleSheet.create({
-container: {}
+container: {
+  
+}
 })
 
 export default Dashboard;

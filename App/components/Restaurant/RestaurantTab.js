@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import colors from "../../config/colors";
 import Chat from "./../../screens/Chat";
 import Dashboard from './../../screens/Restaurant/Dashboard';
-import Menu from './../Customer/RestaurantProfile/Menu';
+import Menu from "../../screens/Restaurant/Menu";
 import TableSelect from "../../screens/Restaurant/TableSelect";
 import RestaurantProfile from './../../screens/Restaurant/RestaurantProfile';
 

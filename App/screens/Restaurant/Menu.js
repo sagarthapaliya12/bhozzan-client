@@ -1,7 +1,10 @@
 import { View, Text, StyleSheet, TouchableHighlight, Dimensions, ScrollView } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import React from "react";
+
 import colors from "../../config/colors";
+import Screen from './../../components/Screen';
+
 
 const { height, width } = Dimensions.get("window");
 
@@ -52,39 +55,40 @@ const MenuItems = [
 
 const Menu = () => {
   return (
-    <View style={styles.container}>
-      <View style={{ position: "relative" }}>
-        <View
-          style={{
-            backgroundColor: colors.gray,
-            height: 2,
-            width: width,
-            position: "absolute",
-            top: 16,
-          }}
-        />
-        <View style={styles.menuContainer}>
-          <Text style={styles.title}>PIZZA</Text>
+      <ScrollView style={styles.container}>
+        <View style={{ position: "relative" }}>
+          <View
+            style={{
+              backgroundColor: colors.gray,
+              height: 2,
+              width: width,
+              position: "absolute",
+              top: 16,
+            }}
+          />
+          <View style={styles.menuContainer}>
+            <Text style={styles.title}>PIZZA</Text>
+          </View>
+          <View style={{ alignItems: "flex-end" }}>
+            <TouchableHighlight style={styles.editButton}>
+              <Entypo name="edit" size={24} color={colors.screen} />
+            </TouchableHighlight>
+          </View>
         </View>
-        <View style={{ alignItems: "flex-end" }}>
-          <TouchableHighlight style={styles.editButton}>
-            <Entypo name="edit" size={24} color={colors.screen} />
-          </TouchableHighlight>
-        </View>
-      </View>
-      {MenuItems.map((item) => {
-        return (
-          <View key={item.id} style={styles.menuItem}>
-            <Text style={{ color: colors.gray, fontSize: 18 }}>{item.title}</Text>
-            <View style={styles.priceCart}>
-              <View>
-                <Text style={{ color: colors.primary, fontSize: 20 }}>Rs.&nbsp;{item.price}</Text>
+        {MenuItems.map((item) => {
+          return (
+            <View key={item.id} style={styles.menuItem}>
+              <Text style={{ color: colors.gray, fontSize: 18 }}>{item.title}</Text>
+              <View style={styles.priceCart}>
+                <View>
+                  <Text style={{ color: colors.primary, fontSize: 20 }}>Rs.&nbsp;{item.price}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        );
-      })}
-    </View>
+          );
+        })}
+      </ScrollView>
+
   );
 };
 
@@ -96,7 +100,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.screen,
   },
   menuContainer: {
-    backgroundColor: colors.screen,
+    // backgroundColor: colors.screen,
     alignItems: "center",
   },
   title: {
@@ -121,6 +125,7 @@ const styles = StyleSheet.create({
     width: width,
     paddingHorizontal: 20,
     paddingVertical: 10,
+    // backgroundColor: colors.black,
   },
   priceCart: { alignItems: "center" },
 });
