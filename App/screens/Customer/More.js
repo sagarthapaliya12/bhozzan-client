@@ -16,24 +16,24 @@ import Icon from "../../components/Icon";
 
 const buttonItems = [
 	{
-		id: "1",
+		id: 1,
 		title: "Order History",
-		icon: {
-			name: "cards-heart",
+		icons: {
+			name: "login",
 			backgroundColor: "#000",
 		},
 	},
 	{
-		id: "2",
+		id: 2,
 		title: "My Favorites",
-		icon: {
-			name: "cards-heart",
-			backgroundColor: colors.danger,
+		icons: {
+			name: "login",
+			backgroundColor:  "#fff",
 		},
 	},
 ];
 
-function More({ navigation }) {
+function More() {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity
@@ -44,7 +44,10 @@ function More({ navigation }) {
 			</TouchableOpacity>
 
 			<View style={styles.info}>
-				<Image source={require("../../assets/Avatar.jpg")} style={styles.avatar} />
+				<Image
+					source={require("../../assets/Avatar.jpg")}
+					style={styles.avatar}
+				/>
 				<AppText style={{ color: "white" }}>Sabin Karki</AppText>
 
 				<View style={styles.details}>
@@ -57,7 +60,7 @@ function More({ navigation }) {
 				<View style={styles.editBtn}>
 					<AppButton
 						title="Edit Profile"
-						onPress={() => navigation.navigate("EditProfile")}
+						// onPress={() => navigation.navigate("EditProfile")}
 					/>
 				</View>
 
@@ -68,10 +71,11 @@ function More({ navigation }) {
 						renderItem={({ item }) => (
 							<ListItem
 								title={item.title}
+
 								// iconComponent={
-								// 	<Icon
-								// 		name={item.iconComponent.name}
-								// 		backgroundColor={item.iconComponent.backgroundColor}
+								// 	<Icon 
+								// 		name={item.icons.name}
+								// 		backgroundColor={item.icons.backgroundColor}
 								// 	/>
 								// }
 								onPress={() => console.log("Message Selected")}

@@ -4,12 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import HomeScreen from '../screens/HomeScreen';
-import More from '../screens/Customer/More';
-import Notifications from '../screens/Customer/Notifications';
 import Chat from './../screens/Chat';
-import Basket from './../screens/Customer/Basket';
 import FeedNavigator from './FeedNavigator';
 import colors from './../config/colors';
+import Basket from './../screens/Customer/Basket';
+import Notifications from './../screens/Customer/Notifications';
+import More from './../screens/Customer/More';
 
 const Tab = createBottomTabNavigator();
 
