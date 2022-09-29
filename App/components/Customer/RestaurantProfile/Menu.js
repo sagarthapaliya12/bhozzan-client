@@ -82,7 +82,7 @@ const Menu = () => {
       });
     };
     separateCategories();
-    // console.log(filteredMenu);
+    console.log(filteredMenu);
   }, [MenuItems]);
 
   
