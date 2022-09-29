@@ -3,8 +3,8 @@ import { Entypo } from "@expo/vector-icons";
 import React from "react";
 
 import colors from "../../config/colors";
-import Screen from './../../components/Screen';
-
+import separateCategories from "../../utils/separateCategories";
+import Screen from "./../../components/Screen";
 
 const { height, width } = Dimensions.get("window");
 
@@ -53,42 +53,51 @@ const MenuItems = [
   },
 ];
 
+const filteredMenu = separateCategories(MenuItems);
+
 const Menu = () => {
   return (
-      <ScrollView style={styles.container}>
-        <View style={{ position: "relative" }}>
-          <View
-            style={{
-              backgroundColor: colors.gray,
-              height: 2,
-              width: width,
-              position: "absolute",
-              top: 16,
-            }}
-          />
-          <View style={styles.menuContainer}>
-            <Text style={styles.title}>PIZZA</Text>
-          </View>
-          <View style={{ alignItems: "flex-end" }}>
-            <TouchableHighlight style={styles.editButton}>
-              <Entypo name="edit" size={24} color={colors.screen} />
-            </TouchableHighlight>
-          </View>
-        </View>
-        {MenuItems.map((item) => {
-          return (
-            <View key={item.id} style={styles.menuItem}>
-              <Text style={{ color: colors.gray, fontSize: 18 }}>{item.title}</Text>
-              <View style={styles.priceCart}>
-                <View>
-                  <Text style={{ color: colors.primary, fontSize: 20 }}>Rs.&nbsp;{item.price}</Text>
-                </View>
+    <ScrollView style={styles.container}>
+      {filteredMenu.map((item, index) => {
+        return (
+          <View key={index} style={{ marginBottom: 40 }}>
+            <View style={{ position: "relative" }}>
+              <View
+                style={{
+                  backgroundColor: colors.gray,
+                  height: 2,
+                  width: width,
+                  position: "absolute",
+                  top: 16,
+                }}
+              />
+              <View style={styles.menuContainer}>
+                <Text style={styles.title}>{item[0].category.toUpperCase()}</Text>
+              </View>
+              <View style={{ alignItems: "flex-end" }}>
+                <TouchableHighlight style={styles.editButton}>
+                  <Entypo name="edit" size={24} color={colors.screen} />
+                </TouchableHighlight>
               </View>
             </View>
-          );
-        })}
-      </ScrollView>
-
+            {item.map((food) => {
+              return (
+                <View key={food.id} style={styles.menuItem}>
+                  <Text style={{ color: colors.gray, fontSize: 18 }}>{food.title}</Text>
+                  <View style={styles.priceCart}>
+                    <View>
+                      <Text style={{ color: colors.primary, fontSize: 20 }}>
+                        Rs.&nbsp;{food.price}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };
 

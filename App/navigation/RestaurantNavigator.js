@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import RestaurantProfile from "../screens/Restaurant/RestaurantProfile";
 import EditProfile from "../screens/Restaurant/EditProfile";
-// import More from "../screens/Customer/More";
 
 const Stack = createStackNavigator();
 
@@ -16,8 +15,8 @@ const DashboardNavigator = () => (
     }}
   >
     <Stack.Screen name="Feed" component={HomeScreen} />
-    <Stack.Screen name="BrowseCategory" component={BrowseCategory} />
-    <Stack.Screen name="RestaurantProfile" component={RestaurantProfile} />
+    {/* <Stack.Screen name="BrowseCategory" component={BrowseCategory} />
+    <Stack.Screen name="RestaurantProfile" component={RestaurantProfile} /> */}
   </Stack.Navigator>
 );
 

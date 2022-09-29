@@ -3,17 +3,11 @@ import { AntDesign } from "@expo/vector-icons";
 import React, { useEffect } from "react";
 import colors from "../../../config/colors";
 import { useState } from "react";
+import separateCategories from "../../../utils/separateCategories";
 
 const { height, width } = Dimensions.get("window");
 
 const Menu = () => {
-  // const [noOfItem, setNoOfItem] = useState({ quantity: 0 });
-
-  // cons [cart, setCart] = useState({
-  //   foodId: 0,
-  //   quantity: 0
-  // })
-
   const MenuItems = [
     {
       id: 1,
@@ -22,19 +16,19 @@ const Menu = () => {
       price: "600",
     },
     {
-      id: 4,
+      id: 2,
       title: "Buff Momo",
       category: "momo",
       price: "110",
     },
     {
-      id: 2,
+      id: 3,
       title: "Mushroom Pizza",
       category: "pizza",
       price: "500",
     },
     {
-      id: 3,
+      id: 4,
       title: "Meat Lovers",
       category: "pizza",
       price: "850",
@@ -68,7 +62,6 @@ const Menu = () => {
 
   const [filteredMenu, setFilteredMenu] = useState([]);
 
-  // useEffect(() => {
   const separateCategories = () => {
     const mentioned = {};
 
@@ -83,7 +76,8 @@ const Menu = () => {
     });
   };
   separateCategories();
-  // }, [MenuItems]);
+
+  // const filteredMenu = separateCategories(MenuItems);
 
   const [noOfItem, setNoOfItem] = useState(0);
 

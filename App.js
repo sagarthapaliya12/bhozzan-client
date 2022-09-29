@@ -7,7 +7,7 @@ import RestaurantTab from "./App/components/Restaurant/RestaurantTab";
 import PublicNavigator from "./App/navigation/PublicNavigator";
 
 const auth = {
-  user: { id: "6019e133h3e3sj72837283", name: "Jack Blah Blah Blah", role: "restaurant" },
+  user: { id: "6019e133h3e3sj72837283", name: "Jack Blah Blah Blah", role: "customer" },
 };
 
 export default function App() {
