@@ -9,7 +9,8 @@ import Chat from "./../../screens/Chat";
 import Dashboard from './../../screens/Restaurant/Dashboard';
 import Menu from "../../screens/Restaurant/Menu";
 import TableSelect from "../../screens/Restaurant/TableSelect";
-import RestaurantProfile from './../../screens/Restaurant/RestaurantProfile';
+// import RestaurantProfile from './../../screens/Restaurant/RestaurantProfile';
+import { ProfileNavigator } from "../../navigation/RestaurantNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -70,7 +71,7 @@ const RestaurantTab = () => (
     
     <Tab.Screen
       name="Profile"
-      component={RestaurantProfile}
+      component={ProfileNavigator}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account" color={color} size={size} />
