@@ -1,21 +1,15 @@
-import React from 'react';
-import { View,Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
-import colors from '../../config/colors';
-import Screen from './../../components/Screen';
+import colors from "../../config/colors";
+import Screen from "./../../components/Screen";
 
-function Dashboard(props) {
-return (
-<Screen style={styles.container}>
-   
-</Screen>
-);
-}
+const Dashboard = (props) => {
+  return <Screen style={styles.container}></Screen>;
+};
 
 const styles = StyleSheet.create({
-container: {
-  
-}
-})
+  container: {},
+});
 
 export default Dashboard;

@@ -8,7 +8,7 @@ import colors from "../../config/colors";
 import Basket from "../../screens/Customer/Basket";
 import Notifications from "../../screens/Customer/Notifications";
 import More from "../../screens/Customer/More";
-import FeedNavigator from "../../navigation/FeedNavigator";
+import { HomeNavigator, MoreNavigator } from "../../navigation/CustomerNavigator";
 import Chat from "./../../screens/Chat";
 
 const Tab = createBottomTabNavigator();
@@ -30,7 +30,7 @@ const CustomerTab = () => (
   >
     <Tab.Screen
       name="Home"
-      component={FeedNavigator}
+      component={HomeNavigator}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -67,10 +67,10 @@ const CustomerTab = () => (
         ),
       }}
     />
-    
+
     <Tab.Screen
       name="More"
-      component={More}
+      component={MoreNavigator}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account" color={color} size={size} />

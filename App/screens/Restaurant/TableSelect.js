@@ -1,16 +1,14 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React from "react";
+import { View, StyleSheet } from "react-native";
 
-import Screen from './../../components/Screen';
+import Screen from "./../../components/Screen";
 
 function TableSelect(props) {
-return (
-<Screen style={styles.container}></Screen>
-);
+  return <Screen style={styles.container}></Screen>;
 }
 
 const styles = StyleSheet.create({
-container: {}
-})
+  container: {},
+});
 
 export default TableSelect;
