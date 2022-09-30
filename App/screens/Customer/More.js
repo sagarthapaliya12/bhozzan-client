@@ -53,6 +53,10 @@ const More = ({ navigation }) => {
         </View>
 
         <View style={styles.bottomContainer}>
+          {/* <View style={styles.buttons}>
+            <View></View>
+            
+          </View> */}
           <FlatList
             data={buttonItems}
             keyExtractor={(item) => item.id}
@@ -64,8 +68,11 @@ const More = ({ navigation }) => {
                 // 		name={item.icons.name}
                 // 		backgroundColor={item.icons.backgroundColor}
                 // 	/>
-                // }
-                onPress={() => console.log("Message Selected")}
+                // }  
+                onPress={() => {
+                 item.id===1 && navigation.navigate("OrderHistory");
+                 item.id===2 && navigation.navigate("EditProfile");
+                }}
               />
             )}
             ItemSeparatorComponent={() => (

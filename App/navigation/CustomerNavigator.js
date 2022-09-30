@@ -5,6 +5,7 @@ import HomeScreen from "../screens/HomeScreen";
 import RestaurantProfile from "../screens/Customer/RestaurantProfile";
 import BrowseCategory from "../screens/Customer/BrowseCategory";
 import EditProfile from "../screens/Customer/EditProfile";
+import OrderHistory from '../screens/Customer/OrderHistory';
 import More from "../screens/Customer/More";
 
 const Stack = createStackNavigator();
@@ -33,7 +34,8 @@ const MoreNavigator = () => (
   >
     <Stack.Screen name="Feed" component={More} />
     <Stack.Screen name="EditProfile" component={EditProfile} />
+    <Stack.Screen name="OrderHistory" component={OrderHistory} />
   </Stack.Navigator>
 );
 
-export { HomeNavigator, MoreNavigator };
+export { HomeNavigator, MoreNavigator};
