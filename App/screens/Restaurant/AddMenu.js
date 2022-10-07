@@ -1,8 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableHighlight, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import SelectList from "react-native-dropdown-select-list";
 import { useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
 import * as Yup from "yup";
 import "yup-phone";
 
@@ -12,6 +20,7 @@ import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
 // import api from "../../helpers/axios";
 import colors from "../../config/colors";
+import Categories from "../../datas/categoriesList";
 
 const validationSchema = Yup.object().shape({
   foodName: Yup.string().required().min(3).label("Food Name"),
@@ -19,17 +28,25 @@ const validationSchema = Yup.object().shape({
   foodPrice: Yup.string().required().min(6).max(14).label("Food Price"),
 });
 
-const data = [
-  { key: "1", value: "Dessert" },
-  { key: "2", value: "Fast Food" },
-  { key: "3", value: "Soups" },
-  { key: "4", value: "Salads" },
-  { key: "5", value: "Snacks" },
-  { key: "6", value: "Drinks" },
-];
+// const categories = [
+//   { id: "1", title: "Dessert", value: "dessert" },
+//   { id: "2", title: "Fast Food", value: "fastFood" },
+//   { id: "3", title: "Soups", value: "soups" },
+//   { id: "4", title: "Salads", value: "salads" },
+//   { id: "5", title: "Snacks", value: "snacks" },
+//   { id: "6", title: "Drinks", value: "drinks" },
+// ];
 
 const AddMenu = () => {
   const [selected, setSelected] = useState("");
+
+  const [category, setCategory] = useState(null);
+  const [showOption, setShowOption] = useState(false);
+
+  const handleSelect = (item) => {
+    setShowOption(false);
+    setCategory(item);
+  };
 
   return (
     <Screen>
@@ -60,15 +77,48 @@ const AddMenu = () => {
                 name="foodPrice"
               />
               <Text style={styles.text}>Category:</Text>
-              <SelectList
-                data={data}
-                setSelected={setSelected}
-                dropdownStyles={{ backgroundColor: colors.screen, color: "green" }}
-                dropdownItemStyles={{ marginHorizontal: 0 }}
-                dropdownTextStyles={{ color: "white" }}
-                placeholder="Select Category"
-              />
-
+              <View value={category}>
+                <TouchableOpacity
+                  style={styles.dropdown}
+                  activeOpacity={0.8}
+                  onPress={() => setShowOption(!showOption)}
+                >
+                  <Text style={{ fontSize: 18 }}>
+                    {category ? category?.title : "Choose an option"}
+                  </Text>
+                  <AntDesign
+                    name="caretdown"
+                    size={18}
+                    color="black"
+                    style={{ transform: [{ rotate: showOption ? "180deg" : "0deg" }] }}
+                  />
+                </TouchableOpacity>
+                {showOption && (
+                  <View style={{ maxHeight: 150 }}>
+                    <ScrollView
+                      keyboardShouldPersistTaps="handled"
+                      // showsVerticalScrollIndicator={false}
+                    >
+                      {Categories.map((val, i) => {
+                        return (
+                          <TouchableOpacity
+                            key={String(i)}
+                            onPress={() => handleSelect(val)}
+                            style={{
+                              backgroundColor:
+                                category?.id == val.id ? colors.secondary : colors.gray,
+                              paddingVertical: 8,
+                              paddingHorizontal: 6,
+                            }}
+                          >
+                            <Text>{val.title}</Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </ScrollView>
+                  </View>
+                )}
+              </View>
               <Pressable style={styles.saveButton} onPress={() => console.log("Oh yah giggity")}>
                 <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
                   Add Food
@@ -117,5 +167,16 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     marginTop: 8,
+  },
+  dropdown: {
+    backgroundColor: colors.medium,
+    padding: 8,
+    // borderRadius: 6,
+
+    minHeight: 42,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // marginBottom: 6,
   },
 });

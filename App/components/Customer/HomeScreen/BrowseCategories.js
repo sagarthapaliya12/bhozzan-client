@@ -1,50 +1,6 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import desserts from '../../../assets/categories/desserts.png'
-import fastFood from '../../../assets/categories/fast-food.png';
-import soup from '../../../assets/categories/soup.png';
-import salads from '../../../assets/categories/salads.png';
-import snacks from '../../../assets/categories/snacks.png';
-import colors from '../../../config/colors';
-
-const Categories = [
-  {
-    id: 1,
-    title: 'Desserts',
-    img: desserts,
-  },
-  {
-    id: 2,
-    title: 'Fast Food',
-    img: fastFood,
-  },
-  {
-    id: 3,
-    title: 'Soup',
-    img: soup,
-  },
-  {
-    id: 4,
-    title: 'Salads',
-    img: salads,
-  },
-  {
-    id: 5,
-    title: 'Snacks',
-    img: snacks,
-  },
-  {
-    id: 6,
-    title: 'Momo',
-    img: snacks,
-  },
-];
+import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback } from "react-native";
+import Categories from "../../../datas/categoriesList";
+import colors from "../../../config/colors";
 
 const BrowseCategories = ({ onPress }) => {
   const displayCategories = () => {
@@ -81,7 +37,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.white,
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: "700",
     margin: 10,
   },
   circularBackground: {
@@ -89,12 +45,12 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   categoryContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   icon: {
     width: 50,
@@ -105,7 +61,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   itemContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 25,
     marginHorizontal: 10,
   },
