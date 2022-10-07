@@ -14,6 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import TableList from "../../components/Restaurant/TableList";
+import Screen from "./../../components/Screen";
 
 const { height, width } = Dimensions.get("window");
 
@@ -31,7 +32,7 @@ const restaurantInfo = {
 
 const RestaurantProfile = ({ navigation }) => {
   return (
-    <ScrollView>
+    <Screen>
       <SafeAreaView style={styles.container}>
         <View style={{ alignItems: "flex-end" }}>
           <TouchableHighlight
@@ -74,7 +75,7 @@ const RestaurantProfile = ({ navigation }) => {
         </View>
         <TableList />
       </SafeAreaView>
-    </ScrollView>
+    </Screen>
   );
 };
 

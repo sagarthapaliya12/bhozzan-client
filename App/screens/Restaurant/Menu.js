@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableHighlight, Dimensions, ScrollView } from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 
 import colors from "../../config/colors";
@@ -55,7 +56,7 @@ const MenuItems = [
 
 const filteredMenu = separateCategories(MenuItems);
 
-const Menu = () => {
+const Menu = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       {filteredMenu.map((item, index) => {
@@ -75,7 +76,10 @@ const Menu = () => {
                 <Text style={styles.title}>{item[0].category.toUpperCase()}</Text>
               </View>
               <View style={{ alignItems: "flex-end" }}>
-                <TouchableHighlight style={styles.editButton}>
+                <TouchableHighlight
+                  style={styles.editButton}
+                  onPress={() => navigation.navigate("EditMenu")}
+                >
                   <Entypo name="edit" size={24} color={colors.screen} />
                 </TouchableHighlight>
               </View>
@@ -97,6 +101,11 @@ const Menu = () => {
           </View>
         );
       })}
+      <View style={styles.addMenu}>
+        <TouchableHighlight style={styles.addButton} onPress={() => navigation.navigate("AddMenu")}>
+          <Ionicons name="add" size={30} color={colors.screen} />
+        </TouchableHighlight>
+      </View>
     </ScrollView>
   );
 };
@@ -124,6 +133,20 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  addMenu: {
+    // alignItems: "right",
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+  },
+  addButton: {
+    backgroundColor: colors.secondary,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },

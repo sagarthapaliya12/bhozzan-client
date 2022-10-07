@@ -10,7 +10,7 @@ import Dashboard from './../../screens/Restaurant/Dashboard';
 import Menu from "../../screens/Restaurant/Menu";
 import TableSelect from "../../screens/Restaurant/TableSelect";
 // import RestaurantProfile from './../../screens/Restaurant/RestaurantProfile';
-import { ProfileNavigator } from "../../navigation/RestaurantNavigator";
+import { ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -41,7 +41,7 @@ const RestaurantTab = () => (
 
     <Tab.Screen
       name="Menu"
-      component={Menu}
+      component={MenuNavigator}
       options={{
         tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="menu-book" size={size} color={color} />
