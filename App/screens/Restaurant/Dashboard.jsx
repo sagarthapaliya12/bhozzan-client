@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Avatar, Card, IconButton } from "react-native-paper";
+import { Avatar, Button, Card, IconButton } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
-
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   return (
     <Screen style={styles.container}>
       <Card.Title

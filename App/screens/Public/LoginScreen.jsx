@@ -3,15 +3,15 @@ import { Image, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 
-import Screen from "../components/Screen";
-import colors from "../config/colors";
+import Screen from "../../components/Screen";
+import colors from "../../config/colors";
 
-import Form from "../components/forms/Form";
-import FormField from "../components/forms/FormField";
-import SubmitButton from "../components/forms/SubmitButton";
-import AppButton from "../components/AppButton";
-import defaultStyles from "../config/styles";
-import api from "../helpers/axios";
+import Form from "../../components/forms/Form";
+import FormField from "../../components/forms/FormField";
+import SubmitButton from "../../components/forms/SubmitButton";
+import AppButton from "../../components/AppButton";
+import defaultStyles from "../../config/styles";
+import api from "../../helpers/axios";
 
 const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const login = async (values) => {
-    console.log('juju', values)
+    console.log("juju", values);
     const { data } = await api.post("/user/login", values);
     console.log(data);
   };
@@ -31,7 +31,7 @@ function LoginScreen({ navigation }) {
     <Screen>
       <KeyboardAwareScrollView contentContainerStyle={styles.screenContainer}>
         <View style={styles.logoContainer}>
-          <Image source={require("../assets/App-Logo.jpg")} style={styles.logo}></Image>
+          <Image source={require("../../assets/App-Logo.jpg")} style={styles.logo}></Image>
         </View>
 
         <View style={styles.formContainer}>

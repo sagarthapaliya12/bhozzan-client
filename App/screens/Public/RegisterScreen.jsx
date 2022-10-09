@@ -12,12 +12,12 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import * as Yup from "yup";
 import "yup-phone";
 
-import Screen from "../components/Screen";
-import Form from "../components/forms/Form";
-import FormField from "../components/forms/FormField";
-import SubmitButton from "../components/forms/SubmitButton";
-import defaultStyles from "../config/styles";
-import api from "../helpers/axios";
+import Screen from "../../components/Screen";
+import Form from "../../components/forms/Form";
+import FormField from "../../components/forms/FormField";
+import SubmitButton from "../../components/forms/SubmitButton";
+import defaultStyles from "../../config/styles";
+import api from "../../helpers/axios";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().min(3).label("First Name"),
@@ -51,7 +51,7 @@ function RegisterScreen() {
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <View style={styles.logoContainer}>
-            <Image source={require("../assets/App-Logo.jpg")} style={styles.logo}></Image>
+            <Image source={require("../../assets/App-Logo.jpg")} style={styles.logo}></Image>
           </View>
 
           <View style={styles.formContainer}>
