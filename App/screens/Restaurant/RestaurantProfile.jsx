@@ -14,7 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import TableList from "../../components/Restaurant/TableList";
-import Screen from "./../../components/Screen";
+import Screen from "../../components/Screen";
 
 const { height, width } = Dimensions.get("window");
 

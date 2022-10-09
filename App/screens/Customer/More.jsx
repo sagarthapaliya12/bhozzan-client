@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, TouchableOpacity, FlatList } from "react-nativ
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../../config/colors";
-import AppText from "./../../components/AppText";
+import AppText from "../../components/AppText";
 import AppButton from "../../components/AppButton";
 import ListItem from "../../components/ListItem";
 import Icon from "../../components/Icon";

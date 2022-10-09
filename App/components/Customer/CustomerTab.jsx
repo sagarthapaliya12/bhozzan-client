@@ -9,7 +9,7 @@ import Basket from "../../screens/Customer/Basket";
 import Notifications from "../../screens/Customer/Notifications";
 import More from "../../screens/Customer/More";
 import { HomeNavigator, MoreNavigator } from "../../navigation/CustomerNavigator";
-import Chat from "./../../screens/Chat";
+import Chat from "../../screens/Chat";
 
 const Tab = createBottomTabNavigator();
 

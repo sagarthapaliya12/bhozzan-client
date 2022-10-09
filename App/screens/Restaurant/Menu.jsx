@@ -5,7 +5,7 @@ import React from "react";
 
 import colors from "../../config/colors";
 import separateCategories from "../../utils/separateCategories";
-import Screen from "./../../components/Screen";
+import Screen from "../../components/Screen";
 
 const { height, width } = Dimensions.get("window");
 

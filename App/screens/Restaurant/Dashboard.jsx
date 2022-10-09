@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
 
 import colors from "../../config/colors";
-import Screen from "./../../components/Screen";
+import Screen from "../../components/Screen";
 
 const Dashboard = (props) => {
   return (

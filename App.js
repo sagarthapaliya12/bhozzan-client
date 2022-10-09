@@ -6,10 +6,10 @@ import { Provider as PaperProvider } from "react-native-paper";
 import CustomerTab from "./App/components/Customer/CustomerTab";
 import RestaurantTab from "./App/components/Restaurant/RestaurantTab";
 import PublicNavigator from "./App/navigation/PublicNavigator";
-import Dashboard from "./App/screens/SuperAdmin/Dashboard";
+import Dashboard from "./App/screens/Admin/Dashboard";
 
 const auth = {
-  user: { id: "6019e133h3e3sj72837283", name: "Jack Blah Blah Blah", role: "restaurant" },
+  user: { id: "6019e133h3e3sj72837283", name: "Jack Blah Blah Blah", role: "manager" },
 };
 
 export default function App() {
@@ -18,8 +18,9 @@ export default function App() {
       <NavigationContainer theme={navigationTheme}>
         {!auth.user && <PublicNavigator />}
         {auth.user?.role === "customer" && <CustomerTab />}
-        {auth.user?.role === "restaurant" && <RestaurantTab />}
-        {auth.user?.role === "superAdmin" && <Dashboard />}
+        {auth.user?.role === "manager" && <RestaurantTab />}
+        {auth.user?.role === "admin" && <Dashboard />}
+        {/* {auth.user?.role === "shipper" && <Dashboard />} */}
       </NavigationContainer>
     </PaperProvider>
   );
