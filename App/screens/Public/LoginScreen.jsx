@@ -23,9 +23,13 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const login = async (values) => {
-    console.log("juju", values);
-    const { data } = await api.post("/user/login", values);
-    console.log(data);
+    try {
+      const { data } = await api.post("/user/login", values);
+      if (!data) throw new Error();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Screen>

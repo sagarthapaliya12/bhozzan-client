@@ -41,10 +41,15 @@ const validationSchema = Yup.object().shape({
 
 function RegisterScreen() {
   const register = async (values) => {
-    // Remove the confirmPassword field from the set of user input values
-    delete values.confirmPassword;
-    const { data } = await api.post("/user/register", values);
-    console.log(data);
+    try {
+      // Remove the confirmPassword field from the set of user input values
+      delete values.confirmPassword;
+      const { data } = await api.post("/user/register", values);
+      if (!data) throw new Error();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Screen>
