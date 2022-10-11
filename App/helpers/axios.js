@@ -1,6 +1,7 @@
 import axios from "react-native-axios";
 import { SERVER_BASE_URL } from "@env";
 
+// DO NOT REMOVE THIS COMMENT, the fetching does not work when this line is removed
 const api = axios.create({
   baseURL: SERVER_BASE_URL,
   headers: {
