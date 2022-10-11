@@ -128,7 +128,7 @@ function RegisterScreen() {
             </View>
           </View>
 
-          <TouchableOpacity onPress={() => console.log("clicked")}>
+          <TouchableOpacity onPress={() => navigation.navigate("RestaurantSignup")}>
             <Text style={defaultStyles.link}>Register Your Restaurant Here</Text>
           </TouchableOpacity>
         </View>

@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
 
   location: Yup.string().required().min(4).label("Location"),
 
-  phoneNo: Yup.string().phone("NP", true, "${path} is invalid").required().label("Phone Number"),
+  phoneNumber: Yup.string().phone("NP", true, "${path} is invalid").required().label("Phone Number"),
 
   panVatNo: Yup.string().required().min(6).max(14).label("Pan/Vat No."),
 
@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
   deliveryHours: Yup.string().required().min(6).label("Delivery Hours"),
 });
 
-const EditProfile = () => {
+const RestaurantSignup = ({navigation}) => {
   const register = async (values) => {
     delete values.confirmPassword;
     console.log(values);
@@ -96,7 +96,7 @@ const EditProfile = () => {
               />
               <Pressable style={styles.saveButton} onPress={() => console.log("message received")}>
                 <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
-                  Save Changes
+                  Register
                 </Text>
               </Pressable>
             </Form>
@@ -107,7 +107,7 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default RestaurantSignup;
 
 const styles = StyleSheet.create({
   container: {
@@ -140,9 +140,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 4,
+    borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 32,
-    marginTop: 8,
+    marginTop: 25,
   },
 });
