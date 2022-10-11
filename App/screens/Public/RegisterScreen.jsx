@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  Pressable,
   TouchableNativeFeedback,
   TouchableHighlight,
 } from "react-native";
@@ -39,7 +40,7 @@ const validationSchema = Yup.object().shape({
     .label("Password"),
 });
 
-function RegisterScreen() {
+function RegisterScreen({navigation}) {
   const register = async (values) => {
     try {
       // Remove the confirmPassword field from the set of user input values
@@ -126,16 +127,16 @@ function RegisterScreen() {
                 }}
               >
                 Already have an account?
-                <TouchableNativeFeedback onPress={() => console.log("clicked")}>
+                <Pressable onPress={() => navigation.navigate("LoginScreen")}>
                   <Text style={styles.text}>Login</Text>
-                </TouchableNativeFeedback>
+                </Pressable>
               </Text>
             </View>
           </View>
 
-          <TouchableOpacity onPress={() => navigation.navigate("RestaurantSignup")}>
+          <Pressable onPress={() => navigation.navigate("RestaurantSignup")}>
             <Text style={defaultStyles.link}>Register Your Restaurant Here</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </KeyboardAwareScrollView>
     </Screen>
