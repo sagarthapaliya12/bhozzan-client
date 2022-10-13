@@ -119,7 +119,7 @@ function RegisterScreen({navigation}) {
               <SubmitButton title="Register" onPress={() => navigation.navigate("LoginScreen")} />
             </Form>
 
-            <View style={{ justifyContent: "flex-start", alignItems: "flex-end" }}>
+         \   <View style={{ justifyContent: "flex-start", alignItems: "flex-end" }}>
               <Text
                 style={{
                   color: defaultStyles.colors.medium,
