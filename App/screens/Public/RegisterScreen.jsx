@@ -56,7 +56,7 @@ function RegisterScreen({ navigation }) {
       <KeyboardAwareScrollView>
         <View style={styles.container}>
           <View style={styles.logoContainer}>
-            <Image source={require("../../assets/App-Logo.jpg")} style={styles.logo}></Image>
+            <Image source={require("../../assets/App-Logo.png")} style={styles.logo}></Image>
           </View>
 
           <View style={styles.formContainer}>
