@@ -4,7 +4,7 @@
     "slug": "bhozzan-client",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./App/assets/App-Logo.jpg",
+    "icon": "./App/assets/App-Logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./App/assets/splash.png",
