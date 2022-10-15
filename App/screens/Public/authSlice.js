@@ -9,21 +9,25 @@ export const UserRoleEnum = {
 };
 
 // const user = JSON.parse(localStorage.getItem("user"));
-const user = { id: "6019e133h3e3sj72837283", name: "Jack Blah Blah Blah", role: "customer" };
 
 const initialState = {
-  user: user ? user : null,
+  // user: user ? user : null,
+  user: null,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
 };
 
-export const loginUser = createAsyncThunk("user/login", async ({ username, password }) =>
-  authService.login(username, password)
+export const loginUser = createAsyncThunk("user/login", async (credentials) =>
+  authService.loginUser(credentials)
 );
 
-export const logoutUser = createAsyncThunk("user/logout", async (_, { dispatch }) =>
-  authService.logout(dispatch)
+export const registerUser = createAsyncThunk("user/register", async (credentials) =>
+  authService.registerUser(credentials)
+);
+
+export const registerRestaurant = createAsyncThunk("user/register", async (credentials) =>
+  authService.registerRestaurant(credentials)
 );
 
 const authSlice = createSlice({
@@ -31,9 +35,13 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    logout: (state, _action) => {
+      state.user = null;
+    },
   },
   extraReducers: (builder) => {
     builder
+      //LOGIN USER
       .addCase(loginUser.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -45,17 +53,34 @@ const authSlice = createSlice({
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       })
-      .addCase(logoutUser.fulfilled, (state, action) => {
-        state.user = null;
+
+      //REGISTER USER
+      .addCase(registerUser.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         state.successMsg = action.payload;
       })
-      .addCase(logoutUser.rejected, (state, action) => {
+      .addCase(registerUser.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
+      //REGISTER RESTAURANT
+      .addCase(registerRestaurant.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(registerRestaurant.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.successMsg = action.payload;
+      })
+      .addCase(registerRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       });
   },
 });
 
-export const { reset } = authSlice.actions;
+export const { reset, logout } = authSlice.actions;
 export default authSlice.reducer;

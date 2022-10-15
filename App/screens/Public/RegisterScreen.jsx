@@ -19,6 +19,8 @@ import FormField from "../../components/forms/FormField";
 import SubmitButton from "../../components/forms/SubmitButton";
 import defaultStyles from "../../config/styles";
 import api from "../../helpers/axios";
+import { registerUser } from "./authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().min(3).label("First Name"),
@@ -40,17 +42,14 @@ const validationSchema = Yup.object().shape({
     .label("Password"),
 });
 
-function RegisterScreen({navigation}) {
-  const register = async (values) => {
-    try {
-      // Remove the confirmPassword field from the set of user input values
-      delete values.confirmPassword;
-      const { data } = await api.post("/user/register", values);
-      if (!data) throw new Error();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+function RegisterScreen({ navigation }) {
+  const dispatch = useDispatch();
+
+  // const successMsg = useSelector((state) => state.authSlice.successMsg);
+
+  const register = (values) => {
+    delete values.confirmPassword; // Remove the confirmPassword field from the set of user input values
+    dispatch(registerUser(values));
   };
   return (
     <Screen>
@@ -118,8 +117,7 @@ function RegisterScreen({navigation}) {
               />
               <SubmitButton title="Register" onPress={() => navigation.navigate("LoginScreen")} />
             </Form>
-
-         \   <View style={{ justifyContent: "flex-start", alignItems: "flex-end" }}>
+            <View style={{ justifyContent: "flex-start", alignItems: "flex-end" }}>
               <Text
                 style={{
                   color: defaultStyles.colors.medium,

@@ -10,6 +10,9 @@ import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
 import api from "../../helpers/axios";
 import colors from "../../config/colors";
+import SubmitButton from "../../components/forms/SubmitButton";
+import { useDispatch } from "react-redux";
+import { registerRestaurant } from "./authSlice";
 
 const validationSchema = Yup.object().shape({
   restaurantName: Yup.string().required().min(3).label("Restaurant Name"),
@@ -18,7 +21,10 @@ const validationSchema = Yup.object().shape({
 
   location: Yup.string().required().min(4).label("Location"),
 
-  phoneNumber: Yup.string().phone("NP", true, "${path} is invalid").required().label("Phone Number"),
+  phoneNumber: Yup.string()
+    .phone("NP", true, "${path} is invalid")
+    .required()
+    .label("Phone Number"),
 
   panVatNo: Yup.string().required().min(6).max(14).label("Pan/Vat No."),
 
@@ -27,14 +33,13 @@ const validationSchema = Yup.object().shape({
   deliveryHours: Yup.string().required().min(6).label("Delivery Hours"),
 });
 
-const RestaurantSignup = ({navigation}) => {
-  const register = async (values) => {
-    delete values.confirmPassword;
-    console.log(values);
-    const { data } = await api.post("/user/register", values);
+const RestaurantSignup = ({ navigation }) => {
+  const dispatch = useDispatch();
 
-    console.log(data);
+  const handleSubmit = (values) => {
+    dispatch(registerRestaurant(values));
   };
+
   return (
     <Screen>
       <KeyboardAwareScrollView>
@@ -50,7 +55,7 @@ const RestaurantSignup = ({navigation}) => {
                 email: "",
                 deliveryHours: "",
               }}
-              onSubmit={(values) => register(values)}
+              onSubmit={(values) => handleSubmit(values)}
               validationSchema={validationSchema}
             >
               <FormField
@@ -77,14 +82,12 @@ const RestaurantSignup = ({navigation}) => {
                 icon="file"
                 name="panVatNo"
                 placeholder="PAN/VAT No."
-                secureTextEntry
-                textContentType="password"
               />
               <FormField
                 autoCorrect={false}
                 icon="email"
                 name="email"
-                placeholder="Email"               
+                placeholder="Email"
                 keyboardType="email-address"
                 textContentType="emailAddress"
               />
@@ -94,11 +97,7 @@ const RestaurantSignup = ({navigation}) => {
                 name="deliveryHours"
                 placeholder="Delivery Hours"
               />
-              <Pressable style={styles.saveButton} onPress={() => console.log("message received")}>
-                <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
-                  Register
-                </Text>
-              </Pressable>
+              <SubmitButton title="Register" />
             </Form>
           </View>
         </View>
