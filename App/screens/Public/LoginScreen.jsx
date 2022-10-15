@@ -11,7 +11,8 @@ import FormField from "../../components/forms/FormField";
 import SubmitButton from "../../components/forms/SubmitButton";
 import AppButton from "../../components/AppButton";
 import defaultStyles from "../../config/styles";
-import api from "../../helpers/axios";
+import { useDispatch } from "react-redux";
+import { loginUser } from "./authSlice";
 
 const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -22,15 +23,12 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen({ navigation }) {
-  const login = async (values) => {
-    try {
-      const { data } = await api.post("/user/login", values);
-      if (!data) throw new Error();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+  const dispatch = useDispatch();
+
+  const login = (values) => {
+    dispatch(loginUser(values));
   };
+
   return (
     <Screen>
       <KeyboardAwareScrollView contentContainerStyle={styles.screenContainer}>

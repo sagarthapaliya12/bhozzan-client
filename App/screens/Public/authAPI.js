@@ -1,41 +1,40 @@
-import api from '../../helpers/axios'
-import { redirectActions } from '../../redux/ui/redirectSlice'
-// import { reset } from './authSlice'
+import api from "../../helpers/axios";
 
-const login = async (username, password) => {
+const loginUser = async (credentials) => {
   try {
-    const { data } = await api.post('/user/login', {
-      username,
-      password,
-    })
-
-    // {id, role, accessToken, refreshToken}
-    //local storage
-    // localStorage.setItem('user', JSON.stringify({ ...data }))
-
-    api.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`
-
-    return data
-  } catch (err) {
-    throw new Error(err.response.data.error)
-  }
-}
-
-const logout = async (dispatch) => {
-  try {
-    const response = await api.get('/user/logout')
-    localStorage.removeItem('user')
-    // dispatch(reset())
-    dispatch(redirectActions.setRedirect('/login'))
-    return response?.data.message
+    const { data } = await api.post("/user/login", credentials);
+    if (!data) throw new Error();
+    return data;
   } catch (error) {
-    throw new Error(error.response.data.error)
+    console.log(error);
   }
-}
+};
+
+const registerUser = async (credentials) => {
+  try {
+    const { data } = await api.post("/user/register", credentials);
+    if (!data) throw new Error();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const registerRestaurant = async (credentials) => {
+  try {
+    const { data } = await api.post("/restaurant/register", credentials);
+    if (!data) throw new Error();
+    console.log("Restaurant: ", data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const authService = {
-  login,
-  logout,
-}
+  loginUser,
+  registerUser,
+  registerRestaurant,
+};
 
-export default authService
+export default authService;

@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import RegisterScreen from "../screens/Public/RegisterScreen";
 import LoginScreen from "../screens/Public/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
-import RestaurantSignup from '../screens/Restaurant/RestaurantSignup';
+import RestaurantSignup from '../screens/Public/RestaurantSignup';
 import Dashboard from "../screens/Restaurant/Dashboard";
 
 const Stack = createStackNavigator();

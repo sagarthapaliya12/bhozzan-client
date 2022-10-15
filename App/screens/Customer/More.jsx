@@ -7,6 +7,8 @@ import AppText from "../../components/AppText";
 import AppButton from "../../components/AppButton";
 import ListItem from "../../components/ListItem";
 import Icon from "../../components/Icon";
+import { logout } from "../Public/authSlice";
+import { useDispatch } from "react-redux";
 
 const buttonItems = [
   {
@@ -28,9 +30,15 @@ const buttonItems = [
 ];
 
 const More = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.logout} onPress={() => console.log("clicked")}>
+      <TouchableOpacity style={styles.logout} onPress={() => handleLogout()}>
         <MaterialCommunityIcons name="logout" size={30} color="white" />
       </TouchableOpacity>
 
@@ -68,10 +76,10 @@ const More = ({ navigation }) => {
                 // 		name={item.icons.name}
                 // 		backgroundColor={item.icons.backgroundColor}
                 // 	/>
-                // }  
+                // }
                 onPress={() => {
-                 item.id===1 && navigation.navigate("OrderHistory");
-                 item.id===2 && navigation.navigate("EditProfile");
+                  item.id === 1 && navigation.navigate("OrderHistory");
+                  item.id === 2 && navigation.navigate("EditProfile");
                 }}
               />
             )}
