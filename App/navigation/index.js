@@ -3,8 +3,8 @@ import navigationTheme from "./navigationTheme";
 import CustomerTab from "../components/Customer/CustomerTab";
 import RestaurantTab from "../components/Restaurant/RestaurantTab";
 import PublicNavigator from "../navigation/PublicNavigator";
-import Dashboard from "../screens/Admin/Dashboard";
 import { useSelector } from "react-redux";
+import AdminTab from "../components/Admin/AdminTab";
 
 const AppRoutes = () => {
   const auth = useSelector((state) => state.authSlice);
@@ -14,8 +14,8 @@ const AppRoutes = () => {
       {!auth.user && <PublicNavigator />}
       {auth.user?.role === "customer" && <CustomerTab />}
       {auth.user?.role === "manager" && <RestaurantTab />}
-      {auth.user?.role === "admin" && <Dashboard />}
-      {auth.user?.role === "shipper" && <Dashboard />}
+      {auth.user?.role === "admin" && <AdminTab />}
+      {auth.user?.role === "shipper" && <AdminTab />}
     </NavigationContainer>
   );
 };
