@@ -15,22 +15,18 @@ import { useDispatch } from "react-redux";
 import { registerRestaurant } from "./authSlice";
 
 const validationSchema = Yup.object().shape({
-  restaurantName: Yup.string().required().min(3).label("Restaurant Name"),
+  name: Yup.string().required().min(3).label("Restaurant Name"),
+  
+  primaryPhoneNumber: Yup.string()
+  .phone("NP", true, "${path} is invalid")
+  .required()
+  .label("Phone Number"),
+  
+  phoneNumbers: Yup.string().min(10).max(23).label("Secondary Contact"),
+  
+  address: Yup.string().required().min(4).label("Location"),
 
-  description: Yup.string().required().min(3).label("Description"),
-
-  location: Yup.string().required().min(4).label("Location"),
-
-  phoneNumber: Yup.string()
-    .phone("NP", true, "${path} is invalid")
-    .required()
-    .label("Phone Number"),
-
-  panVatNo: Yup.string().required().min(6).max(14).label("Pan/Vat No."),
-
-  email: Yup.string().required().email().label("Email"),
-
-  deliveryHours: Yup.string().required().min(6).label("Delivery Hours"),
+  PAN: Yup.string().required().min(9).label("Pan/Vat No."),
 });
 
 const RestaurantSignup = ({ navigation }) => {
@@ -47,13 +43,11 @@ const RestaurantSignup = ({ navigation }) => {
           <View style={styles.formContainer}>
             <Form
               initialValues={{
-                restaurantName: "",
-                description: "",
-                location: "",
-                phoneNumber: "",
-                panVatNo: "",
-                email: "",
-                deliveryHours: "",
+                name: "",
+                primaryPhoneNumber: "",
+                phoneNumbers: "",
+                address: "",
+                PAN: "",
               }}
               onSubmit={(values) => handleSubmit(values)}
               validationSchema={validationSchema}
@@ -61,41 +55,29 @@ const RestaurantSignup = ({ navigation }) => {
               <FormField
                 autoCorrect={false}
                 icon="account"
-                name="restaurantName"
+                name="name"
                 placeholder="Restaurant Name"
               />
-              <FormField
-                autoCorrect={false}
-                icon="account"
-                name="description"
-                placeholder="Description"
-              />
-              <FormField autoCorrect={false} icon="city" name="location" placeholder="Location" />
+
               <FormField
                 autoCorrect={false}
                 icon="phone"
-                name="phoneNumber"
-                placeholder="Phone Number"
+                name="primaryPhoneNumber"
+                placeholder="Primary Phone Number"
               />
+              <FormField
+                autoCorrect={false}
+                icon="phone"
+                name="phoneNumbers"
+                placeholder="Secondary Contact"
+              />
+              <FormField autoCorrect={false} icon="city"
+              name="address" placeholder="Address" />
               <FormField
                 autoCorrect={false}
                 icon="file"
-                name="panVatNo"
+                name="PAN"
                 placeholder="PAN/VAT No."
-              />
-              <FormField
-                autoCorrect={false}
-                icon="email"
-                name="email"
-                placeholder="Email"
-                keyboardType="email-address"
-                textContentType="emailAddress"
-              />
-              <FormField
-                autoCorrect={false}
-                icon="clock"
-                name="deliveryHours"
-                placeholder="Delivery Hours"
               />
               <SubmitButton title="Register" />
             </Form>
@@ -126,7 +108,7 @@ const styles = StyleSheet.create({
   formContainer: {
     display: "flex",
     width: "90%",
-    marginVertical: 40,
+    marginVertical: 80,
   },
 
   text: {
