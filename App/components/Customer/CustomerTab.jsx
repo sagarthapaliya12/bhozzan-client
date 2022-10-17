@@ -17,14 +17,14 @@ const CustomerTab = () => (
   <Tab.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: colors.screen,
-        height: 80,
-      },
+        backgroundColor: colors.screen,        
+      },     
       tabBarStyle: {
         backgroundColor: "#1D2227",
       },
       headerTintColor: colors.white,
       headerTitleAlign: "center",
+      headerStatusBarHeight: 10,
       animationDuration: 800,
     }}
   >

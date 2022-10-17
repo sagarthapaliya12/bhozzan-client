@@ -14,13 +14,13 @@ const HomeNavigator = () => (
   <Stack.Navigator
     presentation="modal"
     screenOptions={{
-      headerShown: false,
+      headerShown: false,    
       animationDuration: 800,
     }}
   >
     <Stack.Screen name="Feed" component={HomeScreen} />
-    <Stack.Screen name="BrowseCategory" component={BrowseCategory} />
-    <Stack.Screen name="RestaurantProfile" component={RestaurantProfile} />
+    <Stack.Screen name="BrowseCategory" component={BrowseCategory}  options={{title:"Categories"}} />
+    <Stack.Screen name="RestaurantProfile" component={RestaurantProfile}  options={{title:"Restaurant Profile"}} />
   </Stack.Navigator>
 );
 
@@ -33,8 +33,8 @@ const MoreNavigator = () => (
     }}
   >
     <Stack.Screen name="Feed" component={More} />
-    <Stack.Screen name="EditProfile" component={EditProfile} />
-    <Stack.Screen name="OrderHistory" component={OrderHistory} />
+    <Stack.Screen name="EditProfile" component={EditProfile} options={{title:"Edit Profile"}}/>
+    <Stack.Screen name="OrderHistory" component={OrderHistory} options={{title: "Order History"}}/>
   </Stack.Navigator>
 );
 
