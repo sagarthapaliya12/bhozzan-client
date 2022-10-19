@@ -26,7 +26,7 @@ export const registerUser = createAsyncThunk("user/register", async (credentials
   authService.registerUser(credentials)
 );
 
-export const registerRestaurant = createAsyncThunk("user/register", async (credentials) =>
+export const registerRestaurant = createAsyncThunk("restaurant/register", async (credentials) =>
   authService.registerRestaurant(credentials)
 );
 
