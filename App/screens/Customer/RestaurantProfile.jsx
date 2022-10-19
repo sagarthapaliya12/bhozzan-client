@@ -8,16 +8,16 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   ScrollView,
-} from 'react-native';
-import { Entypo } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import colors from '../../config/colors';
-import pizzaHut from '../../assets/pizza-hut.png';
-import Menu from '../../components/Customer/RestaurantProfile/Menu';
+} from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import colors from "../../config/colors";
+import pizzaHut from "../../assets/pizza-hut.png";
+import Menu from "../../components/Customer/RestaurantProfile/Menu";
 
-const { height, width } = Dimensions.get('window');
+const { height, width } = Dimensions.get("window");
 
 const ActionItems = [
   {
@@ -52,9 +52,8 @@ const RestaurantProfile = () => {
           <Text style={styles.locationText}>Radhe Radhe, Bhaktapur</Text>
         </View>
         <Text style={styles.descriptionText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation...
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation...
         </Text>
 
         <View style={styles.actions}>
@@ -68,7 +67,7 @@ const RestaurantProfile = () => {
         </View>
 
         <View style={styles.delivery}>
-          <Text style={{ color: 'green' }}>DELIVERY HOURS</Text>
+          <Text style={{ color: "green" }}>DELIVERY HOURS</Text>
           <Text style={{ color: colors.white }}>10:00 AM -12:00 PM</Text>
         </View>
 
@@ -84,7 +83,7 @@ export default RestaurantProfile;
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: colors.screen,
     flex: 1,
   },
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   location: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   locationText: {
     color: colors.white,
@@ -107,21 +106,21 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   actions: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     width: width,
     margin: 20,
   },
   iconContainer: {
     backgroundColor: colors.gray,
-    justifyContent: 'center',
+    justifyContent: "center",
     width: 50,
     height: 50,
     borderRadius: 25,
-    alignItems: 'center',
+    alignItems: "center",
   },
   delivery: {
-    alignItems: 'center',
+    alignItems: "center",
     margin: 20,
   },
 });
