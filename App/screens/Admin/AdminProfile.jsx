@@ -10,11 +10,11 @@ import { logout } from "../Public/authSlice";
 import { useDispatch } from "react-redux";
 
 const AdminProfile = ({ navigation }) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const handleLogout = () => {
-  //   dispatch(logout());
-  // };
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <View style={styles.container}>
