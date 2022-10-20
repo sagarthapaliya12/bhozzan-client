@@ -22,7 +22,7 @@ const BrowseCategories = ({ onPress }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Browse Categories</Text>
       <View style={styles.categoryContainer}>
-        <ScrollView horizontal>{displayCategories()}</ScrollView>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>{displayCategories()}</ScrollView>
       </View>
     </View>
   );
