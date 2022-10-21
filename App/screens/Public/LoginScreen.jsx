@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     padding: 10,
     width: "90%",
-    bottom: 25,
+    bottom: 15,
   },
 });
 
