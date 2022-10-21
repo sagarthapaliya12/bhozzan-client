@@ -36,7 +36,7 @@ const AdminTab = () => (
       }}
     />
 
-    {/* <Tab.Screen
+    <Tab.Screen
       name="New Approvals"
       component={RestaurantApprovals}
       options={{
@@ -44,9 +44,9 @@ const AdminTab = () => (
           <MaterialCommunityIcons name="account-clock" size={size} color={color} />
         ),
       }}
-    /> */}
+    />
 
-    {/* <Tab.Screen
+    <Tab.Screen
       name="Admin Profile"
       component={AdminProfile}
       options={{
@@ -54,7 +54,7 @@ const AdminTab = () => (
           <MaterialCommunityIcons name="account" color={color} size={size} />
         ),
       }}
-    /> */}
+    />
   </Tab.Navigator>
 );
 
