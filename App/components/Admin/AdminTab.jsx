@@ -5,8 +5,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../../config/colors";
 import { ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
-// import AdminProfile from './../../screens/Admin/AdminProfile';
-// import RestaurantApprovals from './../../screens/Admin/RestaurantApprovals';
+import AdminProfile from '../../screens/Admin/AdminProfile';
+import RestaurantApproval from '../../screens/Admin/RestaurantApproval';
 import { AdminNavigator, HomeScreenNavigator } from "../../navigation/AdminNavigator";
 
 const Tab = createBottomTabNavigator();
@@ -38,7 +38,7 @@ const AdminTab = () => (
 
     <Tab.Screen
       name="New Approvals"
-      component={RestaurantApprovals}
+      component={RestaurantApproval}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account-clock" size={size} color={color} />
