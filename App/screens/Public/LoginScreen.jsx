@@ -1,6 +1,14 @@
-import React from "react";
-import { Image, View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import {
+  Image,
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { MaterialIcons } from "@expo/vector-icons";
 import * as Yup from "yup";
 
 import Screen from "../../components/Screen";
@@ -29,6 +37,12 @@ function LoginScreen({ navigation }) {
     dispatch(loginUser(values));
   };
 
+  const [passwordVisibile, setPasswordVisible] = useState(false);
+
+  const handlePasswordVisibility = () => {
+    setPasswordVisible((prev) => !prev);
+  };
+
   return (
     <Screen>
       <KeyboardAwareScrollView contentContainerStyle={styles.screenContainer}>
@@ -47,16 +61,37 @@ function LoginScreen({ navigation }) {
               icon="phone"
               name="phoneNumber"
               placeholder="Phone Number"
+              textContentType="telephoneNumber"
             />
-            <FormField
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="lock"
-              name="password"
-              placeholder="Password"
-              secureTextEntry
-              textContentType="password"
-            />
+            <View>
+              <FormField
+                autoCapitalize="none"
+                autoCorrect={false}
+                icon="lock"
+                name="password"
+                placeholder="Password"
+                secureTextEntry={passwordVisibile ? false : true}
+              />
+              <View
+                style={{
+                  position: "absolute",
+                  top: 22,
+                  right: 20,
+                }}
+              >
+                {!passwordVisibile && (
+                  <TouchableWithoutFeedback onPress={handlePasswordVisibility}>
+                    <MaterialIcons name="visibility" size={24} color="black" />
+                  </TouchableWithoutFeedback>
+                )}
+                {passwordVisibile && (
+                  <TouchableWithoutFeedback onPress={handlePasswordVisibility}>
+                    <MaterialIcons name="visibility-off" size={24} color="black" />
+                  </TouchableWithoutFeedback>
+                )}
+              </View>
+            </View>
+
             <SubmitButton
               title="Login"
               // onPress={}
@@ -104,9 +139,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     padding: 10,
     width: "90%",
-    marginVertical: 50,
-
-    // position: "absolute"
+    bottom: 15,
   },
 });
 

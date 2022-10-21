@@ -1,9 +1,7 @@
 import React from "react";
 import { useFormikContext } from "formik";
-
-import ErrorMessage from './ErrorMessage';
-import AppTextInput from '../AppTextInput';
-
+import ErrorMessage from "./ErrorMessage";
+import AppTextInput from "../AppTextInput";
 
 function FormField({ name, width, ...otherProps }) {
   const { setFieldTouched, setFieldValue, errors, touched, values } = useFormikContext();
@@ -12,7 +10,7 @@ function FormField({ name, width, ...otherProps }) {
     <>
       <AppTextInput
         onBlur={() => setFieldTouched(name)}
-        onChangeText={text => setFieldValue(name, text)}
+        onChangeText={(text) => setFieldValue(name, text)}
         value={values[name]}
         width={width}
         {...otherProps}
