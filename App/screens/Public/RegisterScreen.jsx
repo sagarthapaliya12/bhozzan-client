@@ -117,18 +117,24 @@ function RegisterScreen({ navigation }) {
               />
               <SubmitButton title="Register" onPress={() => navigation.navigate("LoginScreen")} />
             </Form>
-            <View style={{ justifyContent: "flex-start", alignItems: "flex-end" }}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               <Text
                 style={{
                   color: defaultStyles.colors.medium,
-                  textAlign: "right",
                 }}
               >
-                Already have an account?
-                <Pressable onPress={() => navigation.navigate("LoginScreen")}>
-                  <Text style={styles.text}>Login</Text>
-                </Pressable>
+                Already have an account?&nbsp;
               </Text>
+              <Pressable onPress={() => navigation.navigate("LoginScreen")}>
+                <Text style={styles.text}>Login</Text>
+              </Pressable>
             </View>
           </View>
 
