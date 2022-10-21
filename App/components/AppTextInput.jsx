@@ -10,7 +10,7 @@ function AppTextInput({ icon, ...otherProps }) {
   return (
     <View style={styles.container}>
       {icon && <MaterialCommunityIcons name={icon} size={20} style={styles.icon} />}
-      <TextInput {...otherProps} style={{ width: "80%", height: "100%" }} />
+      <TextInput {...otherProps} style={{ width: "100%", height: "100%" }} />
     </View>
   );
 }

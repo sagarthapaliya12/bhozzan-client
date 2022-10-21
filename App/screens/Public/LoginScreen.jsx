@@ -139,9 +139,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     padding: 10,
     width: "90%",
-    // marginVertical: 50,
-    position: "absolute",
-    bottom: 10,
+    bottom: 25,
   },
 });
 
