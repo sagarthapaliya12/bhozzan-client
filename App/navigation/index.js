@@ -11,7 +11,8 @@ const AppRoutes = () => {
 
   return (
     <NavigationContainer theme={navigationTheme}>
-      {!auth.user && <PublicNavigator />}
+      {/* {!auth.user && <PublicNavigator />} */}
+      {!auth.user && <CustomerTab />}
       {auth.user?.role === "customer" && <CustomerTab />}
       {auth.user?.role === "manager" && <RestaurantTab />}
       {auth.user?.role === "admin" && <AdminTab />}

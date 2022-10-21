@@ -1,60 +1,72 @@
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import colors from "../../../config/colors";
-import { useState } from "react";
 import separateCategories from "../../../utils/separateCategories";
+import { getDishesByRestaurantId } from "../../../screens/Restaurant/restaurantSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const { height, width } = Dimensions.get("window");
 
 const Menu = () => {
+  const dispatch = useDispatch();
+
+  const restaurantId = useSelector((state) => state.restaurantSlice.search);
+
+  const dishes = useSelector((state) => state.restaurantSlice.dishes);
+  console.log("Dishes: ", dishes);
+
+  useEffect(() => {
+    dispatch(getDishesByRestaurantId(restaurantId));
+  }, []);
+
   const MenuItems = [
     {
-      id: 1,
-      title: "Chicken Pizza",
+      _id: 1,
+      name: "Chicken Pizza",
       category: "pizza",
       price: "600",
     },
     {
-      id: 2,
-      title: "Buff Momo",
+      _id: 2,
+      name: "Buff Momo",
       category: "momo",
       price: "110",
     },
     {
-      id: 3,
-      title: "Mushroom Pizza",
+      _id: 3,
+      name: "Mushroom Pizza",
       category: "pizza",
       price: "500",
     },
     {
-      id: 4,
-      title: "Meat Lovers",
+      _id: 4,
+      name: "Meat Lovers",
       category: "pizza",
       price: "850",
     },
 
     {
-      id: 5,
-      title: "Buff C Momo",
+      _id: 5,
+      name: "Buff C Momo",
       category: "momo",
       price: "130",
     },
     {
-      id: 6,
-      title: "Veg Chowmein",
+      _id: 6,
+      name: "Veg Chowmein",
       category: "chowmein",
       price: "150",
     },
     {
-      id: 7,
-      title: "Chicken Fried Momo",
+      _id: 7,
+      name: "Chicken Fried Momo",
       category: "momo",
       price: "150",
     },
     {
-      id: 8,
-      title: "Chicken Chowmein",
+      _id: 8,
+      name: "Chicken Chowmein",
       category: "chowmein",
       price: "150",
     },
@@ -62,22 +74,32 @@ const Menu = () => {
 
   const [filteredMenu, setFilteredMenu] = useState([]);
 
-  const separateCategories = () => {
-    const mentioned = {};
+  useEffect(() => {
+    const separateCategories = () => {
+      const mentioned = {};
+      MenuItems.forEach((item) => {
+        const registeredCategories = Object.keys(mentioned);
+        if (registeredCategories.includes(item.category)) {
+          filteredMenu[mentioned[item.category]].push(item);
+        } else {
+          mentioned[item.category] = filteredMenu.length;
+          filteredMenu.push([item]);
+        }
+      });
+    };
+    separateCategories();
+    // if (dishes.length > 1) separateCategories();
+    // if (dishes.length === 0) setFilteredMenu(dishes);
+    // else if (dishes.length === 0) setFilteredMenu(dishes);
+  }, [dishes]);
 
-    MenuItems.forEach((item) => {
-      const registeredCategories = Object.keys(mentioned);
-      if (registeredCategories.includes(item.category)) {
-        filteredMenu[mentioned[item.category]].push(item);
-      } else {
-        mentioned[item.category] = filteredMenu.length;
-        filteredMenu.push([item]);
-      }
-    });
-  };
-  separateCategories();
+  // console.log("Fifjdsifm: ", filteredMenu);
+  // let filteredMenu;
+  // useEffect(() => {
+  //   filteredMenu = separateCategories(dishes);
+  // }, [dishes]);
 
-  // const filteredMenu = separateCategories(MenuItems);
+  console.log("nn", filteredMenu);
 
   const [noOfItem, setNoOfItem] = useState(0);
 
@@ -110,8 +132,8 @@ const Menu = () => {
             </View>
             {item.map((food) => {
               return (
-                <View key={food.id} style={styles.menuItem}>
-                  <Text style={{ color: colors.gray, fontSize: 18 }}>{food.title}</Text>
+                <View key={food._id} style={styles.menuItem}>
+                  <Text style={{ color: colors.gray, fontSize: 18 }}>{food.name}</Text>
                   <View style={styles.priceCart}>
                     <View>
                       <Text style={{ color: colors.primary, fontSize: 20 }}>

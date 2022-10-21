@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -7,61 +7,75 @@ import {
   ScrollView,
   Dimensions,
   TouchableWithoutFeedback,
-} from 'react-native';
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
-import colors from '../../../config/colors';
-import kfcRestaurantThumbnail from '../../../assets/restaurants/kfc.jpg';
-import kfcRestaurantProfile from '../../../assets/restaurants/kfc-profile.png';
-import everestArirangKoreanRestaurantThumbnail from '../../../assets/restaurants/everest-arirang-korean-restaurant.jpg';
-import everestArirangKoreanRestaurant from '../../../assets/restaurants/kfc-profile.png';
+import colors from "../../../config/colors";
+import kfcRestaurantThumbnail from "../../../assets/restaurants/kfc.jpg";
+import kfcRestaurantProfile from "../../../assets/restaurants/kfc-profile.png";
+import everestArirangKoreanRestaurantThumbnail from "../../../assets/restaurants/everest-arirang-korean-restaurant.jpg";
+import everestArirangKoreanRestaurant from "../../../assets/restaurants/kfc-profile.png";
+import { getAllRestaurants, setSearch } from "../../../screens/Restaurant/restaurantSlice";
 
-const { height, width } = Dimensions.get('window');
+const { height, width } = Dimensions.get("window");
 
 const Restaurants = [
   {
     id: 1,
-    name: 'KFC Restaurant',
-    location: 'Durbarmarg',
+    name: "KFC Restaurant",
+    location: "Durbarmarg",
     thumbnail: kfcRestaurantThumbnail,
     profile: kfcRestaurantProfile,
   },
   {
     id: 2,
-    name: 'Everest Korean Restaurant',
-    location: 'Jhamsikhel',
+    name: "Everest Korean Restaurant",
+    location: "Jhamsikhel",
     thumbnail: everestArirangKoreanRestaurantThumbnail,
     profile: everestArirangKoreanRestaurant,
   },
   {
     id: 3,
-    name: 'KFC Restaurant',
-    location: 'Durbarmarg',
+    name: "KFC Restaurant",
+    location: "Durbarmarg",
     thumbnail: kfcRestaurantThumbnail,
     profile: kfcRestaurantProfile,
   },
 ];
 
 const TopRestaurants = ({ onPress }) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const restaurants = useSelector((state) => state.restaurantSlice.restaurantList);
+
+  useEffect(() => {
+    dispatch(getAllRestaurants());
+  }, [dispatch]);
+
   const displayRestaurants = () => {
-    return Restaurants.map((item) => {
-      // const navigation = useNavigation();
+    return restaurants.map((item) => {
       return (
         <TouchableWithoutFeedback
-          key={item.id}
+          key={item._id}
           style={styles.restaurantContainer}
-          onPress={onPress}
+          onPress={() => {
+            dispatch(setSearch(item._id))
+            navigation.navigate("RestaurantProfile");
+          }}
         >
           <View>
             <View style={styles.thumbnailContainer}>
-              <Image style={styles.restaurantImage} source={item.thumbnail} />
+              <Image style={styles.restaurantImage} source={kfcRestaurantThumbnail} />
             </View>
             <View style={styles.restaurantDetail}>
               <View style={styles.profileContainer}>
-                <Image style={styles.restaurantProfile} source={item.profile} />
+                <Image style={styles.restaurantProfile} source={kfcRestaurantProfile} />
               </View>
               <View>
                 <Text style={styles.restaurantName}>{item.name}</Text>
-                <Text style={styles.restaurantLocation}>{item.location}</Text>
+                <Text style={styles.restaurantLocation}>{item.address}</Text>
               </View>
             </View>
           </View>
@@ -87,7 +101,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.white,
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: "700",
     margin: 10,
     marginBottom: 20,
   },
@@ -104,7 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: null,
     width: null,
-    resizeMode: 'cover',
+    resizeMode: "cover",
     borderRadius: 5,
     borderWidth: 1,
   },
@@ -116,8 +130,8 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   restaurantDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 15,
   },
   restaurantProfile: {
