@@ -20,7 +20,7 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView>
         <BrowseCategories onPress={() => navigation.navigate("BrowseCategory")} />
         <LocalCusines />
-        <TopRestaurants onPress={() => navigation.navigate("RestaurantProfile")} />
+        <TopRestaurants />
       </ScrollView>
     </View>
   );

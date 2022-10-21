@@ -6,8 +6,8 @@ import redirectReducer from "./ui/redirectSlice";
 
 export const store = configureStore({
   reducer: {
-    uiSlice: uiReducer,
     authSlice: authReducer,
+    uiSlice: uiReducer,
     restaurantSlice: restaurantReducer,
     redirectSlice: redirectReducer,
   },

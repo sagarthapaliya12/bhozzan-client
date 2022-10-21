@@ -16,6 +16,9 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import Menu from "../../components/Customer/RestaurantProfile/Menu";
+import { getRestaurantDetails } from "../Restaurant/restaurantSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const { height, width } = Dimensions.get("window");
 
@@ -39,6 +42,16 @@ const ActionItems = [
 ];
 
 const RestaurantProfile = () => {
+  const dispatch = useDispatch();
+
+  const restaurantId = useSelector((state) => state.restaurantSlice.search);
+
+  const restaurantDetail = useSelector((state) => state.restaurantSlice.restaurant);
+
+  useEffect(() => {
+    dispatch(getRestaurantDetails(restaurantId));
+  }, []);
+
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
@@ -46,10 +59,10 @@ const RestaurantProfile = () => {
           <Image style={styles.profilePicture} source={pizzaHut} />
         </View>
 
-        <Text style={styles.title}>Pizza Hut</Text>
+        <Text style={styles.title}>{restaurantDetail.name}</Text>
         <View style={styles.location}>
           <Entypo name="location-pin" size={24} color={colors.white} />
-          <Text style={styles.locationText}>Radhe Radhe, Bhaktapur</Text>
+          <Text style={styles.locationText}>{restaurantDetail.address}</Text>
         </View>
         <Text style={styles.descriptionText}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
