@@ -21,7 +21,7 @@ import AppButton from "../../components/AppButton";
 import defaultStyles from "../../config/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "./authSlice";
-import InvalidCredentialsModal from "../../components/Auth/InvalidCredentialsModal";
+import MessagePopUpModal from "../../components/MessagePopUpModal";
 import { toggleShowInvalidCredentialsModal } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
@@ -100,10 +100,7 @@ function LoginScreen({ navigation }) {
               </View>
             </View>
 
-            <SubmitButton
-              title="Login"
-              // onPress={}
-            />
+            <SubmitButton title="Login" />
           </Form>
 
           <TouchableOpacity onPress={() => console.log("clicked")}>
@@ -114,7 +111,7 @@ function LoginScreen({ navigation }) {
         <View style={styles.btnContainer}>
           <AppButton title="Register" onPress={() => navigation.navigate("RegisterScreen")} />
         </View>
-        <InvalidCredentialsModal />
+        <MessagePopUpModal />
       </KeyboardAwareScrollView>
     </Screen>
   );

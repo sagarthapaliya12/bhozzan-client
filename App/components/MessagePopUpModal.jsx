@@ -1,17 +1,20 @@
 import * as React from "react";
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 import { Modal, Portal, Provider } from "react-native-paper";
-import colors from "../../config/colors";
+import colors from "../config/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleShowInvalidCredentialsModal } from "../../redux/ui/uiSlice";
+import { toggleShowInvalidCredentialsModal } from "../redux/ui/uiSlice";
+import { useNavigation } from "@react-navigation/native";
 
-const InvalidCredentialsModal = () => {
+const MessagePopUpModal = (props) => {
   const containerStyle = { backgroundColor: "white", padding: 20, margin: 20, borderRadius: 8 };
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const visible = useSelector((state) => state.uiSlice.showInvalidCredentialsModal);
-  const errMsg = useSelector((state) => state.authSlice.errorMsg);
+
+  const { status, successMsg, errorMsg } = useSelector((state) => state.authSlice);
 
   return (
     <Provider>
@@ -21,10 +24,10 @@ const InvalidCredentialsModal = () => {
           onDismiss={() => dispatch(toggleShowInvalidCredentialsModal(false))}
           contentContainerStyle={containerStyle}
         >
-          <View style={styles.container}>
+          <View>
             <Text style={{ fontWeight: "600", fontSize: 22 }}>
-              {/* Invalid Credentials */}
-              {errMsg}
+              {status === "success" && successMsg}
+              {status === "failed" && errorMsg}
             </Text>
             <View style={{ alignItems: "flex-end" }}>
               <View
@@ -38,7 +41,12 @@ const InvalidCredentialsModal = () => {
                 }}
               >
                 <TouchableWithoutFeedback
-                  onPress={() => dispatch(toggleShowInvalidCredentialsModal(false))}
+                  onPress={() => {
+                    dispatch(toggleShowInvalidCredentialsModal(false));
+                    status === "success" &&
+                      props.parent === "RegisterScreen" &&
+                      navigation.navigate("LoginScreen");
+                  }}
                 >
                   <Text>OK</Text>
                 </TouchableWithoutFeedback>
@@ -51,12 +59,4 @@ const InvalidCredentialsModal = () => {
   );
 };
 
-export default InvalidCredentialsModal;
-
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // backgroundColor: colors.g,
-    // alignItems: "center",
-  },
-});
+export default MessagePopUpModal;
