@@ -6,15 +6,20 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import TableList from "../../components/Restaurant/TableList";
 import Screen from "../../components/Screen";
+
+import { logout } from "../Public/authSlice";
+import { useDispatch } from "react-redux";
 
 const { height, width } = Dimensions.get("window");
 
@@ -31,10 +36,21 @@ const restaurantInfo = {
 };
 
 const RestaurantProfile = ({ navigation }) => {
+  // const dispatch = useDispatch();
+
+  // const handleLogout = () => {
+  //   dispatch(logout());
+  // };
+
   return (
     <Screen>
       <SafeAreaView style={styles.container}>
-        <View style={{ alignItems: "flex-end" }}>
+        <View style={{ flexDirection: "row-reverse", alignItems: "flex-end", justifyContent: "space-between" }}>
+
+        <TouchableOpacity style={styles.logout} onPress={() => console.log("logged out!!")}>
+        <MaterialCommunityIcons name="logout" size={30} color="white" />
+        </TouchableOpacity>
+        
           <TouchableHighlight
             style={styles.editButton}
             onPress={() => navigation.navigate("EditProfile")}
