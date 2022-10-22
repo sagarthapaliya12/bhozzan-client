@@ -1,20 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  showOrder: false,
-  // cart: [{ foodID: null, foodName: null, quantity: 0, price: 0 }],
-  cart: [],
+  showInvalidCredentialsModal: false,
 };
 
 const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    toggleShowOrder: (state, _action) => {
-      state.showOrder = !state.showOrder;
+    toggleShowInvalidCredentialsModal: (state, action) => {
+      state.showInvalidCredentialsModal = action.payload;
     },
   },
 });
 
-export const uiActions = uiSlice.actions;
+export const { toggleShowInvalidCredentialsModal } = uiSlice.actions;
 export default uiSlice.reducer;

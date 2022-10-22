@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   View,
@@ -19,8 +19,10 @@ import FormField from "../../components/forms/FormField";
 import SubmitButton from "../../components/forms/SubmitButton";
 import AppButton from "../../components/AppButton";
 import defaultStyles from "../../config/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "./authSlice";
+import InvalidCredentialsModal from "../../components/Auth/InvalidCredentialsModal";
+import { toggleShowInvalidCredentialsModal } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -42,6 +44,12 @@ function LoginScreen({ navigation }) {
   const handlePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
   };
+
+  const status = useSelector((state) => state.authSlice.status);
+
+  useEffect(() => {
+    if (status === "failed") dispatch(toggleShowInvalidCredentialsModal(true));
+  }, [status]);
 
   return (
     <Screen>
@@ -106,6 +114,7 @@ function LoginScreen({ navigation }) {
         <View style={styles.btnContainer}>
           <AppButton title="Register" onPress={() => navigation.navigate("RegisterScreen")} />
         </View>
+        <InvalidCredentialsModal />
       </KeyboardAwareScrollView>
     </Screen>
   );
