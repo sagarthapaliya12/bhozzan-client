@@ -60,7 +60,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.successMsg = action.payload;
+        state.successMsg = action.payload.message;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
@@ -73,7 +73,7 @@ const authSlice = createSlice({
       })
       .addCase(registerRestaurant.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.successMsg = action.payload;
+        state.successMsg = action.payload.message;
       })
       .addCase(registerRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;

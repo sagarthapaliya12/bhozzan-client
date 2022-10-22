@@ -1,26 +1,17 @@
-import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-  TouchableNativeFeedback,
-  TouchableHighlight,
-} from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 import "yup-phone";
-
 import Screen from "../../components/Screen";
 import Form from "../../components/forms/Form";
 import FormField from "../../components/forms/FormField";
 import SubmitButton from "../../components/forms/SubmitButton";
 import defaultStyles from "../../config/styles";
-import api from "../../helpers/axios";
 import { registerUser } from "./authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import MessagePopUpModal from "../../components/MessagePopUpModal";
+import { toggleShowInvalidCredentialsModal } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().min(3).label("First Name"),
@@ -45,12 +36,17 @@ const validationSchema = Yup.object().shape({
 function RegisterScreen({ navigation }) {
   const dispatch = useDispatch();
 
-  // const successMsg = useSelector((state) => state.authSlice.successMsg);
+  const status = useSelector((state) => state.authSlice.status);
+
+  useEffect(() => {
+    if (status === "success") dispatch(toggleShowInvalidCredentialsModal(true));
+  }, [status]);
 
   const register = (values) => {
     delete values.confirmPassword; // Remove the confirmPassword field from the set of user input values
     dispatch(registerUser(values));
   };
+
   return (
     <Screen>
       <KeyboardAwareScrollView>
@@ -142,6 +138,7 @@ function RegisterScreen({ navigation }) {
             <Text style={defaultStyles.link}>Register Your Restaurant Here</Text>
           </Pressable>
         </View>
+        <MessagePopUpModal parent="RegisterScreen"/>
       </KeyboardAwareScrollView>
     </Screen>
   );

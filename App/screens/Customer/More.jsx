@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, FlatList } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -8,7 +8,8 @@ import AppButton from "../../components/AppButton";
 import ListItem from "../../components/ListItem";
 import Icon from "../../components/Icon";
 import { logout } from "../Public/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "./customerSlice";
 
 const buttonItems = [
   {
@@ -31,6 +32,12 @@ const buttonItems = [
 
 const More = ({ navigation }) => {
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.customerSlice.user);
+
+  useEffect(() => {
+    dispatch(getUserDetails());
+  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
