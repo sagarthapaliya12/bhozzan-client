@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   ScrollView,
+  Linking,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -52,29 +53,41 @@ const RestaurantProfile = () => {
     dispatch(getRestaurantDetails(restaurantId));
   }, []);
 
+  const handleFeatures = (index) => {
+    index == 1 && Linking.openURL(`tel:${restaurantDetail.primaryPhoneNumber}`); //only works for android
+    index == 4 &&
+      Linking.openURL(`https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley`);
+  };
+
   return (
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <View>
           <Image style={styles.profilePicture} source={pizzaHut} />
         </View>
-
-        <Text style={styles.title}>{restaurantDetail.name}</Text>
-        <View style={styles.location}>
-          <Entypo name="location-pin" size={24} color={colors.white} />
-          <Text style={styles.locationText}>{restaurantDetail.address}</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.title}>{restaurantDetail.name}</Text>
+          <View style={styles.location}>
+            <Entypo name="location-pin" size={24} color={colors.white} />
+            <Text style={styles.locationText}>{restaurantDetail.address}</Text>
+          </View>
+          <Text style={styles.descriptionText}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation...
+          </Text>
         </View>
-        <Text style={styles.descriptionText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation...
-        </Text>
 
         <View style={styles.actions}>
           {ActionItems.map((item) => {
             return (
-              <TouchableHighlight key={item.id} style={styles.iconContainer}>
+              <TouchableOpacity
+                key={item.id}
+                style={styles.iconContainer}
+                onPress={() => handleFeatures(item.id)}
+              >
                 {item.icon}
-              </TouchableHighlight>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -104,6 +117,12 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
+    marginTop: 15,
+    marginBottom: 5,
+  },
+  infoContainer: {
+    paddingHorizontal: 15,
+    alignItems: "center",
   },
   title: {
     fontSize: 25,
@@ -111,6 +130,7 @@ const styles = StyleSheet.create({
   },
   location: {
     flexDirection: "row",
+    alignItems: "center",
   },
   locationText: {
     color: colors.white,
@@ -134,6 +154,7 @@ const styles = StyleSheet.create({
   },
   delivery: {
     alignItems: "center",
-    margin: 20,
+    marginTop: 10,
+    marginBottom: 20,
   },
 });

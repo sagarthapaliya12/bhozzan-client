@@ -28,7 +28,7 @@ const customerSlice = createSlice({
       .addCase(getUserDetails.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         console.log("Slice Test: ", action.payload);
-        state.user = action.payload;
+        state.user = action.payload.user;
       })
       .addCase(getUserDetails.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;

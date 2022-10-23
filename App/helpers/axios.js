@@ -1,9 +1,7 @@
 import axios from "react-native-axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SERVER_BASE_URL } from "@env";
 
-// SERVER_BASE_URL = "http://192.168.18.8:7000"
-
-// DO NOT REMOVE THIS COMMENT, the fetching does not work when this line is removed
 const api = axios.create({
   baseURL: SERVER_BASE_URL,
   headers: {
@@ -11,20 +9,17 @@ const api = axios.create({
   },
 });
 
-// Run before sening any request
-// api.interceptors.request.use(
-//   (req) => {
-//     const user = JSON.stringify({
-//       token:
-//         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZU51bWJlciI6OTgyMTk1ODgyNSwiaWQiOiI2MzA2ZmRlN2MyZDFlODJiMmQ5MTkwM2EiLCJpYXQiOjE2NjI2MjU5NzYsImV4cCI6MTY2MzIzMDc3Nn0.U7ky0QCqzAG41ZsiFDs2yVtYSpQsf2jH-c7EnjodCuo",
-//     });
-//     if (user) {
-//       const { token } = JSON.parse(user);
-//       req.headers.common["Authorization"] = `Bearer ${token}`;
-//     }
-//     return req;
-//   },
-//   (error) => Promise.reject(error)
-// );
+//run before any http request
+api.interceptors.request.use(
+  async (req) => {
+    const user = await AsyncStorage.getItem("user");
+    if (user) {
+      const { token } = JSON.parse(user);
+      req.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+    return req;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default api;
