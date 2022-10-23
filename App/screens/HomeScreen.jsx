@@ -13,15 +13,7 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(getAllDishes());
-    test();
   }, []);
-
-  const test = async () => {
-    try {
-      // const user = await AsyncStorage.getItem("user");
-      // console.log("Test Async: ", JSON.parse({user}));
-    } catch (err) {}
-  };
 
   return (
     <View style={styles.container}>
