@@ -1,5 +1,5 @@
 import { View, StyleSheet, ScrollView } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import BrowseCategories from "../components/Customer/HomeScreen/BrowseCategories";
 import colors from "../config/colors";
 import React, { useEffect } from "react";
@@ -13,7 +13,15 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(getAllDishes());
+    test();
   }, []);
+
+  const test = async () => {
+    try {
+      // const user = await AsyncStorage.getItem("user");
+      // console.log("Test Async: ", JSON.parse({user}));
+    } catch (err) {}
+  };
 
   return (
     <View style={styles.container}>
