@@ -61,11 +61,11 @@ const TopRestaurants = ({ onPress }) => {
           key={item._id}
           style={styles.restaurantContainer}
           onPress={() => {
-            dispatch(setSearch(item._id))
+            dispatch(setSearch(item._id));
             navigation.navigate("RestaurantProfile");
           }}
         >
-          <View>
+          <View style={{ padding: 5 }}>
             <View style={styles.thumbnailContainer}>
               <Image style={styles.restaurantImage} source={kfcRestaurantThumbnail} />
             </View>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "700",
     margin: 10,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   restaurantContainer: {
     marginHorizontal: 20,

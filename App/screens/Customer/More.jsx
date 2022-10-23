@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, FlatList } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import AppText from "../../components/AppText";
 import AppButton from "../../components/AppButton";
@@ -34,6 +36,7 @@ const More = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.customerSlice.user);
+  console.log("User is: ", user);
 
   useEffect(() => {
     dispatch(getUserDetails());
@@ -51,11 +54,25 @@ const More = ({ navigation }) => {
 
       <View style={styles.info}>
         <Image source={require("../../assets/Avatar.jpg")} style={styles.avatar} />
-        <AppText style={{ color: "white" }}>Sabin Karki</AppText>
+        <AppText style={{ color: "white" }}>{`${user.firstName} ${user.lastName}`}</AppText>
 
         <View style={styles.details}>
-          <MaterialCommunityIcons name="email" size={30} color="white" />
-          <AppText style={{ color: "white", marginLeft: 10 }}>sth@gmail.com</AppText>
+          <Ionicons name="call" size={24} color="white" />
+          <AppText style={{ color: "white", marginLeft: 10 }}>{user.phoneNumber}</AppText>
+        </View>
+
+        <View style={styles.details}>
+          <MaterialIcons name="location-city" size={24} color="white" />
+          <AppText style={{ color: "white", marginLeft: 10, marginBottom: 20 }}>
+            {user.address}
+          </AppText>
+        </View>
+
+        <View style={styles.details}>
+          <AntDesign name="star" size={24} color="gold" />
+          <AppText style={{ color: "white", marginLeft: 10, color: "gold" }}>
+            Reward Pts: {user.rewardPoints}
+          </AppText>
         </View>
 
         <View style={styles.editBtn}>
@@ -68,10 +85,6 @@ const More = ({ navigation }) => {
         </View>
 
         <View style={styles.bottomContainer}>
-          {/* <View style={styles.buttons}>
-            <View></View>
-            
-          </View> */}
           <FlatList
             data={buttonItems}
             keyExtractor={(item) => item.id}
@@ -116,13 +129,12 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: "green",
   },
   avatar: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    // top: 80,
+    marginBottom: 10,
   },
   details: {
     flexDirection: "row",

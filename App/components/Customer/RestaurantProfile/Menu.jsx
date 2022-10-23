@@ -14,7 +14,7 @@ const Menu = () => {
   const restaurantId = useSelector((state) => state.restaurantSlice.search);
 
   const dishes = useSelector((state) => state.restaurantSlice.dishes);
-  console.log("Dishes: ", dishes);
+  // console.log("Dishes: ", dishes);
 
   useEffect(() => {
     dispatch(getDishesByRestaurantId(restaurantId));
@@ -99,7 +99,7 @@ const Menu = () => {
   //   filteredMenu = separateCategories(dishes);
   // }, [dishes]);
 
-  console.log("nn", filteredMenu);
+  // console.log("nn", filteredMenu);
 
   const [noOfItem, setNoOfItem] = useState(0);
 
@@ -136,7 +136,7 @@ const Menu = () => {
                   <Text style={{ color: colors.gray, fontSize: 18 }}>{food.name}</Text>
                   <View style={styles.priceCart}>
                     <View>
-                      <Text style={{ color: colors.primary, fontSize: 20 }}>
+                      <Text style={{ color: colors.secondary, fontSize: 20 }}>
                         Rs.&nbsp;{food.price}
                       </Text>
                     </View>
