@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, TouchableHighlight, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
@@ -11,19 +11,21 @@ import defaultStyles from "../../config/styles";
 import api from "../../helpers/axios";
 import colors from "../../config/colors";
 import SubmitButton from "../../components/forms/SubmitButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerRestaurant } from "./authSlice";
+import MessagePopUpModal from "../../components/MessagePopUpModal";
+import { toggleShowInformationModal } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(3).label("Restaurant Name"),
-  
+
   primaryPhoneNumber: Yup.string()
-  .phone("NP", true, "${path} is invalid")
-  .required()
-  .label("Phone Number"),
-  
+    .phone("NP", true, "${path} is invalid")
+    .required()
+    .label("Phone Number"),
+
   phoneNumbers: Yup.string().min(10).max(23).label("Secondary Contact"),
-  
+
   address: Yup.string().required().min(4).label("Location"),
 
   PAN: Yup.string().required().min(9).label("Pan/Vat No."),
@@ -31,6 +33,12 @@ const validationSchema = Yup.object().shape({
 
 const RestaurantSignup = ({ navigation }) => {
   const dispatch = useDispatch();
+
+  const status = useSelector((state) => state.authSlice.status);
+
+  useEffect(() => {
+    if (status === "success") dispatch(toggleShowInformationModal(true));
+  }, [status]);
 
   const handleSubmit = (values) => {
     dispatch(registerRestaurant(values));
@@ -71,18 +79,13 @@ const RestaurantSignup = ({ navigation }) => {
                 name="phoneNumbers"
                 placeholder="Secondary Contact"
               />
-              <FormField autoCorrect={false} icon="city"
-              name="address" placeholder="Address" />
-              <FormField
-                autoCorrect={false}
-                icon="file"
-                name="PAN"
-                placeholder="PAN/VAT No."
-              />
+              <FormField autoCorrect={false} icon="city" name="address" placeholder="Address" />
+              <FormField autoCorrect={false} icon="file" name="PAN" placeholder="PAN/VAT No." />
               <SubmitButton title="Register" />
             </Form>
           </View>
         </View>
+        <MessagePopUpModal parent="RegisterRestaurantScreen"/>
       </KeyboardAwareScrollView>
     </Screen>
   );

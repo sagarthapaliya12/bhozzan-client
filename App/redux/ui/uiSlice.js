@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  showInvalidCredentialsModal: false,
+  showInformationModal: false,
 };
 
 const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    toggleShowInvalidCredentialsModal: (state, action) => {
-      state.showInvalidCredentialsModal = action.payload;
+    toggleShowInformationModal: (state, action) => {
+      state.showInformationModal = action.payload;
     },
   },
 });
 
-export const { toggleShowInvalidCredentialsModal } = uiSlice.actions;
+export const { toggleShowInformationModal } = uiSlice.actions;
 export default uiSlice.reducer;

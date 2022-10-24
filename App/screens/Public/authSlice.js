@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authAPI";
 import StatusStateEnum from "../../enums/statusEnum";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UserRoleEnum = {
   CUSTOMER: "customer",
@@ -9,6 +10,7 @@ export const UserRoleEnum = {
 };
 
 // const user = JSON.parse(localStorage.getItem("user"));
+// const user = AsyncStorage.getItem("user");
 
 const initialState = {
   // user: user ? user : null,
@@ -37,6 +39,9 @@ const authSlice = createSlice({
     reset: () => initialState,
     logout: (state, _action) => {
       state.user = null;
+    },
+    resetStatus: (state) => {
+      state.status = StatusStateEnum.IDLE;
     },
   },
   extraReducers: (builder) => {
@@ -74,6 +79,7 @@ const authSlice = createSlice({
       .addCase(registerRestaurant.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         state.successMsg = action.payload.message;
+        console.log(state.status, state.successMsg);
       })
       .addCase(registerRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
@@ -82,5 +88,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { reset, logout } = authSlice.actions;
+export const { reset, logout, resetStatus } = authSlice.actions;
 export default authSlice.reducer;

@@ -20,9 +20,9 @@ import SubmitButton from "../../components/forms/SubmitButton";
 import AppButton from "../../components/AppButton";
 import defaultStyles from "../../config/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "./authSlice";
+import { loginUser, resetStatus } from "./authSlice";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
-import { toggleShowInvalidCredentialsModal } from "../../redux/ui/uiSlice";
+import { toggleShowInformationModal } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -48,7 +48,7 @@ function LoginScreen({ navigation }) {
   const status = useSelector((state) => state.authSlice.status);
 
   useEffect(() => {
-    if (status === "failed") dispatch(toggleShowInvalidCredentialsModal(true));
+    if (status === "failed") dispatch(toggleShowInformationModal(true));
   }, [status]);
 
   return (
