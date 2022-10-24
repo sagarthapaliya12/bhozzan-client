@@ -23,6 +23,7 @@ const RestaurantTab = () => (
       tabBarStyle: {
         backgroundColor: "#1D2227",
       },
+      tabBarHideOnKeyboard: true,
       headerTintColor: colors.white,
       headerTitleAlign: "center",
       headerStatusBarHeight: 10,

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, Text, StyleSheet, TouchableHighlight, Pressable } from "react-native";
+import React from "react";
+import { View, Image, StyleSheet, TouchableHighlight, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 import "yup-phone";
@@ -48,6 +48,9 @@ const RestaurantSignup = ({ navigation }) => {
     <Screen>
       <KeyboardAwareScrollView>
         <View style={styles.container}>
+        <View style={styles.logoContainer}>
+            <Image source={require("../../assets/App-Logo.png")} style={styles.logo}></Image>
+          </View>
           <View style={styles.formContainer}>
             <Form
               initialValues={{
@@ -100,7 +103,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
-
+  logoContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   logo: {
     width: 100,
     height: 100,
@@ -111,7 +118,7 @@ const styles = StyleSheet.create({
   formContainer: {
     display: "flex",
     width: "90%",
-    marginVertical: 80,
+    marginVertical: 60,
   },
 
   text: {
