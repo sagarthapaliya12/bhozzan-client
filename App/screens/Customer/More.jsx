@@ -1,36 +1,38 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Image, TouchableOpacity, FlatList } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+
 import colors from "../../config/colors";
 import AppText from "../../components/AppText";
 import AppButton from "../../components/AppButton";
 import ListItem from "../../components/ListItem";
 import Icon from "../../components/Icon";
+
 import { logout } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "./customerSlice";
 
-const buttonItems = [
-  {
-    id: 1,
-    title: "Order History",
-    icons: {
-      name: "login",
-      backgroundColor: "#000",
-    },
-  },
-  {
-    id: 2,
-    title: "My Favorites",
-    icons: {
-      name: "login",
-      backgroundColor: "#fff",
-    },
-  },
-];
+// const buttonItems = [
+//   {
+//     id: 1,
+//     title: "Order History",
+//     icons: {
+//       name: "login",
+//       backgroundColor: "#000",
+//     },
+//   },
+//   {
+//     id: 2,
+//     title: "My Favorites",
+//     icons: {
+//       name: "login",
+//       backgroundColor: "#fff",
+//     },
+//   },
+// ];
 
 const More = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -85,28 +87,29 @@ const More = ({ navigation }) => {
         </View>
 
         <View style={styles.bottomContainer}>
-          <FlatList
-            data={buttonItems}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <ListItem
-                title={item.title}
-                // iconComponent={
-                // 	<Icon
-                // 		name={item.icons.name}
-                // 		backgroundColor={item.icons.backgroundColor}
-                // 	/>
-                // }
-                onPress={() => {
-                  item.id === 1 && navigation.navigate("OrderHistory");
-                  item.id === 2 && navigation.navigate("EditProfile");
-                }}
-              />
-            )}
-            ItemSeparatorComponent={() => (
-              <View style={{ width: "100%", height: 1, backgroundColor: "#c5cdd9" }} />
-            )}
-          />
+          <Pressable
+            style={styles.bottomRow}
+            android_ripple={{ color: colors.lightGray, borderless: true }}
+            onPress={() => navigation.navigate("OrderHistory")}
+          >
+            <MaterialCommunityIcons name="history" size={24} color="black" />
+            <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
+              Order History
+            </Text>
+          </Pressable>              
+        </View>
+
+        <View style={styles.bottomContainerSecond}>
+          <Pressable
+            style={styles.bottomRow}
+            android_ripple={{ color: colors.lightGray, borderless: true }}
+            onPress={() => navigation.navigate("FavoritesScreen")}
+          >
+            <AntDesign name="heart" size={24} color="black" />
+            <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
+              My Favorites
+            </Text>
+          </Pressable>              
         </View>
       </View>
     </View>
@@ -145,10 +148,25 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   bottomContainer: {
-    width: "85%",
-    marginVertical: 60,
-    color: colors.white,
+    width: "80%",
+    marginTop: 60,
+    backgroundColor: colors.primary,
+    borderRadius: 50,
+    overflow: 'hidden',
   },
+  bottomContainerSecond: {
+    width: "80%",
+    marginTop: 10,
+    backgroundColor: colors.primary,
+    borderRadius: 50,
+    overflow: 'hidden',
+  },
+  bottomRow: {
+    width: "100%",
+    flexDirection: "row",  
+    padding: 15,
+  },
+
 });
 
 export default More;
