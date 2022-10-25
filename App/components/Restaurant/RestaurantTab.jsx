@@ -17,6 +17,7 @@ const Tab = createBottomTabNavigator();
 const RestaurantTab = () => (
   <Tab.Navigator
     screenOptions={{
+      // headerShown: false,
       headerStyle: {
         backgroundColor: colors.screen,        
       },
@@ -44,6 +45,7 @@ const RestaurantTab = () => (
       name="Menu"
       component={MenuNavigator}
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="menu-book" size={size} color={color} />
         ),
@@ -74,6 +76,7 @@ const RestaurantTab = () => (
       name="Profile"
       component={ProfileNavigator}
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account" color={color} size={size} />
         ),

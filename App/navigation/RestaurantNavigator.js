@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import colors from "../config/colors";
 import RestaurantProfile from "../screens/Restaurant/RestaurantProfile";
 import EditProfile from "../screens/Restaurant/EditProfile";
 import Menu from "../screens/Restaurant/Menu";
@@ -23,28 +24,48 @@ const DashboardNavigator = () => (
 
 const MenuNavigator = () => (
   <Stack.Navigator
-    presentation="modal"
-    screenOptions={{
-      headerShown: false,
-      animationDuration: 800,
-    }}
+  // presentation="modal"
+  // screenOptions={{
+  //   headerShown: false,
+  //   animationDuration: 800,
+  // }}
   >
-    <Stack.Screen name="Feed" component={Menu} />
-    <Stack.Screen name="AddMenu" component={AddMenu} />
+    <Stack.Screen name="Feed" component={Menu} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="AddMenu"
+      component={AddMenu}
+      options={{
+        title: "Edit Profile",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
     <Stack.Screen name="EditMenu" component={EditMenu} />
   </Stack.Navigator>
 );
 
 const ProfileNavigator = () => (
   <Stack.Navigator
-    presentation="modal"
-    screenOptions={{
-      headerShown: false,
-      animationDuration: 800,
-    }}
+  // presentation="modal"
+  // screenOptions={{
+  //   headerShown: false,
+  //   animationDuration: 800,
+  // }}
   >
-    <Stack.Screen name="Feed" component={RestaurantProfile} />
-    <Stack.Screen name="EditProfile" component={EditProfile} />
+    <Stack.Screen name="Feed" component={RestaurantProfile} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="EditProfile"
+      component={EditProfile}
+      options={{
+        title: "Edit Profile",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
   </Stack.Navigator>
 );
 

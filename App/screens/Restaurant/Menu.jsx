@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableHighlight, Dimensions, ScrollView } fr
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
+import Constants from 'expo-constants';
 
 import colors from "../../config/colors";
 import separateCategories from "../../utils/separateCategories";
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.screen,
+    paddingTop: Constants.statusBarHeight,
   },
   menuContainer: {
     // backgroundColor: colors.screen,

@@ -1,5 +1,6 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import Constants from 'expo-constants';
 
 import { React, useState } from "react";
 import colors from "../../../config/colors";
@@ -59,6 +60,8 @@ export default function SearchBar(props) {
 const styles = StyleSheet.create({
   container: {
     margin: 10,
+    // marginTop: 40,       
+     paddingTop: Constants.statusBarHeight, 
     flexDirection: "row",
   },
   input: {
@@ -71,7 +74,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    top: 12,
+    // 
+    marginTop: 40,
     right: 20,
     color: colors.darkGray,
   },

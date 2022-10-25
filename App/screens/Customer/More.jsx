@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity, Pressable } from "react-native";
+import Constants from 'expo-constants';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -119,13 +120,14 @@ const More = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: Constants.statusBarHeight,
     backgroundColor: "#161B22",
   },
 
   logout: {
     position: "absolute",
-    right: 10,
-    top: 10,
+    right: 20,
+    top: 40,
   },
   info: {
     marginVertical: 60,
