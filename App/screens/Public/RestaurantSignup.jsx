@@ -41,7 +41,7 @@ const RestaurantSignup = ({ navigation }) => {
       <KeyboardAwareScrollView>
         <View style={styles.container}>
         <View style={styles.logoContainer}>
-            <Image source={require("../../assets/App-Logo.png")} style={styles.logo}></Image>
+            <Image source={require("../../assets/App-Logos.png")} style={styles.logo}></Image>
             <Text style={{color: "#fff", marginTop: 25}}>Grow Your Business With Bhozzan</Text>
           </View>
           <View style={styles.formContainer}>

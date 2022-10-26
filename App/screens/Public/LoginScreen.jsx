@@ -57,7 +57,7 @@ function LoginScreen({ navigation }) {
     <Screen>
       <KeyboardAwareScrollView contentContainerStyle={styles.screenContainer}>
         <View style={styles.logoContainer}>
-          <Image source={require("../../assets/App-Logo.png")} style={styles.logo}></Image>
+          <Image source={require("../../assets/App-Logos.png")} style={styles.logo}></Image>
         </View>
 
         <View style={styles.formContainer}>

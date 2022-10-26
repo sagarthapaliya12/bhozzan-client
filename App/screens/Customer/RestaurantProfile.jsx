@@ -14,6 +14,8 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+
+import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import Menu from "../../components/Customer/RestaurantProfile/Menu";
@@ -60,7 +62,8 @@ const RestaurantProfile = () => {
   };
 
   return (
-    <ScrollView>
+    <Screen>
+<ScrollView>
       <SafeAreaView style={styles.container}>
         <View>
           <Image style={styles.profilePicture} source={pizzaHut} />
@@ -102,6 +105,8 @@ const RestaurantProfile = () => {
         </View>
       </SafeAreaView>
     </ScrollView>
+    </Screen>
+    
   );
 };
 
