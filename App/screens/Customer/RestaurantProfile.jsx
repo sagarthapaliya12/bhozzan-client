@@ -14,7 +14,6 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
@@ -24,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addFavoriteRestaurant } from "./customerSlice";
 import SnackbarMessage from "../../components/SnackbarMessage";
+import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
 
 const { height, width } = Dimensions.get("window");
 
@@ -59,58 +59,65 @@ const RestaurantProfile = () => {
 
   const handleFeatures = (index) => {
     index === 1 && Linking.openURL(`tel:${restaurantDetail.primaryPhoneNumber}`); //only works for android
-    index === 2 && dispatch(addFavoriteRestaurant(restaurantId));
+    index === 2 && addFavourite();
     index === 4 &&
       Linking.openURL(`https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley`);
   };
 
+  const addFavourite = () => {
+    try {
+      dispatch(addFavoriteRestaurant(restaurantId));
+      dispatch(toggleShowSnackbar(true));
+    } catch (err) {}
+    dispatch(toggleShowSnackbar(false));
+  };
+
   return (
     <Screen>
-<ScrollView>
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Image style={styles.profilePicture} source={pizzaHut} />
-        </View>
-        <View style={styles.infoContainer}>
-          <Text style={styles.title}>{restaurantDetail.name}</Text>
-          <View style={styles.location}>
-            <Entypo name="location-pin" size={24} color={colors.white} />
-            <Text style={styles.locationText}>{restaurantDetail.address}</Text>
+      <ScrollView>
+        <SafeAreaView style={styles.container}>
+          <View>
+            <Image style={styles.profilePicture} source={pizzaHut} />
           </View>
-          <Text style={styles.descriptionText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation...
-          </Text>
-        </View>
+          <View style={styles.infoContainer}>
+            <Text style={styles.title}>{restaurantDetail.name}</Text>
+            <View style={styles.location}>
+              <Entypo name="location-pin" size={24} color={colors.white} />
+              <Text style={styles.locationText}>{restaurantDetail.address}</Text>
+            </View>
+            <Text style={styles.descriptionText}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation...
+            </Text>
+          </View>
 
-        <View style={styles.actions}>
-          {ActionItems.map((item) => {
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.iconContainer}
-                onPress={() => handleFeatures(item.id)}
-              >
-                {item.icon}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+          <View style={styles.actions}>
+            {ActionItems.map((item) => {
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.iconContainer}
+                  onPress={() => handleFeatures(item.id)}
+                >
+                  {item.icon}
+                </TouchableOpacity>
+              );
+            })}
+          </View>
 
-        <View style={styles.delivery}>
-          <Text style={{ color: "green" }}>DELIVERY HOURS</Text>
-          <Text style={{ color: colors.white }}>10:00 AM -12:00 PM</Text>
-        </View>
+          <View style={styles.delivery}>
+            <Text style={{ color: "green" }}>DELIVERY HOURS</Text>
+            <Text style={{ color: colors.white }}>10:00 AM -12:00 PM</Text>
+          </View>
 
-        <View>
-          <Menu />
-        </View>
-        {/* <SnackbarMessage /> */}
-      </SafeAreaView>
-    </ScrollView>
+          <View>
+            <Menu />
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+      <SnackbarMessage />
     </Screen>
-    
   );
 };
 

@@ -3,13 +3,17 @@ import { View, Text, StyleSheet } from "react-native";
 import { Button, Snackbar } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../config/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleShowSnackbar } from "../redux/ui/uiSlice";
 
 const SnackbarMessage = () => {
-  const [visible, setVisible] = useState(true);
+  const dispatch = useDispatch();
 
-  const onToggleSnackBar = () => setVisible(!visible);
+  const visible = useSelector((state) => state.uiSlice.showSnackbar);
 
-  const onDismissSnackBar = () => setVisible(false);
+  const onDismissSnackBar = () => {
+    dispatch(toggleShowSnackbar(false));
+  };
 
   return (
     <Snackbar
@@ -20,9 +24,9 @@ const SnackbarMessage = () => {
         color: "red",
         borderRadius: 40,
         width: "100%",
-        // display: "flex",
-        // alignItems: "center",
-        // justifyContent: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         position: "absolute",
         zIndex: 10000,
         bottom: 20,

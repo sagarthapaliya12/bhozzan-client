@@ -20,8 +20,12 @@ export const getRestaurantDetails = createAsyncThunk("restaurant", async (restau
   customerService.getRestaurantDetails(restaurantId)
 );
 
-export const addFavoriteRestaurant = createAsyncThunk("user/favorite", async (restaurantId) =>
+export const addFavoriteRestaurant = createAsyncThunk("user/addFavorite", async (restaurantId) =>
   customerService.addFavoriteRestaurant(restaurantId)
+);
+
+export const getFavoriteRestaurant = createAsyncThunk("user/getFavorite", async () =>
+  customerService.getFavoriteRestaurant()
 );
 
 const customerSlice = createSlice({
@@ -70,6 +74,19 @@ const customerSlice = createSlice({
         state.favoriteRestaurants.push(action.payload);
       })
       .addCase(addFavoriteRestaurant.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      //Get Favourite Restaurant
+      .addCase(getFavoriteRestaurant.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getFavoriteRestaurant.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.favoriteRestaurants = action.payload.favoriteRestaurants;
+      })
+      .addCase(getFavoriteRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       });

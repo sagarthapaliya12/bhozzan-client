@@ -27,10 +27,30 @@ const addFavoriteRestaurant = async (restaurantId) => {
   }
 };
 
+const getFavoriteRestaurant = async (restaurantId) => {
+  try {
+    const { data } = await api.get(`/user/favorite`);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
+const removeFavoriteRestaurant = async (restaurantId) => {
+  try {
+    const { data } = await api.delete(`/user/favorite/${restaurantId}`);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
 const customerService = {
   getUserDetails,
   getRestaurantDetails,
   addFavoriteRestaurant,
+  getFavoriteRestaurant,
+  removeFavoriteRestaurant
 };
 
 export default customerService;

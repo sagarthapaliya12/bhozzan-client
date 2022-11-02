@@ -75,7 +75,7 @@ const More = () => {
         <View style={styles.details}>
           <AntDesign name="star" size={24} color="gold" />
           <AppText style={{ color: "white", marginLeft: 10, color: "gold" }}>
-            Reward Pts: {user.rewardPoints}
+            Reward Points: {user.rewardPoints}
           </AppText>
         </View>
 

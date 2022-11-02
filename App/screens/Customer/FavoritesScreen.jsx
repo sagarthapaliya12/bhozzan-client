@@ -16,13 +16,28 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Restaurants from "../../components/Restaurant/Restaurants";
+import { useEffect } from "react";
+import { getFavoriteRestaurant, setSearch } from "./customerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
-const FavoritesScreen = ({ navigation }) => {
+const FavoritesScreen = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const restaurant = useSelector((state) => state.customerSlice.favoriteRestaurants);
+  console.log("Check: ", restaurant);
+
+  useEffect(() => {
+    dispatch(getFavoriteRestaurant());
+  }, []);
+
   const [listData, setListData] = useState(
-    Restaurants.map((RestaurantList, index) => ({
+    restaurant.map((RestaurantList, index) => ({
       key: `${index}`,
+      id: RestaurantList._id,
       name: RestaurantList.name,
-      location: RestaurantList.location,
+      location: RestaurantList.address,
       profile: RestaurantList.profile,
     }))
   );
@@ -58,7 +73,10 @@ const FavoritesScreen = ({ navigation }) => {
       <Animated.View style={[styles.rowFront, { height: rowHeightAnimatedValue }]}>
         <TouchableHighlight
           style={styles.rowFrontVisible}
-          onPress={() => navigation.navigate("RestaurantProfile")}
+          onPress={() => {
+            dispatch(setSearch(data.item.id));
+            navigation.navigate("RestaurantProfile");
+          }}
           // underlayColor={"#aaa"}
         >
           <View style={styles.mainContainer}>
@@ -97,15 +115,15 @@ const FavoritesScreen = ({ navigation }) => {
   const HiddenItemWithActions = (props) => {
     const {
       swipeAnimatedValue,
-      leftActionActivated,      
+      leftActionActivated,
       rowActionAnimatedValue,
-      rowHeightAnimatedValue,      
+      rowHeightAnimatedValue,
       onClose,
       onDelete,
-    } = props; 
+    } = props;
 
     return (
-      <Animated.View style={[styles.rowBack, { height: rowHeightAnimatedValue }]}>           
+      <Animated.View style={[styles.rowBack, { height: rowHeightAnimatedValue }]}>
         {!leftActionActivated && (
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
@@ -262,7 +280,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: 75,
-    height:80,
+    height: 80,
     paddingRight: 17,
   },
   backRightBtnLeft: {
