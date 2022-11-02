@@ -18,65 +18,6 @@ const BrowseCategory = () => {
     dispatch(getDishesByCategory(categoryState));
   }, []);
 
-  const Bakery = [
-    {
-      id: 1,
-      title: "Cheese Cake",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "600",
-    },
-    {
-      id: 2,
-      title: "Pastry",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "500",
-    },
-    {
-      id: 3,
-      title: "Butter Cookies",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "850",
-    },
-    {
-      id: 4,
-      title: "Croissant",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "110",
-    },
-    {
-      id: 5,
-      title: "Cream Pie",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "130",
-    },
-    {
-      id: 6,
-      title: "Blueberry Muffin",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "150",
-    },
-    {
-      id: 7,
-      title: "Vanilla Cake",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "150",
-    },
-    {
-      id: 8,
-      title: "Red Muffin",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "150",
-    },
-  ];
-
   const [noOfItem, setNoOfItem] = useState(0);
 
   const incrementCount = () => {

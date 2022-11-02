@@ -9,7 +9,6 @@ import Chat from "../../screens/Chat";
 import Dashboard from '../../screens/Restaurant/Dashboard';
 import Menu from "../../screens/Restaurant/Menu";
 import TableSelect from "../../screens/Restaurant/TableSelect";
-// import RestaurantProfile from './../../screens/Restaurant/RestaurantProfile';
 import { ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
 
 const Tab = createBottomTabNavigator();

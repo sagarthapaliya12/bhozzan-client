@@ -44,7 +44,6 @@ const RestaurantProfile = ({ navigation }) => {
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
   const restaurantUser = useSelector((state) => state.restaurantSlice.restaurantUser);
-  console.log("User: ", restaurantUser);
 
   useEffect(() => {
     dispatch(getRestaurantUserId());
