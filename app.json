@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "bhozzan-client",
-    "slug": "bhozzan-client",
+    "name": "Bhozzan",
+    "slug": "bhozzan",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./App/assets/App-Logo.png",
+    "icon": "./App/assets/App-Logos.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./App/assets/splash.png",
+      "image": "./App/assets/App-Logos.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,6 +21,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package":"apkpure.Bhozzan",
       "adaptiveIcon": {
         "foregroundImage": "./App/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

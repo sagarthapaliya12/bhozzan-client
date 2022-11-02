@@ -13,6 +13,8 @@ import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import Constants from 'expo-constants';
+
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import TableList from "../../components/Restaurant/TableList";
@@ -116,6 +118,7 @@ export default RestaurantProfile;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.screen,
+    paddingTop: Constants.statusBarHeight, 
     flex: 1,
     paddingHorizontal: 20,
   },

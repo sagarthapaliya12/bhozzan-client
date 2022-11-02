@@ -35,10 +35,9 @@ const EditProfile = () => {
 
     console.log(data);
   };
-  return (
-    <Screen>
-      <KeyboardAwareScrollView>
-        <View style={styles.container}>
+  return (    
+      <KeyboardAwareScrollView  style={styles.container}>
+        <View>
           <View style={styles.formContainer}>
             <Form
               initialValues={{
@@ -102,8 +101,7 @@ const EditProfile = () => {
             </Form>
           </View>
         </View>
-      </KeyboardAwareScrollView>
-    </Screen>
+      </KeyboardAwareScrollView>    
   );
 };
 
@@ -113,7 +111,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: defaultStyles.colors.screen,
-    alignItems: "center",
+    // alignItems: "center",
+    // marginTop: 50,    
     padding: 20,
   },
 
@@ -128,6 +127,7 @@ const styles = StyleSheet.create({
     display: "flex",
     width: "90%",
     marginVertical: 40,
+    marginHorizontal: 20,    
   },
 
   text: {

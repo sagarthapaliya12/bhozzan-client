@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, TouchableHighlight, Pressable } from "react-native";
+import { View, Image, Text, StyleSheet, TouchableHighlight, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 import "yup-phone";
@@ -26,7 +26,7 @@ const validationSchema = Yup.object().shape({
   
   address: Yup.string().required().min(4).label("Location"),
 
-  PAN: Yup.string().required().min(9).label("Pan/Vat No."),
+  PAN: Yup.number().positive().required().min(9).label("Pan/Vat No."),
 });
 
 const RestaurantSignup = ({ navigation }) => {
@@ -41,7 +41,8 @@ const RestaurantSignup = ({ navigation }) => {
       <KeyboardAwareScrollView>
         <View style={styles.container}>
         <View style={styles.logoContainer}>
-            <Image source={require("../../assets/App-Logo.png")} style={styles.logo}></Image>
+            <Image source={require("../../assets/App-Logos.png")} style={styles.logo}></Image>
+            <Text style={{color: "#fff", marginTop: 25}}>Grow Your Business With Bhozzan</Text>
           </View>
           <View style={styles.formContainer}>
             <Form
@@ -100,8 +101,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
-  logoContainer: {
+  logoContainer: {    
+    height: 200,
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
   },

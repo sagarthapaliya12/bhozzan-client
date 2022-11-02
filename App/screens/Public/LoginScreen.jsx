@@ -28,7 +28,9 @@ const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .phone("NP", true, "${path} is invalid")
     .required()
+    .max(10)
     .label("Phone Number"),
+    
   password: Yup.string().required().min(4).label("Password"),
 });
 
@@ -55,7 +57,7 @@ function LoginScreen({ navigation }) {
     <Screen>
       <KeyboardAwareScrollView contentContainerStyle={styles.screenContainer}>
         <View style={styles.logoContainer}>
-          <Image source={require("../../assets/App-Logo.png")} style={styles.logo}></Image>
+          <Image source={require("../../assets/App-Logos.png")} style={styles.logo}></Image>
         </View>
 
         <View style={styles.formContainer}>
@@ -70,6 +72,7 @@ function LoginScreen({ navigation }) {
               name="phoneNumber"
               placeholder="Phone Number"
               textContentType="telephoneNumber"
+              keyboardType="number-pad"
             />
             <View>
               <FormField

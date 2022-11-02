@@ -15,7 +15,8 @@ const Tab = createBottomTabNavigator();
 
 const CustomerTab = () => (
   <Tab.Navigator
-    screenOptions={{
+    screenOptions={{   
+      // headerShown: false,   
       headerStyle: {
         backgroundColor: colors.screen, 
       },
@@ -33,6 +34,7 @@ const CustomerTab = () => (
       name="Home"
       component={HomeNavigator}
       options={{
+        headerShown:false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="home" color={color} size={size} />
         ),
@@ -73,6 +75,7 @@ const CustomerTab = () => (
       name="More"
       component={MoreNavigator}
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account" color={color} size={size} />
         ),
