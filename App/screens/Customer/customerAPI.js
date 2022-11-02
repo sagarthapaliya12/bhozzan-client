@@ -20,7 +20,6 @@ const getRestaurantDetails = async (restaurantId) => {
 
 const addFavoriteRestaurant = async (restaurantId) => {
   try {
-    console.log("Test: ", restaurantId)
     const { data } = await api.post(`/user/favorite/${restaurantId}`);
     return data;
   } catch (err) {

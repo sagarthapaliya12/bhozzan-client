@@ -97,7 +97,7 @@ const BrowseCategory = () => {
           <View key={item._id} style={styles.categoryItem}>
             <View style={styles.itemDetail}>
               <Text style={{ color: colors.gray, fontSize: 18 }}>{item.name}</Text>
-              <Text style={styles.restaurantName}>test{item.restaurantName}</Text>
+              <Text style={styles.restaurantName}>{item.restaurant.name}</Text>
               <View style={styles.locationContainer}>
                 <Entypo
                   name="location-pin"
@@ -105,7 +105,7 @@ const BrowseCategory = () => {
                   color={colors.primary}
                   style={{ fontSize: 20 }}
                 />
-                <Text style={styles.location}>test{item.location}</Text>
+                <Text style={styles.location}>{item.restaurant.address}</Text>
               </View>
             </View>
             <View style={styles.priceCart}>
