@@ -3,19 +3,25 @@ import fastFood from "../assets/categories/fast-food.png";
 import soup from "../assets/categories/soup.png";
 import salads from "../assets/categories/salads.png";
 import snacks from "../assets/categories/snacks.png";
+import momo from "../assets/categories/momo.png";
+import drinks from "../assets/categories/drinks.png";
+import noodles from "../assets/categories/noodles.png";
+import continental from "../assets/categories/continental.png";
+import pizza from "../assets/categories/pizza.png";
+import chef from "../assets/categories/chef.png";
 
 export default Categories = [
   {
     id: 1,
     title: "Momo",
     value: "momo",
-    img: snacks,
+    img: momo,
   },
   {
     id: 2,
     title: "Pizza",
     value: "pizza",
-    img: snacks,
+    img: pizza,
   },
   {
     id: 3,
@@ -51,24 +57,24 @@ export default Categories = [
     id: 8,
     title: "Drinks",
     value: "drinks",
-    img: snacks,
+    img: drinks,
   },
   {
     id: 9,
     title: "Continental",
     value: "continental",
-    img: snacks,
+    img: continental,
   },
   {
     id: 10,
     title: "Noodles",
     value: "noodles",
-    img: snacks,
+    img: noodles,
   },
   {
     id: 11,
     title: "Specials",
     value: "specials",
-    img: snacks,
+    img: chef,
   },
 ];
