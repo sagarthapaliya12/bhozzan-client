@@ -13,6 +13,7 @@ import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import * as Yup from "yup";
 import "yup-phone";
+import SubmitButton from "../../components/forms/SubmitButton";
 
 import Screen from "../../components/Screen";
 import Form from "../../components/forms/Form";
@@ -25,7 +26,7 @@ import Categories from "../../datas/categoriesList";
 const validationSchema = Yup.object().shape({
   foodName: Yup.string().required().min(3).label("Food Name"),
 
-  foodPrice: Yup.string().required().min(6).max(14).label("Food Price"),
+  foodPrice: Yup.number().required().max(5).label("Food Price"),
 });
 
 // const categories = [
@@ -48,6 +49,10 @@ const AddMenu = () => {
     setCategory(item);
   };
 
+  const addDish = (dish) => {
+    console.log("Dish Add: ", dish);
+  };
+
   return (
     <Screen>
       <KeyboardAwareScrollView>
@@ -55,29 +60,22 @@ const AddMenu = () => {
           <View style={styles.formContainer}>
             <Form
               initialValues={{
-                foodName: "",
-                foodPrice: "",
+                name: "",
+                price: "",
               }}
-              //   onSubmit={(values) => register(values)}
+              onSubmit={(dish) => addDish(dish)}
               validationSchema={validationSchema}
             >
               <Text style={styles.text}>Food Name:</Text>
-              <FormField
-                autoCorrect={false}
-                // icon="account"
-                // placeholder="Food Name"
-                name="foodName"
-                // value={}
-              />
+              <FormField autoCorrect={false} name="name" />
               <Text style={styles.text}>Price:</Text>
-              <FormField
-                autoCorrect={false}
-                // icon="lock"
-                // placeholder="Food Price"
-                name="foodPrice"
-              />
+              <FormField autoCorrect={false} name="price" />
               <Text style={styles.text}>Category:</Text>
-              <View value={category}>
+
+              {/*////////////////////////////////////////////////////*/}
+              {/*//////////////////// Dropdown //////////////////////*/}
+              {/*////////////////////////////////////////////////////*/}
+              <View value={category} style={{ alignItems: "center" }}>
                 <TouchableOpacity
                   style={styles.dropdown}
                   activeOpacity={0.8}
@@ -94,11 +92,20 @@ const AddMenu = () => {
                   />
                 </TouchableOpacity>
                 {showOption && (
-                  <View style={{ maxHeight: 150 }}>
-                    <ScrollView
-                      keyboardShouldPersistTaps="handled"
-                      // showsVerticalScrollIndicator={false}
-                    >
+                  <View
+                    style={{
+                      maxHeight: 150,
+                      width: "100%",
+                      bottom: 17,
+                      zIndex: -10,
+                      paddingTop: 17,
+                      paddingBottom: 17,
+                      backgroundColor: colors.gray,
+                      borderBottomLeftRadius: 20,
+                      borderBottomRightRadius: 20,
+                    }}
+                  >
+                    <ScrollView keyboardShouldPersistTaps="handled">
                       {Categories.map((val, i) => {
                         return (
                           <TouchableOpacity
@@ -119,11 +126,14 @@ const AddMenu = () => {
                   </View>
                 )}
               </View>
-              <Pressable style={styles.saveButton} onPress={() => console.log("Oh yah giggity")}>
+              <View style={{ marginTop: 15 }}>
+                <SubmitButton title="Add Dish" />
+              </View>
+              {/* <Pressable style={styles.saveButton} onPress={() => console.log("Oh yah giggity")}>
                 <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
                   Add Food
                 </Text>
-              </Pressable>
+              </Pressable> */}
             </Form>
           </View>
         </View>
@@ -159,24 +169,25 @@ const styles = StyleSheet.create({
     color: defaultStyles.colors.medium,
     fontSize: 18,
   },
-  saveButton: {
-    backgroundColor: colors.secondary,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    marginTop: 8,
-  },
+  // saveButton: {
+  //   backgroundColor: colors.secondary,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   borderRadius: 4,
+  //   paddingVertical: 12,
+  //   paddingHorizontal: 32,
+  //   marginTop: 8,
+  // },
   dropdown: {
     backgroundColor: colors.medium,
-    padding: 8,
-    // borderRadius: 6,
-
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    marginTop: 9,
+    width: "100%",
     minHeight: 42,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // marginBottom: 6,
   },
 });

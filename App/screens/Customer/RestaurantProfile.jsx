@@ -17,9 +17,11 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import Menu from "../../components/Customer/RestaurantProfile/Menu";
-import { getRestaurantDetails } from "../Restaurant/restaurantSlice";
+import { getRestaurantDetails } from "../Customer/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { addFavoriteRestaurant } from "./customerSlice";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const { height, width } = Dimensions.get("window");
 
@@ -45,17 +47,18 @@ const ActionItems = [
 const RestaurantProfile = () => {
   const dispatch = useDispatch();
 
-  const restaurantId = useSelector((state) => state.restaurantSlice.search);
+  const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
 
-  const restaurantDetail = useSelector((state) => state.restaurantSlice.restaurant);
+  const restaurantDetail = useSelector((state) => state.customerSlice.searchedRestaurantInfo);
 
   useEffect(() => {
     dispatch(getRestaurantDetails(restaurantId));
   }, []);
 
   const handleFeatures = (index) => {
-    index == 1 && Linking.openURL(`tel:${restaurantDetail.primaryPhoneNumber}`); //only works for android
-    index == 4 &&
+    index === 1 && Linking.openURL(`tel:${restaurantDetail.primaryPhoneNumber}`); //only works for android
+    index === 2 && dispatch(addFavoriteRestaurant(restaurantId));
+    index === 4 &&
       Linking.openURL(`https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley`);
   };
 
@@ -100,6 +103,7 @@ const RestaurantProfile = () => {
         <View>
           <Menu />
         </View>
+        {/* <SnackbarMessage /> */}
       </SafeAreaView>
     </ScrollView>
   );

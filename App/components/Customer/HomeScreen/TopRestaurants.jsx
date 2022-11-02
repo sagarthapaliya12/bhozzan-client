@@ -16,7 +16,8 @@ import kfcRestaurantThumbnail from "../../../assets/restaurants/kfc.jpg";
 import kfcRestaurantProfile from "../../../assets/restaurants/kfc-profile.png";
 import everestArirangKoreanRestaurantThumbnail from "../../../assets/restaurants/everest-arirang-korean-restaurant.jpg";
 import everestArirangKoreanRestaurant from "../../../assets/restaurants/kfc-profile.png";
-import { getAllRestaurants, setSearch } from "../../../screens/Restaurant/restaurantSlice";
+import { getAllRestaurants } from "../../../screens/Restaurant/restaurantSlice";
+import { setSearch } from "../../../screens/Customer/customerSlice";
 
 const { height, width } = Dimensions.get("window");
 
@@ -44,7 +45,7 @@ const Restaurants = [
   },
 ];
 
-const TopRestaurants = ({ onPress }) => {
+const TopRestaurants = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 

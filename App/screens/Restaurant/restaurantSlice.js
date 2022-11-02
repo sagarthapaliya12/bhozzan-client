@@ -3,11 +3,15 @@ import StatusStateEnum from "../../enums/statusEnum";
 import restaurantService from "./restaurantAPI";
 
 const initialState = {
+  restaurantUser: {},
+  restaurantUserId: null,
   restaurantList: [],
-  search: null,
-  restaurant: {},
+  search: null, //move this to  customer
+  // restaurant: {},
   dishes: [],
   allDishes: [],
+  categoryState: null,
+  categoryDish: [],
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
@@ -21,10 +25,22 @@ export const getRestaurantDetails = createAsyncThunk("restaurant", async (restau
   restaurantService.getRestaurantDetails(restaurantId)
 );
 
+export const getRestaurantUserId = createAsyncThunk("user/my-details", async () =>
+  restaurantService.getRestaurantUserId()
+);
+
 export const getAllDishes = createAsyncThunk("dish", async () => restaurantService.getAllDishes());
 
 export const getDishesByRestaurantId = createAsyncThunk("dish/restaurant", async (restaurantId) =>
   restaurantService.getDishesByRestaurantId(restaurantId)
+);
+
+export const getDishesByCategory = createAsyncThunk("dish/category", async (categoryName) =>
+  restaurantService.getDishesByCategory(categoryName)
+);
+
+export const addDish = createAsyncThunk("dish/add", async (dish) =>
+  restaurantService.addDish(dish)
 );
 
 const restaurantSlice = createSlice({
@@ -32,8 +48,11 @@ const restaurantSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
-    setSearch: (state, action) => {
-      state.search = action.payload;
+    // setSearch: (state, action) => {
+    //   state.search = action.payload;
+    // },
+    changeCategoryState: (state, action) => {
+      state.categoryState = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -57,9 +76,22 @@ const restaurantSlice = createSlice({
       })
       .addCase(getRestaurantDetails.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.restaurant = action.payload.restaurant;
+        state.restaurantUser = action.payload.restaurant;
       })
       .addCase(getRestaurantDetails.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      //Get Restaurant Id
+      .addCase(getRestaurantUserId.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getRestaurantUserId.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.restaurantUserId = action.payload;
+      })
+      .addCase(getRestaurantUserId.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       })
@@ -83,14 +115,40 @@ const restaurantSlice = createSlice({
       })
       .addCase(getDishesByRestaurantId.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.dishes = action.payload.dishes;
+        state.dishes = action.payload.result;
       })
       .addCase(getDishesByRestaurantId.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      //Get Dishes By Category
+      .addCase(getDishesByCategory.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getDishesByCategory.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.categoryDish = action.payload.dishes;
+      })
+      .addCase(getDishesByCategory.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      //Add dish
+      .addCase(addDish.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(addDish.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        // state.categoryDish = action.payload.dishes;////////////incomplete
+      })
+      .addCase(addDish.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       });
   },
 });
 
-export const { reset, setSearch } = restaurantSlice.actions;
+export const { reset, changeCategoryState } = restaurantSlice.actions;
 export default restaurantSlice.reducer;

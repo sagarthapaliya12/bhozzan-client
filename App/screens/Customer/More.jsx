@@ -12,6 +12,7 @@ import Icon from "../../components/Icon";
 import { logout } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "./customerSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const buttonItems = [
   {
@@ -32,11 +33,11 @@ const buttonItems = [
   },
 ];
 
-const More = ({ navigation }) => {
+const More = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation()
 
   const user = useSelector((state) => state.customerSlice.user);
-  console.log("User is: ", user);
 
   useEffect(() => {
     dispatch(getUserDetails());

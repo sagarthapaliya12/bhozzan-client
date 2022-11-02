@@ -19,7 +19,9 @@ import TableList from "../../components/Restaurant/TableList";
 import Screen from "../../components/Screen";
 
 import { logout } from "../Public/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 
 const { height, width } = Dimensions.get("window");
 
@@ -36,21 +38,35 @@ const restaurantInfo = {
 };
 
 const RestaurantProfile = ({ navigation }) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const handleLogout = () => {
-  //   dispatch(logout());
-  // };
+  const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
+  const restaurantUser = useSelector((state) => state.restaurantSlice.restaurantUser);
+  console.log("User: ", restaurantUser);
+
+  useEffect(() => {
+    dispatch(getRestaurantUserId());
+    dispatch(getRestaurantDetails(restaurantId));
+  }, [restaurantId]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <Screen>
       <SafeAreaView style={styles.container}>
-        <View style={{ flexDirection: "row-reverse", alignItems: "flex-end", justifyContent: "space-between" }}>
+        <View
+          style={{
+            flexDirection: "row-reverse",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+          }}
+        >
+          <TouchableOpacity style={styles.logout} onPress={handleLogout}>
+            <MaterialCommunityIcons name="logout" size={30} color="white" />
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.logout} onPress={() => console.log("logged out!!")}>
-        <MaterialCommunityIcons name="logout" size={30} color="white" />
-        </TouchableOpacity>
-        
           <TouchableHighlight
             style={styles.editButton}
             onPress={() => navigation.navigate("EditProfile")}
@@ -62,32 +78,32 @@ const RestaurantProfile = ({ navigation }) => {
           <View>
             <Image style={styles.profilePicture} source={pizzaHut} />
           </View>
-          <Text style={styles.title}>{restaurantInfo.restaurantName}</Text>
-          <Text style={styles.descriptionText}>{restaurantInfo.description}</Text>
+          <Text style={styles.title}>{restaurantUser.name}</Text>
+          <Text style={styles.descriptionText}>Description{restaurantUser.description}</Text>
         </View>
         <View style={styles.details}>
           <Entypo name="location-pin" size={24} color={colors.secondary} />
-          <Text style={styles.locationText}>&nbsp;{restaurantInfo.location}</Text>
+          <Text style={styles.locationText}>&nbsp;{restaurantUser.address}</Text>
         </View>
         <View style={styles.details}>
           <Ionicons name="call" size={24} color={colors.secondary} />
-          <Text style={{ color: colors.white }}>&nbsp;&nbsp;{restaurantInfo.phoneNo}</Text>
+          <Text style={{ color: colors.white }}>&nbsp;&nbsp;{restaurantUser.primaryPhoneNumber}</Text>
         </View>
-        <View style={styles.details}>
+        {/* <View style={styles.details}>
           <AntDesign name="mail" size={24} color={colors.secondary} />
-          <Text style={{ color: colors.white }}>&nbsp;&nbsp;{restaurantInfo.email}</Text>
-        </View>
+          <Text style={{ color: colors.white }}>&nbsp;&nbsp;{restaurantUser.email}</Text>
+        </View> */}
         <View style={styles.details}>
           <Text style={{ color: colors.secondary }}>DELIVERY HOURS:&nbsp;</Text>
-          <Text style={{ color: colors.white }}>{restaurantInfo.deliveryHours}</Text>
+          <Text style={{ color: colors.white }}>10:00 AM - 12:00 PM</Text>
         </View>
         <View style={styles.details}>
           <Text style={{ color: colors.secondary }}>PAN/VAT No:&nbsp;</Text>
-          <Text style={{ color: colors.white }}>{restaurantInfo.panVatNo}</Text>
+          <Text style={{ color: colors.white }}>{restaurantUser.PAN}</Text>
         </View>
         <View style={styles.details}>
           <Text style={{ color: colors.secondary }}>No. of Tables:&nbsp;</Text>
-          <Text style={{ color: colors.white }}>{restaurantInfo.noOfTables}</Text>
+          <Text style={{ color: colors.white }}>{restaurantUser.tables?.length}</Text>
         </View>
         <TableList />
       </SafeAreaView>
@@ -118,6 +134,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
+    marginVertical: 5,
   },
   title: {
     fontSize: 25,
@@ -128,6 +145,7 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     color: colors.white,
+    marginVertical: 5,
   },
   details: {
     flexDirection: "row",

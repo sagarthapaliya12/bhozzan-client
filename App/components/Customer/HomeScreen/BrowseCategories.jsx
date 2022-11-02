@@ -1,28 +1,37 @@
 import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback } from "react-native";
 import Categories from "../../../datas/categoriesList";
 import colors from "../../../config/colors";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { changeCategoryState } from "../../../screens/Restaurant/restaurantSlice";
 
-const BrowseCategories = ({ onPress }) => {
-  const displayCategories = () => {
-    return Categories.map((item) => {
-      return (
-        <TouchableWithoutFeedback key={item.id} onPress={onPress}>
-          <View style={styles.itemContainer}>
-            <View style={styles.circularBackground}>
-              <Image style={styles.icon} source={item.img} />
-            </View>
-            <Text style={styles.categoryName}>{item.title}</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      );
-    });
+const BrowseCategories = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const handlePress = (categoryName) => {
+    dispatch(changeCategoryState(categoryName));
+    navigation.navigate("BrowseCategory");
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Browse Categories</Text>
       <View style={styles.categoryContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>{displayCategories()}</ScrollView>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {Categories.map((item) => {
+            return (
+              <TouchableWithoutFeedback key={item.id} onPress={() => handlePress(item.value)}>
+                <View style={styles.itemContainer}>
+                  <View style={styles.circularBackground}>
+                    <Image style={styles.icon} source={item.img} />
+                  </View>
+                  <Text style={styles.categoryName}>{item.title}</Text>
+                </View>
+              </TouchableWithoutFeedback>
+            );
+          })}
+        </ScrollView>
       </View>
     </View>
   );
