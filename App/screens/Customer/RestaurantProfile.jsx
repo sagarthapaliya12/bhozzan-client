@@ -69,7 +69,7 @@ const RestaurantProfile = () => {
       dispatch(addFavoriteRestaurant(restaurantId));
       dispatch(toggleShowSnackbar(true));
     } catch (err) {}
-    dispatch(toggleShowSnackbar(false));
+    // dispatch(toggleShowSnackbar(false));
   };
 
   return (

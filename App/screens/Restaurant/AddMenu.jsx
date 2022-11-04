@@ -29,15 +29,6 @@ const validationSchema = Yup.object().shape({
   foodPrice: Yup.number().required().max(5).label("Food Price"),
 });
 
-// const categories = [
-//   { id: "1", title: "Dessert", value: "dessert" },
-//   { id: "2", title: "Fast Food", value: "fastFood" },
-//   { id: "3", title: "Soups", value: "soups" },
-//   { id: "4", title: "Salads", value: "salads" },
-//   { id: "5", title: "Snacks", value: "snacks" },
-//   { id: "6", title: "Drinks", value: "drinks" },
-// ];
-
 const AddMenu = () => {
   const [selected, setSelected] = useState("");
 
@@ -63,7 +54,10 @@ const AddMenu = () => {
                 name: "",
                 price: "",
               }}
-              onSubmit={(dish) => addDish(dish)}
+              onSubmit={(dish) => {
+                console.log("sdcdsc");
+                addDish(dish);
+              }}
               validationSchema={validationSchema}
             >
               <Text style={styles.text}>Food Name:</Text>
@@ -75,7 +69,7 @@ const AddMenu = () => {
               {/*////////////////////////////////////////////////////*/}
               {/*//////////////////// Dropdown //////////////////////*/}
               {/*////////////////////////////////////////////////////*/}
-              <View value={category} style={{ alignItems: "center" }}>
+              {/* <View value={category} style={{ alignItems: "center" }}>
                 <TouchableOpacity
                   style={styles.dropdown}
                   activeOpacity={0.8}
@@ -125,9 +119,12 @@ const AddMenu = () => {
                     </ScrollView>
                   </View>
                 )}
-              </View>
-              <View style={{ marginTop: 15 }}>
+              </View> */}
+              {/* <View style={{ marginTop: 15 }}>
                 <SubmitButton title="Add Dish" />
+              </View> */}
+              <View style={{ marginTop: 15 }}>
+                <SubmitButton title="Add Dish" onPress={() => console.log("sfsdfdf")} />
               </View>
               {/* <Pressable style={styles.saveButton} onPress={() => console.log("Oh yah giggity")}>
                 <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>

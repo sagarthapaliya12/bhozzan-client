@@ -9,6 +9,8 @@ import EditProfile from "../screens/Customer/EditProfile";
 import OrderHistory from "../screens/Customer/OrderHistory";
 import More from "../screens/Customer/More";
 import FavoritesScreen from "../screens/Customer/FavoritesScreen";
+import BasketList from "../screens/Customer/BasketList";
+import BasketDetail from "../screens/Customer/BasketDetail";
 
 const Stack = createStackNavigator();
 
@@ -37,6 +39,23 @@ const HomeNavigator = () => (
       component={RestaurantProfile}
       options={{
         title: "Restaurant Profile",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+  </Stack.Navigator>
+);
+
+const BasketNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Feed" component={BasketList} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="BasketDetail"
+      component={BasketDetail}
+      options={{
+        title: "Basket",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,
@@ -91,4 +110,4 @@ const MoreNavigator = () => (
   </Stack.Navigator>
 );
 
-export { HomeNavigator, MoreNavigator };
+export { HomeNavigator, BasketNavigator, MoreNavigator };

@@ -5,23 +5,23 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import HomeScreen from "../../screens/HomeScreen";
 import colors from "../../config/colors";
-import Basket from "../../screens/Customer/Basket";
+// import Basket from "../../screens/Customer/Basket";
 import Notifications from "../../screens/Customer/Notifications";
 import More from "../../screens/Customer/More";
-import { HomeNavigator, MoreNavigator } from "../../navigation/CustomerNavigator";
+import { HomeNavigator, BasketNavigator, MoreNavigator } from "../../navigation/CustomerNavigator";
 import Chat from "../../screens/Chat";
 
 const Tab = createBottomTabNavigator();
 
 const CustomerTab = () => (
   <Tab.Navigator
-    screenOptions={{   
-      // headerShown: false,   
+    screenOptions={{
+      // headerShown: false,
       headerStyle: {
-        backgroundColor: colors.screen, 
+        backgroundColor: colors.screen,
       },
       tabBarStyle: {
-        backgroundColor: "#1D2227",        
+        backgroundColor: "#1D2227",
       },
       tabBarHideOnKeyboard: true,
       headerTintColor: colors.white,
@@ -34,7 +34,7 @@ const CustomerTab = () => (
       name="Home"
       component={HomeNavigator}
       options={{
-        headerShown:false,
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="home" color={color} size={size} />
         ),
@@ -53,8 +53,9 @@ const CustomerTab = () => (
 
     <Tab.Screen
       name="Basket"
-      component={Basket}
+      component={BasketNavigator}
       options={{
+        // headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="basket" color={color} size={size} />
         ),
