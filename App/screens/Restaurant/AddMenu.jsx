@@ -24,9 +24,9 @@ import colors from "../../config/colors";
 import Categories from "../../datas/categoriesList";
 
 const validationSchema = Yup.object().shape({
-  foodName: Yup.string().required().min(3).label("Food Name"),
+  name: Yup.string().required().min(3).label("Food Name"),
 
-  foodPrice: Yup.number().required().max(5).label("Food Price"),
+  price: Yup.number().required().label("Food Price"),
 });
 
 const AddMenu = () => {
