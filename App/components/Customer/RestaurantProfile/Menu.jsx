@@ -13,6 +13,7 @@ import { getDishesByRestaurantId } from "../../../screens/Restaurant/restaurantS
 import { useDispatch, useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { addToBasket } from "../../../screens/Customer/customerSlice";
+import { toggleShowSnackbar } from "../../../redux/ui/uiSlice";
 
 const { height, width } = Dimensions.get("window");
 
@@ -29,6 +30,7 @@ const Menu = () => {
 
   const handleBasket = (dishId) => {
     dispatch(addToBasket(dishId));
+    dispatch(toggleShowSnackbar(true));
   };
   // const [noOfItem, setNoOfItem] = useState(0);
 
@@ -42,7 +44,7 @@ const Menu = () => {
 
   return (
     <View>
-      {dishes.map((item, index) => {
+      {dishes?.map((item, index) => {
         return (
           <View key={index}>
             <View style={{ position: "relative" }}>

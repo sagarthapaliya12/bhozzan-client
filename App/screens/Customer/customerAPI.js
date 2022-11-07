@@ -47,16 +47,26 @@ const removeFavoriteRestaurant = async (restaurantId) => {
 
 const addToBasket = async (dishId) => {
   try {
-    const { data } = await api.post(`/basket/addToBasket/${dishId}`);
+    const { data } = await api.post(`/basket/${dishId}`);
+    return data;
+  } catch (err) {
+    // console.log(err.response.data);
+    throw new Error(err.response.data.error);
+  }
+};
+
+const getBasketRestaurants = async () => {
+  try {
+    const { data } = await api.get(`/basket`);
     return data;
   } catch (err) {
     throw new Error(err.response.data.error);
   }
 };
 
-const getBasketDishes = async () => {
+const getBasketDishes = async (restaurantId) => {
   try {
-    const { data } = await api.get(`/basket/getBasketDishes`);
+    const { data } = await api.get(`/basket/${restaurantId}`);
     return data;
   } catch (err) {
     throw new Error(err.response.data.error);
@@ -70,7 +80,8 @@ const customerService = {
   getFavoriteRestaurant,
   removeFavoriteRestaurant,
   addToBasket,
-  getBasketDishes
+  getBasketRestaurants,
+  getBasketDishes,
 };
 
 export default customerService;

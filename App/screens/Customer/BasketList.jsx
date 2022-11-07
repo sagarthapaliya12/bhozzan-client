@@ -7,44 +7,38 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { Entypo } from "@expo/vector-icons";
 import { Divider } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { getBasketRestaurants, setBasketRestaurantSearch } from "./customerSlice";
 
 const { height, width } = Dimensions.get("window");
 
 const BasketList = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  const Bakery = [
-    {
-      id: 1,
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-    },
-    {
-      id: 2,
-      restaurantName: "Markhu Bakery",
-      location: "Gwarko, Lalitpur",
-    },
-    {
-      id: 3,
-      restaurantName: "Markhu Bakery",
-      location: "Tinkune, Kathmandu",
-    },
-  ];
+  const basketRestaurants = useSelector((state) => state.customerSlice.basketRestaurants);
+
+  useEffect(() => {
+    dispatch(getBasketRestaurants());
+  }, []);
 
   return (
     <Screen>
       <ScrollView>
-        {Bakery.map((item) => {
+        {basketRestaurants.map((item) => {
           return (
             <TouchableWithoutFeedback
-              key={item.id}
-              onPress={() => navigation.navigate("BasketDetail")}
+              key={item._id}
+              onPress={() => {
+                dispatch(setBasketRestaurantSearch(item._id));
+                navigation.navigate("BasketDetail");
+              }}
             >
               <View style={styles.basketItem}>
                 <Image
@@ -52,7 +46,7 @@ const BasketList = () => {
                   style={styles.avatar}
                 />
                 <View style={styles.itemDetail}>
-                  <Text style={styles.restaurantName}>{item.restaurantName}</Text>
+                  <Text style={styles.restaurantName}>{item.name}</Text>
                   <View style={styles.locationContainer}>
                     <Entypo
                       name="location-pin"
@@ -60,7 +54,7 @@ const BasketList = () => {
                       color={colors.primary}
                       style={{ fontSize: 20 }}
                     />
-                    <Text style={styles.location}>{item.location}</Text>
+                    <Text style={styles.location}>{item.address}</Text>
                   </View>
                 </View>
                 {/* <View style={{ height: 5, backgroundColor: colors.gray }}>
