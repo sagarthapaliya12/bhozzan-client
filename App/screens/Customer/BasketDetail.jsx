@@ -18,16 +18,18 @@ const BasketDetail = () => {
 
   const [quantity, setQuantity] = useState({});
   const [subTotalToDisplay, setSubTotalToDisplay] = useState(0);
-  const basketDishes = useSelector((state) => state.customerSlice.basket);
+
+  const basketDishes = useSelector((state) => state.customerSlice.basketDishes);
+  const basketRestaurant = useSelector((state) => state.customerSlice.basketRestaurantSearch);
 
   useEffect(() => {
-    dispatch(getBasketDishes());
+    dispatch(getBasketDishes(basketRestaurant));
   }, []);
 
   useEffect(() => {
     let quan = {};
     basketDishes.map((dish) => {
-      quan = { ...quan, [dish._id]: 1 };
+      quan = { ...quan, [dish.dish._id]: 1 };
     });
     setQuantity(quan);
   }, [basketDishes]);
@@ -37,7 +39,7 @@ const BasketDetail = () => {
   }, [quantity]);
 
   const updateCountOnCart = (id) => {
-    const itemToUpdate = basketDishes.find((item) => item._id === id);
+    const itemToUpdate = basketDishes.find((item) => item.dish._id === id);
     itemToUpdate.quantity = quantity[id];
   };
 
@@ -45,7 +47,7 @@ const BasketDetail = () => {
     // const selectedItems = basketDishes.filter((item) => item.selection);
     let subTotal = 0;
     basketDishes.forEach((item) => {
-      subTotal += quantity[item._id] * item.price;
+      subTotal += quantity[item.dish._id] * item.dish.price;
     });
     setSubTotalToDisplay(subTotal);
   };
@@ -75,31 +77,31 @@ const BasketDetail = () => {
       <ScrollView style={styles.container}>
         {basketDishes.map((dish) => {
           return (
-            <View key={dish._id} style={styles.categoryItem}>
+            <View key={dish.dish._id} style={styles.categoryItem}>
               <View style={styles.itemDetail}>
-                <Text style={{ color: colors.gray, fontSize: 18 }}>{dish.name}</Text>
+                <Text style={{ color: colors.gray, fontSize: 18 }}>{dish.dish.name}</Text>
                 <View style={styles.cart}>
                   <AntDesign
                     name="minuscircle"
                     size={24}
                     color={colors.gray}
-                    onPress={() => decrementCount(dish._id)}
+                    onPress={() => decrementCount(dish.dish._id)}
                   />
                   <Text style={{ color: colors.gray, margin: 10, fontSize: 20 }}>
-                    {quantity[dish._id]}
+                    {quantity[dish.dish._id]}
                   </Text>
                   <AntDesign
                     name="pluscircle"
                     size={24}
                     color={colors.gray}
-                    onPress={() => incrementCount(dish._id)}
+                    onPress={() => incrementCount(dish.dish._id)}
                   />
                 </View>
               </View>
               <View style={styles.priceCart}>
                 <View>
                   <Text style={{ color: colors.secondary, fontSize: 20 }}>
-                    Rs.&nbsp;{quantity[dish._id] * dish.price}
+                    Rs.&nbsp;{quantity[dish.dish._id] * dish.dish.price}
                   </Text>
                 </View>
               </View>
@@ -115,14 +117,14 @@ const BasketDetail = () => {
         </View>
         {/* 
       <Form onSubmit={checkout}>
-        <SubmitButton title="Proceed to Checkout" />
+        <SubmitButton title="Confirm Order" />
       </Form> */}
         <Pressable
           style={styles.checkoutButton}
           onPress={() => console.log("dsdsd: ", basketDishes)}
         >
           <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
-            Proceed to Checkout
+            Confirm Order
           </Text>
         </Pressable>
       </ScrollView>

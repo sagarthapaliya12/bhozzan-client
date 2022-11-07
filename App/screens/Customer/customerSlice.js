@@ -7,7 +7,9 @@ const initialState = {
   favoriteRestaurants: [],
   searchedRestaurantId: null,
   searchedRestaurantInfo: {},
-  basket: [],
+  basketRestaurantSearch: null,
+  basketRestaurants: [],
+  basketDishes: [],
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
@@ -33,8 +35,12 @@ export const addToBasket = createAsyncThunk("basket/addToBasket", async (dishId)
   customerService.addToBasket(dishId)
 );
 
-export const getBasketDishes = createAsyncThunk("basket/getBasketDishes", async () =>
-  customerService.getBasketDishes()
+export const getBasketRestaurants = createAsyncThunk("basket/getBasketRestaurants", async () =>
+  customerService.getBasketRestaurants()
+);
+
+export const getBasketDishes = createAsyncThunk("basket/getBasketDishes", async (restaurantId) =>
+  customerService.getBasketDishes(restaurantId)
 );
 
 const customerSlice = createSlice({
@@ -44,6 +50,9 @@ const customerSlice = createSlice({
     reset: () => initialState,
     setSearch: (state, action) => {
       state.searchedRestaurantId = action.payload;
+    },
+    setBasketRestaurantSearch: (state, action) => {
+      state.basketRestaurantSearch = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -84,7 +93,7 @@ const customerSlice = createSlice({
       })
       .addCase(addFavoriteRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        state.errorMsg = action.error.errorMsg;
+        state.errorMsg = action.error.message;
       })
 
       //Get Favourite Restaurant
@@ -113,13 +122,26 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
+      //Get Basket Restaurants
+      .addCase(getBasketRestaurants.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getBasketRestaurants.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.basketRestaurants = action.payload.basket.restaurant;
+      })
+      .addCase(getBasketRestaurants.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
       //Get Basket Dishes
       .addCase(getBasketDishes.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
       .addCase(getBasketDishes.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.basket = action.payload.basket.dishes;
+        state.basketDishes = action.payload.dish;
       })
       .addCase(getBasketDishes.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
@@ -128,5 +150,5 @@ const customerSlice = createSlice({
   },
 });
 
-export const { reset, setSearch } = customerSlice.actions;
+export const { reset, setSearch, setBasketRestaurantSearch } = customerSlice.actions;
 export default customerSlice.reducer;

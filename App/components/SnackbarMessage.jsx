@@ -10,6 +10,8 @@ const SnackbarMessage = () => {
   const dispatch = useDispatch();
 
   const visible = useSelector((state) => state.uiSlice.showSnackbar);
+  const status = useSelector((state) => state.customerSlice.status);
+  const errorMsg = useSelector((state) => state.customerSlice.errorMsg);
 
   const onDismissSnackBar = () => {
     dispatch(toggleShowSnackbar(false));
@@ -34,7 +36,10 @@ const SnackbarMessage = () => {
     >
       <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
         <AntDesign name="checkcircle" size={24} color="white" />
-        <Text style={{ color: colors.white, marginLeft: 8 }}>Added To Favorite.</Text>
+        <Text style={{ color: colors.white, marginLeft: 8 }}>
+          {status === "success" && "Added To Favorite"}
+          {status === "failed" && errorMsg}
+        </Text>
       </View>
     </Snackbar>
   );
