@@ -3,10 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
-  Pressable,
-  ScrollView,
-  TouchableOpacity,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useState } from "react";
