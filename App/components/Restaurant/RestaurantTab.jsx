@@ -9,7 +9,7 @@ import Chat from "../../screens/Chat";
 import Dashboard from '../../screens/Restaurant/Dashboard';
 import Menu from "../../screens/Restaurant/Menu";
 import TableSelect from "../../screens/Restaurant/TableSelect";
-import { ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
+import {DashboardNavigator, ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,9 +30,10 @@ const RestaurantTab = () => (
       animationDuration: 800,
     }}
   >
-    <Tab.Screen
+
+  <Tab.Screen
       name="Dashboard"
-      component={Dashboard}
+      component={DashboardNavigator}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="home" color={color} size={size} />

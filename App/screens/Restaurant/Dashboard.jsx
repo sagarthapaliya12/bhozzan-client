@@ -6,10 +6,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
+import Paper from "../../components/Restaurant/Paper";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Dashboard = () => {
   return (
     <Screen style={styles.container}>
+      <ScrollView>
       <Card.Title
         title="No. of Orders"
         titleStyle={{ color: colors.white }}
@@ -46,6 +49,8 @@ const Dashboard = () => {
         )}
         right={() => <Text style={styles.dataText}>12</Text>}
       />
+      <Paper/>
+      </ScrollView>
     </Screen>
   );
 };

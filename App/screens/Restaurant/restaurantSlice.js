@@ -8,6 +8,7 @@ const initialState = {
   restaurantList: [],
   search: null, //move this to  customer
   // restaurant: {},
+  orderStatusState: null,
   dishes: [],
   allDishes: [],
   categoryState: null,
@@ -53,6 +54,9 @@ const restaurantSlice = createSlice({
     // },
     changeCategoryState: (state, action) => {
       state.categoryState = action.payload;
+    },
+    changeOrderStatusState: (state, action) => {
+      state.orderStatusState = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -150,5 +154,5 @@ const restaurantSlice = createSlice({
   },
 });
 
-export const { reset, changeCategoryState } = restaurantSlice.actions;
+export const { reset, changeCategoryState, changeOrderStatusState } = restaurantSlice.actions;
 export default restaurantSlice.reducer;

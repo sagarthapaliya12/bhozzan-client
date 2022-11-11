@@ -7,6 +7,8 @@ import EditProfile from "../screens/Restaurant/EditProfile";
 import Menu from "../screens/Restaurant/Menu";
 import AddMenu from "../screens/Restaurant/AddMenu";
 import EditMenu from "../screens/Restaurant/EditMenu";
+import Dashboard from "../screens/Restaurant/Dashboard";
+import OrderStatus from "../screens/Restaurant/OrderStatus";
 
 const Stack = createStackNavigator();
 
@@ -18,7 +20,18 @@ const DashboardNavigator = () => (
       animationDuration: 800,
     }}
   >
-    <Stack.Screen name="Feed" component={HomeScreen} />
+    <Stack.Screen name="Feed" component={Dashboard} />
+    <Stack.Screen
+      name="OrderStatus"
+      component={OrderStatus}
+      options={{
+        title: "Orderrrr rrrr",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
   </Stack.Navigator>
 );
 
