@@ -7,6 +7,7 @@ import defaultStyles from "../../config/styles";
 import * as Yup from "yup";
 import FormField from "../../components/forms/FormField";
 import SubmitButton from "../../components/forms/SubmitButton";
+import { useSelector } from "react-redux";
 
 const validationSchema = Yup.object().shape({
   price: Yup.number().required().label("Price"),
@@ -14,6 +15,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const ConfirmTable = () => {
+  const noOfSeats = useSelector((state) => state.restaurantSlice.noOfSeats);
+
+  const addTable = (info) => {
+    const tableInfo = { seats: noOfSeats, price: info.price, name: info.name };
+    console.log("Info: ", tableInfo);
+  };
+
   return (
     <Screen>
       <KeyboardAwareScrollView>
@@ -24,12 +32,12 @@ const ConfirmTable = () => {
                 price: "",
                 name: "",
               }}
-              onSubmit={(dish) => {
-                console.log("sdcdsc");
-                addDish(dish);
+              onSubmit={(info) => {
+                addTable(info);
               }}
               validationSchema={validationSchema}
             >
+              <Text style={styles.text}>No. of Seats: {noOfSeats}</Text>
               <Text style={styles.text}>Table Price:</Text>
               <FormField autoCorrect={false} name="price" />
               <Text style={styles.text}>Position Description:</Text>

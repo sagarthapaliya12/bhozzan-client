@@ -6,20 +6,22 @@ import { useDispatch } from "react-redux";
 import colors from "../../config/colors";
 import OrderStatus from "../../datas/orderStatus";
 import { changeOrderStatusState } from "../../screens/Restaurant/restaurantSlice";
+import Stats from "./Stats";
 
 const Paper = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  
+
   return (
     <View style={styles.container}>
       <FlatList
+        ListHeaderComponent={<Stats />}
         numColumns={2}
         data={OrderStatus}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           return (
             <TouchableHighlight
-              onPress={()=> {
+              onPress={() => {
                 dispatch(changeOrderStatusState(item.state));
                 navigation.navigate("OrderStatus");
               }}
@@ -29,22 +31,23 @@ const Paper = () => {
                 <Text style={styles.text}>{item.title}</Text>
               </Surface>
             </TouchableHighlight>
-          )}}  
+          );
+        }}
       />
-  </View>
-  )
+    </View>
+  );
 };
 
 export default Paper;
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
     marginHorizontal: "auto",
     width: "100%",
     padding: 9,
   },
-  button:{
+  button: {
     padding: 8,
     flex: 1,
     margin: "auto",
@@ -57,9 +60,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.secondary,
   },
-  text:{
+  text: {
     fontWeight: "700",
     fontSize: 22,
-    color: colors.screen
+    color: colors.screen,
   },
 });
