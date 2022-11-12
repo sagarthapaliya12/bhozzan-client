@@ -16,8 +16,12 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Restaurants from "../../components/Restaurant/Restaurants";
+import { useSelector } from "react-redux";
 
 const OrderStatus = () => {
+  const status = useSelector((state) => state.restaurantSlice.orderStatusState);
+  console.log("Status: ", status);
+
   const [listData, setListData] = useState(
     Restaurants.map((RestaurantList, index) => ({
       key: `${index}`,
@@ -31,14 +35,14 @@ const OrderStatus = () => {
     console.log("This restaurant is accepted", rowKey);
   };
 
-  const closeRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-  };
+  //   const closeRow = (rowMap, rowKey) => {
+  //     if (rowMap[rowKey]) {
+  //       rowMap[rowKey].closeRow();
+  //     }
+  //   };
 
   const deleteRow = (rowMap, rowKey) => {
-    closeRow(rowMap, rowKey);
+    // closeRow(rowMap, rowKey);
     const newData = [...listData];
     const prevIndex = listData.findIndex((item) => item.key === rowKey);
     newData.splice(prevIndex, 1);
@@ -60,9 +64,7 @@ const OrderStatus = () => {
 
     return (
       <Animated.View style={[styles.rowFront, { height: rowHeightAnimatedValue }]}>
-        <TouchableHighlight
-          style={styles.rowFrontVisible}
-        >
+        <TouchableHighlight style={styles.rowFrontVisible}>
           <View style={styles.mainContainer}>
             <View style={styles.restaurantDetail}>
               <View style={styles.profileContainer}>
@@ -132,7 +134,7 @@ const OrderStatus = () => {
             />
           </TouchableOpacity>
         )}
-        {!leftActionActivated && (
+        {/* {!leftActionActivated && (
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
             onPress={onClose}
@@ -144,7 +146,7 @@ const OrderStatus = () => {
               color="#fff"
             />
           </TouchableOpacity>
-        )}
+        )} */}
         {!leftActionActivated && (
           <Animated.View
             style={[
@@ -196,7 +198,7 @@ const OrderStatus = () => {
         rowActionAnimatedValue={rowActionAnimatedValue}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
         onAccept={() => acceptRow(rowMap, data.item.key)}
-        onClose={() => closeRow(rowMap, data.item.key)}
+        // onClose={() => closeRow(rowMap, data.item.key)}
         onDelete={() => deleteRow(rowMap, data.item.key)}
       />
     );
@@ -216,7 +218,7 @@ const OrderStatus = () => {
         leftActivationValue={100}
         rightActivationValue={-100}
         leftActionValue={0}
-        rightActionValue={-500}
+        rightActionValue={-100}
       />
     </View>
   );
@@ -289,7 +291,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: 75,
-    height:80,
+    height: 80,
     paddingRight: 17,
   },
   backRightBtnLeft: {
@@ -303,11 +305,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: 75,
-    height:80,
+    height: 80,
     paddingRight: 17,
     backgroundColor: "green",
     borderTopLeftRadius: 5,
-    borderBottomLeftRadius:5,
+    borderBottomLeftRadius: 5,
   },
   backRightBtnRight: {
     backgroundColor: "red",

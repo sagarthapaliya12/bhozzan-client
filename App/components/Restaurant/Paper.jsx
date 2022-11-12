@@ -5,7 +5,7 @@ import { Surface, Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import colors from "../../config/colors";
 import OrderStatus from "../../datas/orderStatus";
-import { changeCategoryState } from "../../screens/Restaurant/restaurantSlice";
+import { changeOrderStatusState } from "../../screens/Restaurant/restaurantSlice";
 
 const Paper = () => {
   const navigation = useNavigation();
@@ -20,7 +20,7 @@ const Paper = () => {
           return (
             <TouchableHighlight
               onPress={()=> {
-                dispatch(changeCategoryState(item.state));
+                dispatch(changeOrderStatusState(item.state));
                 navigation.navigate("OrderStatus");
               }}
               style={styles.button}
