@@ -10,19 +10,28 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import { launchImageLibrary } from "react-native-image-picker";
 import Feather from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");
+import table from "../../assets/table.png";
+import chair from "../../assets/chair.png";
 
-import Draggable from "./Draggable";
-import DeleteZone from "./DeleteZone";
+import Draggable from "../../components/Restaurant/Tables/Draggable";
+import DeleteZone from "../../components/Restaurant/Tables/DeleteZone";
+import colors from "../../config/colors";
+import Screen from "../../components/Screen";
+import { useDispatch } from "react-redux";
+import { addSeats } from "./restaurantSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const circleSize = width - 36;
 const itemSize = width / 5;
 const radius = circleSize / 2 - itemSize / 2;
 const center = radius;
 
-const App = ({ navigation, route }) => {
+const AddSeats = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const [movingDraggable, setMovingDraggable] = useState(null);
   const [releaseDraggable, setReleaseDraggable] = useState(null);
   const [items, setItems] = useState([]);
@@ -33,38 +42,17 @@ const App = ({ navigation, route }) => {
     return () => {};
   }, [items]);
 
-  const pickImageFromPhone = () => {
-    const options = {
-      title: "Select Avatar",
-      storageOptions: {
-        skipBackup: true,
-        path: "images",
-      },
-    };
-    launchImageLibrary(options, (response) => {
-      // console.log('Response = ', response);
-      if (response.didCancel) {
-        // setProcessing(false)
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        // setProcessing(false)
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        // setProcessing(false)
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        const source = {
-          uri:
-            Platform.OS === "android"
-              ? response.uri
-              : response.uri.replace("file://", ""),
-          fileName: response.fileName,
-        };
-        var arr = [...items];
-        arr.push(source.uri);
-        setItems(arr);
-      }
-    });
+  const addChair = () => {
+    var arr = [...items];
+    arr.push(chair);
+    setItems(arr);
+  };
+
+  const confirmTable = () => {
+    if (items.length > 0) {
+      dispatch(addSeats(items.length));
+      navigation.navigate("ConfirmTable");
+    }
   };
 
   const degToRad = (deg) => {
@@ -102,21 +90,44 @@ const App = ({ navigation, route }) => {
     setItems(arr);
   };
 
+  //////////////////////////////////////////////////
+  //////////////////// Header //////////////////////
+  /////////////////////////////////////////////////
   const renderHeader = () => {
     return (
       <View style={styles.header}>
+        {/* ///////////////////////////////*/}
+        {/* ////////// Add Chair //////////*/}
+        {/* ///////////////////////////////*/}
         <TouchableOpacity
-          style={styles.addBtn}
+          style={styles.addChairBtn}
           onPress={() => {
-            pickImageFromPhone();
+            addChair();
           }}
         >
           <Feather name="plus" color={"#20232A"} size={24} />
+          <Text style={{ marginLeft: 4, fontSize: 16 }}>Add Chair</Text>
+        </TouchableOpacity>
+
+        {/* ///////////////////////////////*/}
+        {/* /////////// Confirm ///////////*/}
+        {/* ///////////////////////////////*/}
+        <TouchableOpacity
+          style={styles.addTableBtn}
+          onPress={() => {
+            confirmTable();
+          }}
+        >
+          <Feather name="check" color={"#20232A"} size={24} />
+          <Text style={{ marginLeft: 4, fontSize: 16 }}>Confirm Table</Text>
         </TouchableOpacity>
       </View>
     );
   };
 
+  /////////////////////////////////////////
+  //////////// Chair > 10 ////////////////
+  ///////////////////////////////////////
   const renderLessthan10 = () => {
     return (
       <View style={styles.lessThan10Container}>
@@ -126,10 +137,8 @@ const App = ({ navigation, route }) => {
           deleteItem={deleteItem}
         />
         <View style={styles.circleViewContainer}>
-          <View style={[styles.shadow, styles.centerCircle]}>
-            <Text allowFontScaling={false} style={styles.centerCircleTxt}>
-              {"My\nFriends"}
-            </Text>
+          <View style={styles.tableContainer}>
+            <Image source={table} style={styles.tableImg} />
           </View>
           {items.map((item, index) => {
             const { x, y } = setup(index);
@@ -150,12 +159,9 @@ const App = ({ navigation, route }) => {
                 renderChild={(isMovedOver) => {
                   return (
                     <View
-                      style={[
-                        isMovedOver && styles.lessThan10ItemMovedOver,
-                        styles.lessThan10Item,
-                      ]}
+                      style={[isMovedOver && styles.lessThan10ItemMovedOver, styles.lessThan10Item]}
                     >
-                      <Image source={{ uri: item }} style={styles.img} />
+                      <Image source={chair} style={styles.img} />
                     </View>
                   );
                 }}
@@ -167,6 +173,9 @@ const App = ({ navigation, route }) => {
     );
   };
 
+  /////////////////////////////////////////
+  //////////// Chair > 10 ////////////////
+  ///////////////////////////////////////
   const render10AndMore = () => {
     return (
       <View style={styles.moreThan10Container}>
@@ -175,10 +184,10 @@ const App = ({ navigation, route }) => {
           releaseDraggable={releaseDraggable}
           deleteItem={deleteItem}
         />
-        <View style={[styles.shadow, styles.myFriendsRecView]}>
-          <Text allowFontScaling={false} style={styles.myFriendsRecViewTxt}>
-            {"My\nFriends"}
-          </Text>
+        <View style={[styles.tableContainerMoreThan10]}>
+          <View style={styles.tableContainer}>
+            <Image source={table} style={styles.tableImg} />
+          </View>
         </View>
         <View style={styles.squaresViewContainer}>
           {items.map((item, index) => {
@@ -192,20 +201,12 @@ const App = ({ navigation, route }) => {
                 releaseDraggable={releaseDraggable}
                 onReleaseDraggable={onReleaseDraggable}
                 swap={swap}
-                // position={{
-                //    position: 'absolute',
-                //    left: x,
-                //    top: y,
-                // }}
                 renderChild={(isMovedOver) => {
                   return (
                     <View
-                      style={[
-                        isMovedOver && styles.moreThan10ItemMovedOver,
-                        styles.moreThan10Item,
-                      ]}
+                      style={[isMovedOver && styles.moreThan10ItemMovedOver, styles.moreThan10Item]}
                     >
-                      <Image source={{ uri: item }} style={styles.img} />
+                      <Image source={chair} style={styles.img} />
                     </View>
                   );
                 }}
@@ -218,36 +219,28 @@ const App = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <StatusBar backgroundColor={"#20232A"} barStyle="light-content" />
-      <View style={styles.viewContainer}>
-        {renderHeader()}
-        <ScrollView
-          scrollEnabled={!movingDraggable}
-          showsVerticalScrollIndicator={false}
-          alwaysBounceVertical={false}
-          contentContainerStyle={styles.scrollView}
-        >
-          {items.length < 10 ? renderLessthan10() : render10AndMore()}
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+    <Screen>
+      {/* <SafeAreaView style={styles.safeAreaView}> */}
+      {/* <StatusBar backgroundColor={"#20232A"} barStyle="light-content" /> */}
+      {/* <View style={styles.viewContainer}> */}
+      {renderHeader()}
+      <ScrollView
+        scrollEnabled={!movingDraggable}
+        showsVerticalScrollIndicator={false}
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.scrollView}
+      >
+        {items.length < 10 ? renderLessthan10() : render10AndMore()}
+      </ScrollView>
+      {/* </View> */}
+      {/* </SafeAreaView> */}
+    </Screen>
   );
 };
 
-export default App;
+export default AddSeats;
 
 const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 10,
-  },
   safeAreaView: {
     flex: 1,
     backgroundColor: "#20232A",
@@ -267,17 +260,26 @@ const styles = StyleSheet.create({
     height: 70,
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     paddingHorizontal: 18,
     paddingTop: 15,
+    // backgroundColor: colors.secondary,
   },
-  addBtn: {
-    width: 40,
-    height: 40,
+  addChairBtn: {
+    flexDirection: "row",
     borderRadius: 20,
-    backgroundColor: "#ff4c6f",
+    backgroundColor: colors.secondary,
     alignItems: "center",
     justifyContent: "center",
+    padding: 10,
+  },
+  addTableBtn: {
+    flexDirection: "row",
+    borderRadius: 20,
+    backgroundColor: colors.green,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
   },
   lessThan10Container: {
     flex: 1,
@@ -293,14 +295,30 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  centerCircle: {
-    width: width / 3,
-    height: width / 3,
-    borderRadius: width / 1.5,
-    backgroundColor: "#ff4c6f",
+  tableContainerMoreThan10: {
+    backgroundColor: colors.secondary,
+    width: "90%",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  tableContainer: {
+    // backgroundColor: colors.secondary,
+    // borderRadius: width / 1.5,
+    // width: width / 3,
+    // height: width / 3,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+  },
+  tableImg: {
+    width: width / 3,
+    height: width / 3,
   },
   centerCircleTxt: {
     color: "#FFF",
@@ -335,7 +353,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: width / 3,
     borderRadius: 12,
-    backgroundColor: "#ff4c6f",
+    // backgroundColor: "#ff4c6f",
     justifyContent: "center",
     alignItems: "center",
   },

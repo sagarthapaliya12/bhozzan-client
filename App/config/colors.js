@@ -9,5 +9,6 @@ export default {
   danger: '#ff0e0e',
   screen: '#161B22',
   gray: '#d9d9d9',
-  darkGray: '#272d2f'
+  darkGray: '#272d2f',
+  green: "#16FD34"
 };
