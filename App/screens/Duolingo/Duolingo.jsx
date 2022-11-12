@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 
 import Header from "./components/Header";
 import WordList from "./WordList";
-// import Word from "./Word";
+import Word from "./Word";
 import Footer from "./components/Footer";
 
 const words = [
@@ -30,9 +30,9 @@ const Duolingo = () => {
     <View style={styles.container}>
       <Header />
       <WordList>
-        {/* {words.map((word) => (
+        {words.map((word) => (
           <Word key={word.id} {...word} />
-        ))} */}
+        ))}
       </WordList>
       <Footer />
     </View>

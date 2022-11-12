@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     height: WORD_HEIGHT - 8,
   },
   text: {
-    fontFamily: "Nunito-Regular",
+    // fontFamily: "Nunito-Regular",
     fontSize: 19,
   },
   shadow: {

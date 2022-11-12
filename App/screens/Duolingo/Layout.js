@@ -1,4 +1,4 @@
-// import { move } from "react-native-redash";
+import { move } from "react-native-redash";
 
 // import { SharedValues } from "./components/utils";
 
@@ -44,7 +44,7 @@ export const remove = (input, index) => {
 export const reorder = (input, from, to) => {
   "worklet";
   const offsets = input.filter(isNotInBank).sort(byOrder);
-//   const newOffset = move(offsets, from, to);
+  const newOffset = move(offsets, from, to);
   newOffset.map((offset, index) => (offset.order.value = index));
 };
 

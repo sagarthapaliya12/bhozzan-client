@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import colors from "../../config/colors";
 import Chat from "../../screens/Chat";
-// import TableSelect from "../../screens/Restaurant/TableSelect";
+import TableSelect from "../../screens/Restaurant/TableSelect";
 import Duolingo from "../../screens/Duolingo/Duolingo";
 import {DashboardNavigator, ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
 

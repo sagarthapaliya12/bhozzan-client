@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import { useSharedValue, runOnUI, runOnJS } from "react-native-reanimated";
 
 import SortableWord from "./SortableWord";
-// import Lines from "./components/Lines";
+import Lines from "./components/Lines";
 import { MARGIN_LEFT } from "./Layout";
 
 const containerWidth = Dimensions.get("window").width - MARGIN_LEFT * 2;
@@ -27,7 +27,9 @@ const styles = StyleSheet.create({
 // }
 
 const WordList = ({ children }) => {
+
   const [ready, setReady] = useState(false);
+
   const offsets = children.map(() => ({
     order: useSharedValue(0),
     width: useSharedValue(0),
@@ -37,6 +39,7 @@ const WordList = ({ children }) => {
     originalX: useSharedValue(0),
     originalY: useSharedValue(0),
   }));
+  
   if (!ready) {
     return (
       <View style={styles.row}>
@@ -60,8 +63,7 @@ const WordList = ({ children }) => {
                   if (
                     offsets.filter((o) => o.order.value !== -1).length === 0
                   ) {
-                    // runOnJS(setReady)(true);
-                    setReady(true);
+                    runOnJS(setReady)(true);
                   }
                 })();
               }}
@@ -75,7 +77,7 @@ const WordList = ({ children }) => {
   }
   return (
     <View style={styles.container}>
-      {/* <Lines /> */}
+      <Lines />
       {children.map((child, index) => (
         <SortableWord
           key={index}

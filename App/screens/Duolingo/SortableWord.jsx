@@ -53,17 +53,21 @@ const SortableWord = ({ offsets, index, children, containerWidth }) => {
         ctx.y = translation.y.value;
         isGestureActive.value = true;
       },
+
       onActive: ({ translationX, translationY }, ctx) => {
         translation.x.value = ctx.x + translationX;
         translation.y.value = ctx.y + translationY;
+
         if (isInBank.value && translation.y.value < SENTENCE_HEIGHT) {
           offset.order.value = lastOrder(offsets);
           calculateLayout(offsets, containerWidth);
-        } else if (!isInBank.value && translation.y.value > SENTENCE_HEIGHT) {
+        } 
+        else if (!isInBank.value && translation.y.value > SENTENCE_HEIGHT) {
           offset.order.value = -1;
           remove(offsets, index);
           calculateLayout(offsets, containerWidth);
         }
+
         for (let i = 0; i < offsets.length; i++) {
           const o = offsets[i];
           if (i === index && o.order.value !== -1) {
@@ -79,6 +83,7 @@ const SortableWord = ({ offsets, index, children, containerWidth }) => {
           }
         }
       },
+
       onEnd: ({ velocityX, velocityY }) => {
         isAnimating.value = true;
         translation.x.value = withSpring(
@@ -111,10 +116,10 @@ const SortableWord = ({ offsets, index, children, containerWidth }) => {
       position: "absolute",
       top: 0,
       left: 0,
-      zIndex: isGestureActive.value || isAnimating.value ? 100 : 0,
       width: offset.width.value,
-      height: WORD_HEIGHT,
       transform: [{ translateX: translateX.value }, { translateY: translateY.value }],
+      zIndex: isGestureActive.value || isAnimating.value ? 100 : 0,
+      height: WORD_HEIGHT,
     };
   });
 
