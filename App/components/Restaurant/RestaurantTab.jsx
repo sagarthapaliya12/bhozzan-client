@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import colors from "../../config/colors";
 import Chat from "../../screens/Chat";
 // import TableSelect from "../../screens/Restaurant/TableSelect";
-import Home from "../../screens/DragAndDrop/Home";
+import Duolingo from "../../screens/Duolingo/Duolingo";
 import {DashboardNavigator, ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
 
 const Tab = createBottomTabNavigator();
@@ -53,7 +53,7 @@ const RestaurantTab = () => (
 
     <Tab.Screen
       name="Tables"
-      component={Home}
+      component={Duolingo}
       options={{
         tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="table-furniture" size={size} color={color}/>
