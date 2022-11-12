@@ -2,13 +2,17 @@ import React from "react";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 import colors from "../../config/colors";
 import Chat from "../../screens/Chat";
 // import TableSelect from "../../screens/Restaurant/TableSelect";
-import Home from "../../screens/DragAndDrop/Home";
-import {DashboardNavigator, ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
+import Tarot from "../../screens/DragAndDrop/Tarot"
+import {
+  DashboardNavigator,
+  ProfileNavigator,
+  MenuNavigator,
+} from "../../navigation/RestaurantNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +21,7 @@ const RestaurantTab = () => (
     screenOptions={{
       // headerShown: false,
       headerStyle: {
-        backgroundColor: colors.screen,        
+        backgroundColor: colors.screen,
       },
       tabBarStyle: {
         backgroundColor: "#1D2227",
@@ -29,8 +33,7 @@ const RestaurantTab = () => (
       animationDuration: 800,
     }}
   >
-
-  <Tab.Screen
+    <Tab.Screen
       name="Dashboard"
       component={DashboardNavigator}
       options={{
@@ -46,17 +49,17 @@ const RestaurantTab = () => (
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="menu-book" size={size} color={color} />
+          <MaterialIcons name="menu-book" size={size} color={color} />
         ),
       }}
     />
 
     <Tab.Screen
       name="Tables"
-      component={Home}
+      component={Tarot}
       options={{
         tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="table-furniture" size={size} color={color}/>
+          <MaterialCommunityIcons name="table-furniture" size={size} color={color} />
         ),
       }}
     />
@@ -70,7 +73,7 @@ const RestaurantTab = () => (
         ),
       }}
     />
-    
+
     <Tab.Screen
       name="Profile"
       component={ProfileNavigator}
