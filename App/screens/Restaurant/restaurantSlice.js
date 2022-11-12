@@ -13,6 +13,7 @@ const initialState = {
   allDishes: [],
   categoryState: null,
   categoryDish: [],
+  noOfSeats: 0,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
@@ -57,6 +58,9 @@ const restaurantSlice = createSlice({
     },
     changeOrderStatusState: (state, action) => {
       state.orderStatusState = action.payload;
+    },
+    addSeats: (state, action) => {
+      state.noOfSeats = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -154,5 +158,5 @@ const restaurantSlice = createSlice({
   },
 });
 
-export const { reset, changeCategoryState, changeOrderStatusState } = restaurantSlice.actions;
+export const { reset, changeCategoryState, changeOrderStatusState, addSeats } = restaurantSlice.actions;
 export default restaurantSlice.reducer;
