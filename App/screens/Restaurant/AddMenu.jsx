@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -15,7 +11,6 @@ import Screen from "../../components/Screen";
 import Form from "../../components/forms/Form";
 import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
-// import api from "../../helpers/axios";
 import colors from "../../config/colors";
 import Categories from "../../datas/categoriesList";
 

@@ -13,11 +13,10 @@ import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
-import TableList from "../../components/Restaurant/TableList";
 import Screen from "../../components/Screen";
 
 import { logout } from "../Public/authSlice";
@@ -88,7 +87,9 @@ const RestaurantProfile = ({ navigation }) => {
         </View>
         <View style={styles.details}>
           <Ionicons name="call" size={24} color={colors.secondary} />
-          <Text style={{ color: colors.white }}>&nbsp;&nbsp;{restaurantUser.primaryPhoneNumber}</Text>
+          <Text style={{ color: colors.white }}>
+            &nbsp;&nbsp;{restaurantUser.primaryPhoneNumber}
+          </Text>
         </View>
         {/* <View style={styles.details}>
           <AntDesign name="mail" size={24} color={colors.secondary} />
@@ -106,7 +107,6 @@ const RestaurantProfile = ({ navigation }) => {
           <Text style={{ color: colors.secondary }}>No. of Tables:&nbsp;</Text>
           <Text style={{ color: colors.white }}>{restaurantUser.tables?.length}</Text>
         </View>
-        <TableList />
       </SafeAreaView>
     </Screen>
   );
@@ -117,7 +117,7 @@ export default RestaurantProfile;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.screen,
-    paddingTop: Constants.statusBarHeight, 
+    paddingTop: Constants.statusBarHeight,
     flex: 1,
     paddingHorizontal: 20,
   },
