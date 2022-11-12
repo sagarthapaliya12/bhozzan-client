@@ -6,9 +6,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import colors from "../../config/colors";
 import Chat from "../../screens/Chat";
-import Dashboard from '../../screens/Restaurant/Dashboard';
-import Menu from "../../screens/Restaurant/Menu";
-import TableSelect from "../../screens/Restaurant/TableSelect";
+// import TableSelect from "../../screens/Restaurant/TableSelect";
+import Home from "../../screens/DragAndDrop/Home";
 import {DashboardNavigator, ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
 
 const Tab = createBottomTabNavigator();
@@ -54,7 +53,7 @@ const RestaurantTab = () => (
 
     <Tab.Screen
       name="Tables"
-      component={TableSelect}
+      component={Home}
       options={{
         tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="table-furniture" size={size} color={color}/>
