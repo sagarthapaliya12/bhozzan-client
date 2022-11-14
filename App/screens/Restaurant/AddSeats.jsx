@@ -13,7 +13,7 @@ import {
 import Feather from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");
 import table from "../../assets/table.png";
-import chair from "../../assets/chair.png";
+import seats from "../../assets/chair.png";
 
 import Draggable from "../../components/Restaurant/Tables/Draggable";
 import DeleteZone from "../../components/Restaurant/Tables/DeleteZone";
@@ -42,9 +42,9 @@ const AddSeats = () => {
     return () => {};
   }, [items]);
 
-  const addChair = () => {
+  const handleSeats = () => {
     var arr = [...items];
-    arr.push(chair);
+    arr.push(seats);
     setItems(arr);
   };
 
@@ -96,37 +96,40 @@ const AddSeats = () => {
   const renderHeader = () => {
     return (
       <View style={styles.header}>
-        {/* ///////////////////////////////*/}
-        {/* ////////// Add Chair //////////*/}
-        {/* ///////////////////////////////*/}
-        <TouchableOpacity
-          style={styles.addChairBtn}
-          onPress={() => {
-            addChair();
-          }}
-        >
-          <Feather name="plus" color={"#20232A"} size={24} />
-          <Text style={{ marginLeft: 4, fontSize: 16 }}>Add Chair</Text>
-        </TouchableOpacity>
+        <Text style={{ color: colors.white, fontSize: 19 }}>No. of Seats: {items.length}</Text>
+        <View style={styles.headerBtnContainer}>
+          {/* ///////////////////////////////*/}
+          {/* ////////// Add Seats //////////*/}
+          {/* ///////////////////////////////*/}
+          <TouchableOpacity
+            style={styles.addSeatsBtn}
+            onPress={() => {
+              handleSeats();
+            }}
+          >
+            <Feather name="plus" color={"#20232A"} size={24} />
+            <Text style={{ marginLeft: 4, fontSize: 16 }}>Add Seats</Text>
+          </TouchableOpacity>
 
-        {/* ///////////////////////////////*/}
-        {/* /////////// Confirm ///////////*/}
-        {/* ///////////////////////////////*/}
-        <TouchableOpacity
-          style={styles.addTableBtn}
-          onPress={() => {
-            confirmTable();
-          }}
-        >
-          <Feather name="check" color={"#20232A"} size={24} />
-          <Text style={{ marginLeft: 4, fontSize: 16 }}>Confirm Table</Text>
-        </TouchableOpacity>
+          {/* ///////////////////////////////*/}
+          {/* /////////// Confirm ///////////*/}
+          {/* ///////////////////////////////*/}
+          <TouchableOpacity
+            style={styles.addTableBtn}
+            onPress={() => {
+              confirmTable();
+            }}
+          >
+            <Feather name="check" color={"#20232A"} size={24} />
+            <Text style={{ marginLeft: 4, fontSize: 16 }}>Confirm Table</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
 
   /////////////////////////////////////////
-  //////////// Chair > 10 ////////////////
+  //////////// Seats > 10 ////////////////
   ///////////////////////////////////////
   const renderLessthan10 = () => {
     return (
@@ -161,7 +164,7 @@ const AddSeats = () => {
                     <View
                       style={[isMovedOver && styles.lessThan10ItemMovedOver, styles.lessThan10Item]}
                     >
-                      <Image source={chair} style={styles.img} />
+                      <Image source={seats} style={styles.img} />
                     </View>
                   );
                 }}
@@ -174,7 +177,7 @@ const AddSeats = () => {
   };
 
   /////////////////////////////////////////
-  //////////// Chair > 10 ////////////////
+  //////////// Seats > 10 ////////////////
   ///////////////////////////////////////
   const render10AndMore = () => {
     return (
@@ -206,7 +209,7 @@ const AddSeats = () => {
                     <View
                       style={[isMovedOver && styles.moreThan10ItemMovedOver, styles.moreThan10Item]}
                     >
-                      <Image source={chair} style={styles.img} />
+                      <Image source={seats} style={styles.img} />
                     </View>
                   );
                 }}
@@ -257,15 +260,17 @@ const styles = StyleSheet.create({
   },
   header: {
     width,
-    height: 70,
     alignItems: "center",
+    paddingHorizontal: 18,
+  },
+  headerBtnContainer: {
+    width,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 18,
-    paddingTop: 15,
-    // backgroundColor: colors.secondary,
+    paddingTop: 10,
   },
-  addChairBtn: {
+  addSeatsBtn: {
     flexDirection: "row",
     borderRadius: 20,
     backgroundColor: colors.secondary,

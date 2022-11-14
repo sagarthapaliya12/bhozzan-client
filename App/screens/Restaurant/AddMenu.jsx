@@ -13,6 +13,10 @@ import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
 import colors from "../../config/colors";
 import Categories from "../../datas/categoriesList";
+import { useDispatch } from "react-redux";
+import { addDish } from "./restaurantSlice";
+import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(3).label("Food Name"),
@@ -21,6 +25,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const AddMenu = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const [selected, setSelected] = useState("");
 
   const [category, setCategory] = useState(null);
@@ -31,8 +38,11 @@ const AddMenu = () => {
     setCategory(item);
   };
 
-  const addDish = (dish) => {
-    console.log("Dish Add: ", dish);
+  const handleSubmit = (dish) => {
+    dish = { ...dish, category: category.value };
+    dispatch(addDish(dish));
+    dispatch(toggleShowSnackbar(true));
+    navigation.navigate("");
   };
 
   return (
@@ -46,7 +56,7 @@ const AddMenu = () => {
                 price: "",
               }}
               onSubmit={(dish) => {
-                addDish(dish);
+                handleSubmit(dish);
               }}
               validationSchema={validationSchema}
             >

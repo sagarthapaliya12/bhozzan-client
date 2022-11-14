@@ -7,7 +7,7 @@ import TopRestaurants from "../components/Customer/HomeScreen/TopRestaurants";
 import LocalCusines from "../components/Customer/HomeScreen/LocalCusines";
 import { useDispatch } from "react-redux";
 import { getAllDishes } from "./Restaurant/restaurantSlice";
-import SearchBar from './../components/Customer/HomeScreen/SearchBar';
+import SearchBar from "./../components/Customer/HomeScreen/SearchBar";
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <SearchBar/>
+        <SearchBar />
         <BrowseCategories onPress={() => navigation.navigate("BrowseCategory")} />
         <LocalCusines />
         <TopRestaurants />

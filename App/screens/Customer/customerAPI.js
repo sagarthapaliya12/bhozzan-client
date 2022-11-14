@@ -54,6 +54,15 @@ const addToBasket = async (dishId) => {
   }
 };
 
+const getBasketCount = async () => {
+  try {
+    const { data } = await api.get(`/basket/count`);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
 const getBasketRestaurants = async () => {
   try {
     const { data } = await api.get(`/basket`);
@@ -88,6 +97,7 @@ const customerService = {
   getFavoriteRestaurant,
   removeFavoriteRestaurant,
   addToBasket,
+  getBasketCount,
   getBasketRestaurants,
   getBasketDishes,
   placeOrder,

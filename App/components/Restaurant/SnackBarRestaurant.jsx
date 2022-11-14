@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Snackbar } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
@@ -6,33 +6,11 @@ import colors from "../config/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleShowSnackbar } from "../redux/ui/uiSlice";
 
-const SnackbarMessage = (props) => {
+const SnackbarRestaurant = () => {
   const dispatch = useDispatch();
 
   const visible = useSelector((state) => state.uiSlice.showSnackbar);
-  const [status, setStatus] = useState();
-  const [successMsg, setSuccessMsg] = useState();
-  const [errorMsg, setErrorMsg] = useState();
-
-  const statusCustomer = useSelector((state) => state.customerSlice.status);
-  const successMsgCustomer = useSelector((state) => state.customerSlice.successMsg);
-  const errorMsgCustomer = useSelector((state) => state.customerSlice.errorMsg);
-  const statusRestaurant = useSelector((state) => state.restaurantSlice.status);
-  const successMsgRestaurant = useSelector((state) => state.restaurantSlice.successMsg);
-  const errorMsgRestaurant = useSelector((state) => state.restaurantSlice.errorMsg);
-
-  useEffect(() => {
-    if (props.subject === "customer") {
-      setStatus(statusCustomer);
-      setSuccessMsg(successMsgCustomer);
-      setErrorMsg(errorMsgCustomer);
-    }
-    if (props.subject === "restaurant") {
-      setStatus(statusRestaurant);
-      setSuccessMsg(successMsgRestaurant);
-      setErrorMsg(errorMsgRestaurant);
-    }
-  }, [statusCustomer, statusRestaurant]);
+  const { status, successMsg, errorMsg } = useSelector((state) => state.restaurantSlice);
 
   const onDismissSnackBar = () => {
     dispatch(toggleShowSnackbar(false));

@@ -116,7 +116,7 @@ const RestaurantProfile = () => {
           </View>
         </SafeAreaView>
       </ScrollView>
-      <SnackbarMessage />
+      <SnackbarMessage subject="customer" />
     </Screen>
   );
 };
