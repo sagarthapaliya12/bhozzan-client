@@ -11,8 +11,7 @@ import React, { useEffect } from "react";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { Entypo } from "@expo/vector-icons";
-import { Divider } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasketRestaurants, setBasketRestaurantSearch } from "./customerSlice";
 
@@ -23,10 +22,11 @@ const BasketList = () => {
   const dispatch = useDispatch();
 
   const basketRestaurants = useSelector((state) => state.customerSlice.basketRestaurants);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     dispatch(getBasketRestaurants());
-  }, []);
+  }, [isFocused]);
 
   return (
     <Screen>

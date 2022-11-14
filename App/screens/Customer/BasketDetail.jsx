@@ -10,11 +10,13 @@ import { getBasketDishes } from "./customerSlice";
 import SubmitButton from "../../components/forms/SubmitButton";
 import Form from "../../components/forms/Form";
 import Screen from "../../components/Screen";
+import { useIsFocused } from "@react-navigation/native";
 
 const { height, width } = Dimensions.get("window");
 
 const BasketDetail = () => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const [quantity, setQuantity] = useState({});
   const [subTotalToDisplay, setSubTotalToDisplay] = useState(0);
@@ -24,7 +26,7 @@ const BasketDetail = () => {
 
   useEffect(() => {
     dispatch(getBasketDishes(basketRestaurant));
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     let quan = {};
@@ -69,7 +71,16 @@ const BasketDetail = () => {
   };
 
   const checkout = () => {
-    console.log("sdsdsd");
+    // console.log("sdsdsd", basketDishes);
+    // let item = [];
+    // let item;
+
+    basketDishes.forEach((foodDetail, index) => {
+      let { category, name, __v, price, ...item } = foodDetail.dish;
+      item = { ...item, dishId: foodDetail.dish._id };
+
+      console.log("Gigg: ", item);
+    });
   };
 
   return (
@@ -119,10 +130,7 @@ const BasketDetail = () => {
       <Form onSubmit={checkout}>
         <SubmitButton title="Confirm Order" />
       </Form> */}
-        <Pressable
-          style={styles.checkoutButton}
-          onPress={() => console.log("dsdsd: ", basketDishes)}
-        >
+        <Pressable style={styles.checkoutButton} onPress={checkout}>
           <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
             Confirm Order
           </Text>

@@ -115,8 +115,8 @@ const customerSlice = createSlice({
       })
       .addCase(addToBasket.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        // state.basket.push(action.payload.dish);
-        console.log("action: ", action);
+        // state.basketDishes.push(action.payload.dish);
+        // console.log("action: ", action);
         state.successMsg = action.payload.message;
       })
       .addCase(addToBasket.rejected, (state, action) => {
