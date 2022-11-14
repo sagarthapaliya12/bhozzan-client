@@ -72,6 +72,15 @@ const getBasketDishes = async (restaurantId) => {
   }
 };
 
+const placeOrder = async (order) => {
+  try {
+    const { data } = await api.post(`/order/create`, order);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
 const customerService = {
   getUserDetails,
   getRestaurantDetails,
@@ -81,6 +90,7 @@ const customerService = {
   addToBasket,
   getBasketRestaurants,
   getBasketDishes,
+  placeOrder,
 };
 
 export default customerService;

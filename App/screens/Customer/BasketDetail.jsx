@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Divider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getBasketDishes } from "./customerSlice";
+import { getBasketDishes, placeOrder } from "./customerSlice";
 import SubmitButton from "../../components/forms/SubmitButton";
 import Form from "../../components/forms/Form";
 import Screen from "../../components/Screen";
@@ -71,16 +71,13 @@ const BasketDetail = () => {
   };
 
   const checkout = () => {
-    // console.log("sdsdsd", basketDishes);
-    // let item = [];
-    // let item;
-
-    basketDishes.forEach((foodDetail, index) => {
-      let { category, name, __v, price, ...item } = foodDetail.dish;
-      item = { ...item, dishId: foodDetail.dish._id };
-
-      console.log("Gigg: ", item);
+    const order = basketDishes.map((item) => {
+      const dish = item.dish;
+      return { dishId: dish._id, restaurant: dish.restaurant, quantity: quantity[dish._id] };
     });
+
+    dispatch(placeOrder(order));
+    console.log(order);
   };
 
   return (

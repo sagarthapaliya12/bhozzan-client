@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -46,7 +46,6 @@ const AddMenu = () => {
                 price: "",
               }}
               onSubmit={(dish) => {
-                console.log("sdcdsc");
                 addDish(dish);
               }}
               validationSchema={validationSchema}
@@ -60,7 +59,7 @@ const AddMenu = () => {
               {/*////////////////////////////////////////////////////*/}
               {/*//////////////////// Dropdown //////////////////////*/}
               {/*////////////////////////////////////////////////////*/}
-              {/* <View value={category} style={{ alignItems: "center" }}>
+              <View value={category} style={{ alignItems: "center" }}>
                 <TouchableOpacity
                   style={styles.dropdown}
                   activeOpacity={0.8}
@@ -110,12 +109,9 @@ const AddMenu = () => {
                     </ScrollView>
                   </View>
                 )}
-              </View> */}
-              {/* <View style={{ marginTop: 15 }}>
-                <SubmitButton title="Add Dish" />
-              </View> */}
+              </View>
               <View style={{ marginTop: 15 }}>
-                <SubmitButton title="Add Dish" onPress={() => console.log("sfsdfdf")} />
+                <SubmitButton title="Add Dish" />
               </View>
               {/* <Pressable style={styles.saveButton} onPress={() => console.log("Oh yah giggity")}>
                 <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
