@@ -50,7 +50,6 @@ const addToBasket = async (dishId) => {
     const { data } = await api.post(`/basket/${dishId}`);
     return data;
   } catch (err) {
-    // console.log(err.response.data);
     throw new Error(err.response.data.error);
   }
 };
