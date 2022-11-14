@@ -43,6 +43,10 @@ export const getBasketDishes = createAsyncThunk("basket/getBasketDishes", async 
   customerService.getBasketDishes(restaurantId)
 );
 
+export const placeOrder = createAsyncThunk("order/create", async (order) =>
+  customerService.placeOrder(order)
+);
+
 const customerSlice = createSlice({
   name: "customer",
   initialState,
@@ -115,11 +119,13 @@ const customerSlice = createSlice({
       })
       .addCase(addToBasket.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.basket.push(action.payload.dish);
+        // state.basketDishes.push(action.payload.dish);
+        // console.log("action: ", action);
+        state.successMsg = action.payload.message;
       })
       .addCase(addToBasket.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        state.errorMsg = action.error.errorMsg;
+        state.errorMsg = action.error.message;
       })
 
       //Get Basket Restaurants
@@ -146,6 +152,21 @@ const customerSlice = createSlice({
       .addCase(getBasketDishes.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
+      })
+
+      //Add/Place Order
+      .addCase(placeOrder.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(placeOrder.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        // state.basketDishes.push(action.payload.dish);
+        // console.log("action: ", action);
+        state.successMsg = action.payload.message;
+      })
+      .addCase(placeOrder.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
       });
   },
 });

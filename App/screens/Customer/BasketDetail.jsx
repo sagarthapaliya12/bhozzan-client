@@ -6,15 +6,17 @@ import { useState } from "react";
 import { Divider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getBasketDishes } from "./customerSlice";
+import { getBasketDishes, placeOrder } from "./customerSlice";
 import SubmitButton from "../../components/forms/SubmitButton";
 import Form from "../../components/forms/Form";
 import Screen from "../../components/Screen";
+import { useIsFocused } from "@react-navigation/native";
 
 const { height, width } = Dimensions.get("window");
 
 const BasketDetail = () => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const [quantity, setQuantity] = useState({});
   const [subTotalToDisplay, setSubTotalToDisplay] = useState(0);
@@ -24,7 +26,7 @@ const BasketDetail = () => {
 
   useEffect(() => {
     dispatch(getBasketDishes(basketRestaurant));
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     let quan = {};
@@ -69,7 +71,13 @@ const BasketDetail = () => {
   };
 
   const checkout = () => {
-    console.log("sdsdsd");
+    const order = basketDishes.map((item) => {
+      const dish = item.dish;
+      return { dishId: dish._id, restaurant: dish.restaurant, quantity: quantity[dish._id] };
+    });
+
+    dispatch(placeOrder(order));
+    console.log(order);
   };
 
   return (
@@ -119,10 +127,7 @@ const BasketDetail = () => {
       <Form onSubmit={checkout}>
         <SubmitButton title="Confirm Order" />
       </Form> */}
-        <Pressable
-          style={styles.checkoutButton}
-          onPress={() => console.log("dsdsd: ", basketDishes)}
-        >
+        <Pressable style={styles.checkoutButton} onPress={checkout}>
           <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
             Confirm Order
           </Text>
