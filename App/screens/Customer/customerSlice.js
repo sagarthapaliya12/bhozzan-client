@@ -55,6 +55,9 @@ export const removeBasketDish = createAsyncThunk("basket/removeBasketDish", asyn
 export const placeOrder = createAsyncThunk("order/create", async (order) =>
   customerService.placeOrder(order)
 );
+export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
+  customerService.getOrderHistory()
+);
 
 const customerSlice = createSlice({
   name: "customer",
@@ -203,6 +206,19 @@ const customerSlice = createSlice({
         state.successMsg = action.payload.message;
       })
       .addCase(placeOrder.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
+      //Get Order History
+      .addCase(getOrderHistory.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getOrderHistory.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.OrderHistories = action.payload.orders;
+      })
+      .addCase(getOrderHistory.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       });

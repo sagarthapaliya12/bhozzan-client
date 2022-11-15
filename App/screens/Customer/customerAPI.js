@@ -99,6 +99,15 @@ const placeOrder = async (order) => {
   }
 };
 
+const getOrderHistory = async () => {
+  try {
+    const { data } = await api.get(`/order/my-orders`);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
 const customerService = {
   getUserDetails,
   getRestaurantDetails,
@@ -111,6 +120,7 @@ const customerService = {
   getBasketDishes,
   removeBasketDish,
   placeOrder,
+  getOrderHistory,
 };
 
 export default customerService;
