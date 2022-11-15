@@ -15,7 +15,6 @@ import colors from "../../config/colors";
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-import Restaurants from "../../components/Restaurant/Restaurants";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "./orderSlice";
 
@@ -23,20 +22,29 @@ const OrderStatus = () => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.orderSlice.orderStatusState);
   const orders = useSelector((state) => state.orderSlice.orders);
-  console.log("Status:", status, ", orders:", orders);
+
+  const [listData, setListData] = useState();
+  // orders.map((order, index) => ({
+  //   key: order._id,
+
+  //   // name: RestaurantList.name,
+  //   // location: RestaurantList.location,
+  //   // profile: RestaurantList.profile,
+  // }))
+
+  // console.l;
 
   useEffect(() => {
     dispatch(getOrders(status));
-  }, []);
+    setListData(
+      orders.map((order) => ({
+        key: order._id,
+        dishes: order.dishes,
+      }))
+    );
+  }, [status]);
 
-  const [listData, setListData] = useState(
-    Restaurants.map((RestaurantList, index) => ({
-      key: `${index}`,
-      name: RestaurantList.name,
-      location: RestaurantList.location,
-      profile: RestaurantList.profile,
-    }))
-  );
+  // console.log("List Data: ", listData);
 
   const acceptRow = (rowMap, rowKey) => {
     console.log("This restaurant is accepted", rowKey);
@@ -58,7 +66,11 @@ const OrderStatus = () => {
 
   const VisibleItem = (props) => {
     const { data, rowHeightAnimatedValue, removeRow, leftActionState, rightActionState } = props;
+    // console.log("data is kk", typeof data, data);
 
+    // console.log(data.hasOwnProperty("_id"));
+    // console.log("dishes is here", data.dishes);
+    //
     if (rightActionState) {
       Animated.timing(rowHeightAnimatedValue, {
         toValue: 0,
@@ -70,23 +82,44 @@ const OrderStatus = () => {
     }
 
     return (
-      <Animated.View style={[styles.rowFront, { height: rowHeightAnimatedValue }]}>
-        <TouchableHighlight style={styles.rowFrontVisible}>
+      <Animated.View
+        style={[
+          styles.rowFront,
+          // { height: rowHeightAnimatedValue }
+        ]}
+      >
+        <TouchableHighlight
+        // style={styles.rowFrontVisible}
+        >
           <View style={styles.mainContainer}>
             <View style={styles.restaurantDetail}>
-              <View style={styles.profileContainer}>
+              {/* <View style={styles.profileContainer}>
                 <Image style={styles.restaurantProfile} source={data.item.profile} />
+              </View> */}
+            </View>
+            {console.log("Test: ", data.item.dishes)}
+            {/* {data.item.dishes.map((dish) => (
+              <View>
+                <Text style={styles.name} numberOfLines={1}>
+                  {dish.dishId}
+                </Text>
+                <Text></Text>
               </View>
-            </View>
+            ))} */}
 
-            <View>
-              <Text style={styles.name} numberOfLines={1}>
-                {data.item.name}
-              </Text>
-              <Text style={styles.location} numberOfLines={1}>
-                {data.item.location}
-              </Text>
-            </View>
+            {data.item.dishes.map((dish) => {
+              return (
+                <View style={styles.VisibleData}>
+                  <Text style={styles.name} numberOfLines={1}>
+                    Name: {dish.dishId}
+                  </Text>
+                  <Text style={styles.location} numberOfLines={1}>
+                    Quantity: {dish.quantity}
+                  </Text>
+                </View>
+              );
+            })}
+            <Text style={{ color: "white" }}>Total Price: {data.item.totalPrice}</Text>
           </View>
         </TouchableHighlight>
       </Animated.View>
@@ -94,12 +127,11 @@ const OrderStatus = () => {
   };
 
   const renderItem = (data, rowMap) => {
-    const rowHeightAnimatedValue = new Animated.Value(80);
-
+    // const rowHeightAnimatedValue = new Animated.Value(80);
     return (
       <VisibleItem
         data={data}
-        rowHeightAnimatedValue={rowHeightAnimatedValue}
+        // rowHeightAnimatedValue={rowHeightAnimatedValue}
         removeRow={() => deleteRow(rowMap, data.item.key)}
       />
     );
@@ -130,7 +162,12 @@ const OrderStatus = () => {
     }
 
     return (
-      <Animated.View style={[styles.rowBack, { height: rowHeightAnimatedValue }]}>
+      <Animated.View
+        style={[
+          styles.rowBack,
+          //  { height: rowHeightAnimatedValue }
+        ]}
+      >
         {!rightActionActivated && (
           <TouchableOpacity style={[styles.frontLeftBtn]} onPress={onAccept}>
             <MaterialCommunityIcons
@@ -203,7 +240,7 @@ const OrderStatus = () => {
         data={data}
         rowMap={rowMap}
         rowActionAnimatedValue={rowActionAnimatedValue}
-        rowHeightAnimatedValue={rowHeightAnimatedValue}
+        // rowHeightAnimatedValue={rowHeightAnimatedValue}
         onAccept={() => acceptRow(rowMap, data.item.key)}
         // onClose={() => closeRow(rowMap, data.item.key)}
         onDelete={() => deleteRow(rowMap, data.item.key)}
@@ -239,7 +276,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainContainer: {
-    flexDirection: "row",
+    // flexDirection: "row",
     color: colors.screen,
   },
   restaurantDetail: {
@@ -251,6 +288,10 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 50,
     marginRight: 15,
+  },
+  VisibleData: {
+    // flex: 1,
+    flexDirection: "column",
   },
   restaurantProfile: {
     width: 60,
