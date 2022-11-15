@@ -11,42 +11,48 @@ import More from "../screens/Customer/More";
 import FavoritesScreen from "../screens/Customer/FavoritesScreen";
 import BasketList from "../screens/Customer/BasketList";
 import BasketDetail from "../screens/Customer/BasketDetail";
+import { useSelector } from "react-redux";
 
 const Stack = createStackNavigator();
 
-const HomeNavigator = () => (
-  <Stack.Navigator
-  // presentation="modal"
-  // screenOptions={{
-  //   headerShown: false,
-  //   animationDuration: 800,
-  // }}
-  >
-    <Stack.Screen name="Feed" component={HomeScreen} options={{ headerShown: false }} />
-    <Stack.Screen
-      name="BrowseCategory"
-      component={BrowseCategory}
-      options={{
-        title: "Categories",
-        headerTintColor: colors.white,
-        headerStyle: {
-          backgroundColor: colors.screen,
-        },
-      }}
-    />
-    <Stack.Screen
-      name="RestaurantProfile"
-      component={RestaurantProfile}
-      options={{
-        title: "Restaurant Profile",
-        headerTintColor: colors.white,
-        headerStyle: {
-          backgroundColor: colors.screen,
-        },
-      }}
-    />
-  </Stack.Navigator>
-);
+const HomeNavigator = () => {
+  const categoryState = useSelector((state) => state.restaurantSlice.categoryState);
+
+  return (
+    <Stack.Navigator
+    // presentation="modal"
+    // screenOptions={{
+    //   headerShown: false,
+    //   animationDuration: 800,
+    // }}
+    >
+      <Stack.Screen name="Feed" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="BrowseCategory"
+        component={BrowseCategory}
+        options={{
+          // title: categoryState,
+          title: categoryState?.charAt(0).toUpperCase() + categoryState?.slice(1),
+          headerTintColor: colors.white,
+          headerStyle: {
+            backgroundColor: colors.screen,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="RestaurantProfile"
+        component={RestaurantProfile}
+        options={{
+          title: "Restaurant Profile",
+          headerTintColor: colors.white,
+          headerStyle: {
+            backgroundColor: colors.screen,
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const BasketNavigator = () => (
   <Stack.Navigator>
@@ -109,5 +115,6 @@ const MoreNavigator = () => (
     />
   </Stack.Navigator>
 );
+// };
 
 export { HomeNavigator, BasketNavigator, MoreNavigator };

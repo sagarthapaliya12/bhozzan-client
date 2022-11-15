@@ -6,6 +6,7 @@ const loginUser = async (credentials) => {
     const { data } = await api.post("/user/login", credentials);
     AsyncStorage.setItem("user", JSON.stringify({ ...data }));
     api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);

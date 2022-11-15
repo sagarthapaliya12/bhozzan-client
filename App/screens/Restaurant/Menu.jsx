@@ -27,7 +27,7 @@ const Menu = ({ navigation }) => {
   return (
     <Screen>
       <ScrollView style={styles.container}>
-        {dishes.map((item, index) => {
+        {dishes?.map((item, index) => {
           return (
             <View key={index} style={{ marginBottom: 40 }}>
               <View style={{ position: "relative" }}>
@@ -75,7 +75,7 @@ const Menu = ({ navigation }) => {
           <Ionicons name="add" size={30} color={colors.screen} />
         </TouchableHighlight>
       </View>
-      <SnackbarMessage subject="restaurant"/>
+      <SnackbarMessage subject="restaurant" />
     </Screen>
   );
 };
