@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,11 +16,25 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Restaurants from "../../components/Restaurant/Restaurants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getPendingOrders } from "./orderSlice";
 
 const OrderStatus = () => {
-  const status = useSelector((state) => state.restaurantSlice.orderStatusState);
-  console.log("Status: ", status);
+  const dispatch = useDispatch();
+  const status = useSelector((state) => state.orderSlice.orderStatusState);
+  const pendingOrders = useSelector((state) => state.orderSlice.pendingOrders);
+  console.log("Status: ", status, "pending orders", pendingOrders);
+
+  useEffect(() => {
+    switch (status) {
+      case "pending":
+        dispatch(getPendingOrders());
+        console.log("jajaj");
+        break;
+      default:
+        break;
+    }
+  }, []);
 
   const [listData, setListData] = useState(
     Restaurants.map((RestaurantList, index) => ({
