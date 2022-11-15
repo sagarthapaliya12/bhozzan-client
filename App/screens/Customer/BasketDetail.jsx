@@ -6,17 +6,20 @@ import { useState } from "react";
 import { Divider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import Constants from 'expo-constants';
+
 import { getBasketDishes, placeOrder } from "./customerSlice";
 import SubmitButton from "../../components/forms/SubmitButton";
 import Form from "../../components/forms/Form";
 import Screen from "../../components/Screen";
-import { useIsFocused } from "@react-navigation/native";
 
 const { height, width } = Dimensions.get("window");
 
 const BasketDetail = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
   const [quantity, setQuantity] = useState({});
   const [subTotalToDisplay, setSubTotalToDisplay] = useState(0);
@@ -78,10 +81,11 @@ const BasketDetail = () => {
 
     dispatch(placeOrder(order));
     console.log(order);
+    navigation.navigate("QrGenerator");
   };
 
   return (
-    <Screen>
+    <View style={styles.containerFirst}>
       <ScrollView style={styles.container}>
         {basketDishes.map((dish) => {
           return (
@@ -133,13 +137,18 @@ const BasketDetail = () => {
           </Text>
         </Pressable>
       </ScrollView>
-    </Screen>
+    </View>
   );
 };
 
 export default BasketDetail;
 
 const styles = StyleSheet.create({
+  containerFirst: {
+    backgroundColor: colors.screen,
+    flex: 1,
+    paddingTop: Constants.statusBarHeight, 
+  },
   container: {
     backgroundColor: colors.screen,
     width: width,

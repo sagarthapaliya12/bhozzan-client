@@ -68,11 +68,10 @@ const CustomerTab = () => {
         name="Basket"
         component={BasketNavigator}
         options={{
-          // headerShown: false,
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <View>
-              <MaterialCommunityIcons
-                // style={{ position: "absolute", left: 0 }}
+              <MaterialCommunityIcons                
                 name="basket"
                 color={color}
                 size={size}
