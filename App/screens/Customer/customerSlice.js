@@ -10,6 +10,7 @@ const initialState = {
   basketRestaurantSearch: null,
   basketRestaurants: [],
   basketDishes: [],
+  basketCount: 0,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
@@ -33,6 +34,10 @@ export const getFavoriteRestaurant = createAsyncThunk("user/getFavorite", async 
 
 export const addToBasket = createAsyncThunk("basket/addToBasket", async (dishId) =>
   customerService.addToBasket(dishId)
+);
+
+export const getBasketCount = createAsyncThunk("basket/count", async () =>
+  customerService.getBasketCount()
 );
 
 export const getBasketRestaurants = createAsyncThunk("basket/getBasketRestaurants", async () =>
@@ -120,10 +125,23 @@ const customerSlice = createSlice({
       .addCase(addToBasket.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         // state.basketDishes.push(action.payload.dish);
-        // console.log("action: ", action);
+        state.basketCount++;
         state.successMsg = action.payload.message;
       })
       .addCase(addToBasket.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
+      //Get Basket Count
+      .addCase(getBasketCount.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getBasketCount.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.basketCount = action.payload.count;
+      })
+      .addCase(getBasketCount.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       })
@@ -138,7 +156,7 @@ const customerSlice = createSlice({
       })
       .addCase(getBasketRestaurants.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        state.errorMsg = action.error.errorMsg;
+        state.errorMsg = action.error.message;
       })
 
       //Get Basket Dishes
@@ -151,7 +169,7 @@ const customerSlice = createSlice({
       })
       .addCase(getBasketDishes.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        state.errorMsg = action.error.errorMsg;
+        state.errorMsg = action.error.message;
       })
 
       //Add/Place Order
