@@ -7,7 +7,7 @@ import colors from "../../config/colors";
 import { ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
 import AdminProfile from '../../screens/Admin/AdminProfile';
 import RestaurantApproval from '../../screens/Admin/RestaurantApproval';
-import { AdminNavigator, HomeScreenNavigator } from "../../navigation/AdminNavigator";
+import { AdminNavigator, AdminProfileNavigator, HomeScreenNavigator } from "../../navigation/AdminNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +48,7 @@ const AdminTab = () => (
 
     <Tab.Screen
       name="Admin Profile"
-      component={AdminProfile}
+      component={AdminProfileNavigator}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account" color={color} size={size} />

@@ -8,13 +8,14 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { useEffect } from "react";
-import colors from "../../config/colors";
-import Screen from "../../components/Screen";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasketRestaurants, setBasketRestaurantSearch } from "./customerSlice";
+import Constants from 'expo-constants';
 
+import colors from "../../config/colors";
+import Screen from "../../components/Screen";
 const { height, width } = Dimensions.get("window");
 
 const BasketList = () => {
@@ -29,7 +30,7 @@ const BasketList = () => {
   }, [isFocused]);
 
   return (
-    <Screen>
+    <View style={styles.container}>
       <ScrollView>
         {basketRestaurants?.map((item) => {
           return (
@@ -65,13 +66,18 @@ const BasketList = () => {
           );
         })}
       </ScrollView>
-    </Screen>
+    </View>
   );
 };
 
 export default BasketList;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.screen,
+    flex: 1,
+    paddingTop: Constants.statusBarHeight, 
+  },
   basketItem: {
     flexDirection: "row",
     alignItems: "center",

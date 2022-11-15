@@ -17,23 +17,16 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import Restaurants from "../../components/Restaurant/Restaurants";
 import { useDispatch, useSelector } from "react-redux";
-import { getPendingOrders } from "./orderSlice";
+import { getOrders } from "./orderSlice";
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.orderSlice.orderStatusState);
-  const pendingOrders = useSelector((state) => state.orderSlice.pendingOrders);
-  console.log("Status: ", status, "pending orders", pendingOrders);
+  const orders = useSelector((state) => state.orderSlice.orders);
+  console.log("Status:", status, ", orders:", orders);
 
   useEffect(() => {
-    switch (status) {
-      case "pending":
-        dispatch(getPendingOrders());
-        console.log("jajaj");
-        break;
-      default:
-        break;
-    }
+    dispatch(getOrders(status));
   }, []);
 
   const [listData, setListData] = useState(

@@ -8,9 +8,11 @@ import AppButton from "../../components/AppButton";
 import ListItem from "../../components/ListItem";
 import { logout } from "../Public/authSlice";
 import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
-const AdminProfile = ({ navigation }) => {
+const AdminProfile = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -33,9 +35,9 @@ const AdminProfile = ({ navigation }) => {
 
         <View style={styles.editBtn}>
           <AppButton
-            title="Edit Profile"
+            title="Scan QR"
             onPress={() => {
-              navigation.navigate("EditProfile");
+              navigation.navigate("QrScanner");
             }}
           />
         </View>
@@ -44,7 +46,7 @@ const AdminProfile = ({ navigation }) => {
           {/* <View style={styles.buttons}>
             <View></View>
             
-          </View> */}          
+          </View> */}
         </View>
       </View>
     </View>

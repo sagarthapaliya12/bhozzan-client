@@ -1,13 +1,14 @@
 import api from "../../helpers/axios";
 
-const getPendingOrders = async () => {
+const getOrders = async (param) => {
   try {
-    const { data } = await api.get(`/order/restaurant?status=pending`);
+    const uri = param ? `/order/restaurant?status=${param}` : `/order/restaurant`;
+    const { data } = await api.get(uri);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
   }
 };
 
-const orderService = { getPendingOrders };
+const orderService = { getOrders };
 export default orderService;
