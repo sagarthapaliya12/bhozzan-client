@@ -81,6 +81,15 @@ const getBasketDishes = async (restaurantId) => {
   }
 };
 
+const removeBasketDish = async (dishId) => {
+  try {
+    const { data } = await api.delete(`/basket/${dishId}`);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
 const placeOrder = async (order) => {
   try {
     const { data } = await api.post(`/order/create`, order);
@@ -100,6 +109,7 @@ const customerService = {
   getBasketCount,
   getBasketRestaurants,
   getBasketDishes,
+  removeBasketDish,
   placeOrder,
 };
 

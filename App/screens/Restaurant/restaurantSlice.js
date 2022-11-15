@@ -159,5 +159,6 @@ const restaurantSlice = createSlice({
   },
 });
 
-export const { reset, changeCategoryState, changeOrderStatusState, addSeats } = restaurantSlice.actions;
+export const { reset, changeCategoryState, changeOrderStatusState, addSeats } =
+  restaurantSlice.actions;
 export default restaurantSlice.reducer;

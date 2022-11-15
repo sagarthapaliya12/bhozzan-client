@@ -6,11 +6,13 @@ import { useState } from "react";
 import { Divider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getBasketDishes, placeOrder } from "./customerSlice";
+import { getBasketDishes, placeOrder, removeBasketDish } from "./customerSlice";
 import SubmitButton from "../../components/forms/SubmitButton";
 import Form from "../../components/forms/Form";
 import Screen from "../../components/Screen";
 import { useIsFocused } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { height, width } = Dimensions.get("window");
 
@@ -70,6 +72,10 @@ const BasketDetail = () => {
     }
   };
 
+  const handleDelete = (dishId) => {
+    dispatch(removeBasketDish(dishId));
+  };
+
   const checkout = () => {
     const order = basketDishes.map((item) => {
       const dish = item.dish;
@@ -106,8 +112,14 @@ const BasketDetail = () => {
                   />
                 </View>
               </View>
-              <View style={styles.priceCart}>
-                <View>
+              <View style={styles.rightContainer}>
+                <TouchableOpacity
+                  style={styles.deleteBtn}
+                  onPress={() => handleDelete(dish.dish._id)}
+                >
+                  <MaterialIcons name="delete" size={24} color={colors.screen} />
+                </TouchableOpacity>
+                <View style={styles.priceCart}>
                   <Text style={{ color: colors.secondary, fontSize: 20 }}>
                     Rs.&nbsp;{quantity[dish.dish._id] * dish.dish.price}
                   </Text>
@@ -165,6 +177,15 @@ const styles = StyleSheet.create({
   restaurantName: {
     color: colors.white,
     fontWeight: "600",
+  },
+  rightContainer: { alignItems: "flex-end", position: "relative" },
+  deleteBtn: {
+    backgroundColor: colors.secondary,
+    borderRadius: 15,
+    width: 30,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
   priceCart: { alignItems: "center" },
   cart: {
