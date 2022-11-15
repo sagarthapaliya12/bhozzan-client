@@ -7,11 +7,14 @@ import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { useDispatch, useSelector } from "react-redux";
 import { getRestaurantUserId, getDishesByRestaurantId } from "./restaurantSlice";
+import { useIsFocused } from "@react-navigation/native";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const { height, width } = Dimensions.get("window");
 
 const Menu = ({ navigation }) => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
   const dishes = useSelector((state) => state.restaurantSlice.dishes);
@@ -19,7 +22,7 @@ const Menu = ({ navigation }) => {
   useEffect(() => {
     dispatch(getRestaurantUserId());
     dispatch(getDishesByRestaurantId(restaurantId));
-  }, [restaurantId]);
+  }, [restaurantId, isFocused]);
 
   return (
     <Screen>
@@ -72,6 +75,7 @@ const Menu = ({ navigation }) => {
           <Ionicons name="add" size={30} color={colors.screen} />
         </TouchableHighlight>
       </View>
+      <SnackbarMessage subject="restaurant"/>
     </Screen>
   );
 };

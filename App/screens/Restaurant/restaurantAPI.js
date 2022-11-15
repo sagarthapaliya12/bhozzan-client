@@ -1,3 +1,4 @@
+import { useLinkBuilder } from "@react-navigation/native";
 import api from "../../helpers/axios";
 
 const getAllRestaurants = async () => {
@@ -56,8 +57,7 @@ const getDishesByCategory = async (categoryName) => {
 
 const addDish = async (dish) => {
   try {
-    const { data } = await api.get(`/dish/add`, dish);
-    console.log("Add", data);
+    const { data } = await api.post(`/dish/add`, dish);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
