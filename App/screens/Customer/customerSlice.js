@@ -48,6 +48,10 @@ export const getBasketDishes = createAsyncThunk("basket/getBasketDishes", async 
   customerService.getBasketDishes(restaurantId)
 );
 
+export const removeBasketDish = createAsyncThunk("basket/removeBasketDish", async (dishId) =>
+  customerService.removeBasketDish(dishId)
+);
+
 export const placeOrder = createAsyncThunk("order/create", async (order) =>
   customerService.placeOrder(order)
 );
@@ -166,8 +170,24 @@ const customerSlice = createSlice({
       .addCase(getBasketDishes.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         state.basketDishes = action.payload.dish;
+        console.log("fsdd", action.payload);
       })
       .addCase(getBasketDishes.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
+      //Remove Basket Dish
+      .addCase(removeBasketDish.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(removeBasketDish.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        // console.log("fsdd", action.payload);
+        state.basketDishes = state.basketDishes.filter((item) => item._id !== action.payload);
+        // state.basketDishes = action.payload.dish;
+      })
+      .addCase(removeBasketDish.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       })
