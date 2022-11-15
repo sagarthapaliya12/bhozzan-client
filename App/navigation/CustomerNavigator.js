@@ -11,17 +11,12 @@ import More from "../screens/Customer/More";
 import FavoritesScreen from "../screens/Customer/FavoritesScreen";
 import BasketList from "../screens/Customer/BasketList";
 import BasketDetail from "../screens/Customer/BasketDetail";
+import QrGenerator from "../components/Customer/HomeScreen/QrGenerator";
 
 const Stack = createStackNavigator();
 
 const HomeNavigator = () => (
-  <Stack.Navigator
-  // presentation="modal"
-  // screenOptions={{
-  //   headerShown: false,
-  //   animationDuration: 800,
-  // }}
-  >
+  <Stack.Navigator>
     <Stack.Screen name="Feed" component={HomeScreen} options={{ headerShown: false }} />
     <Stack.Screen
       name="BrowseCategory"
@@ -50,16 +45,29 @@ const HomeNavigator = () => (
 
 const BasketNavigator = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Feed" component={BasketList} options={{ headerShown: false }} />
+    <Stack.Screen name="Basket Details" component={BasketList} options={{ headerShown: false }}/>
     <Stack.Screen
       name="BasketDetail"
       component={BasketDetail}
       options={{
-        title: "Basket",
+        title: "Basket Details",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,
         },
+      }}
+    />
+
+    <Stack.Screen
+      name="QrGenerator"
+      component={QrGenerator}
+      options={{
+        // title: "Basket",
+        // headerTintColor: colors.white,
+        // headerStyle: {
+        //   backgroundColor: colors.screen,
+        // },
+        headerShown: false,
       }}
     />
   </Stack.Navigator>

@@ -19,6 +19,7 @@ const { height, width } = Dimensions.get("window");
 const BasketDetail = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
   const [quantity, setQuantity] = useState({});
   const [subTotalToDisplay, setSubTotalToDisplay] = useState(0);
@@ -84,10 +85,11 @@ const BasketDetail = () => {
 
     dispatch(placeOrder(order));
     console.log(order);
+    navigation.navigate("QrGenerator");
   };
 
   return (
-    <Screen>
+    <View style={styles.containerFirst}>
       <ScrollView style={styles.container}>
         {basketDishes.map((dish) => {
           return (
@@ -145,13 +147,18 @@ const BasketDetail = () => {
           </Text>
         </Pressable>
       </ScrollView>
-    </Screen>
+    </View>
   );
 };
 
 export default BasketDetail;
 
 const styles = StyleSheet.create({
+  containerFirst: {
+    backgroundColor: colors.screen,
+    flex: 1,
+    paddingTop: Constants.statusBarHeight, 
+  },
   container: {
     backgroundColor: colors.screen,
     width: width,
