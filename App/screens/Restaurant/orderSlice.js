@@ -3,15 +3,15 @@ import StatusStateEnum from "../../enums/statusEnum";
 import orderService from "./orderAPI";
 
 const initialState = {
-  pendingOrders: [],
+  orders: [],
   orderStatusState: null,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
 };
 
-export const getPendingOrders = createAsyncThunk("/order/restaurant?status=pending", async () =>
-  orderService.getPendingOrders()
+export const getOrders = createAsyncThunk(`order/restaurant`, async (param) =>
+  orderService.getOrders(param)
 );
 
 const orderSlice = createSlice({
@@ -25,15 +25,16 @@ const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getPendingOrders.pending, (state, _action) => {
+      .addCase(getOrders.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
-      .addCase(getPendingOrders.fulfilled, (state, action) => {
+      .addCase(getOrders.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.pendingOrders = action.payload.orders;
+        state.orders = action.payload.orders;
       })
-      .addCase(getPendingOrders.rejected, (state, action) => {
+      .addCase(getOrders.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
+        state.orders = [];
         state.errorMsg = action.error.errorMsg;
       });
   },
