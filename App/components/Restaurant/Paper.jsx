@@ -5,7 +5,7 @@ import { Surface, Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import colors from "../../config/colors";
 import OrderStatus from "../../datas/orderStatus";
-import { changeOrderStatusState } from "../../screens/Restaurant/restaurantSlice";
+import { changeOrderStatusState } from "../../screens/Restaurant/orderSlice";
 import Stats from "./Stats";
 
 const Paper = () => {

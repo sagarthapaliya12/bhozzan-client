@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,11 +16,18 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Restaurants from "../../components/Restaurant/Restaurants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders } from "./orderSlice";
 
 const OrderStatus = () => {
-  const status = useSelector((state) => state.restaurantSlice.orderStatusState);
-  console.log("Status: ", status);
+  const dispatch = useDispatch();
+  const status = useSelector((state) => state.orderSlice.orderStatusState);
+  const orders = useSelector((state) => state.orderSlice.orders);
+  console.log("Status:", status, ", orders:", orders);
+
+  useEffect(() => {
+    dispatch(getOrders(status));
+  }, []);
 
   const [listData, setListData] = useState(
     Restaurants.map((RestaurantList, index) => ({
