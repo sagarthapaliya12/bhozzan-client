@@ -10,9 +10,10 @@ import { getBasketDishes, placeOrder, removeBasketDish } from "./customerSlice";
 import SubmitButton from "../../components/forms/SubmitButton";
 import Form from "../../components/forms/Form";
 import Screen from "../../components/Screen";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Constants from 'expo-constants';
 
 const { height, width } = Dimensions.get("window");
 

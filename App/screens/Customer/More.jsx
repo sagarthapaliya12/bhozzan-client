@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity, Pressable } from "react-native";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,7 +12,7 @@ import AppButton from "../../components/AppButton";
 import ListItem from "../../components/ListItem";
 import Icon from "../../components/Icon";
 
-import { logout } from "../Public/authSlice";
+import { logout, reset } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "./customerSlice";
 import { useNavigation } from "@react-navigation/native";
@@ -38,7 +38,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const More = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const user = useSelector((state) => state.customerSlice.user);
 
@@ -48,6 +48,7 @@ const More = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(reset());
   };
 
   return (
@@ -98,7 +99,7 @@ const More = () => {
             <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
               Order History
             </Text>
-          </Pressable>              
+          </Pressable>
         </View>
 
         <View style={styles.bottomContainerSecond}>
@@ -108,10 +109,8 @@ const More = () => {
             onPress={() => navigation.navigate("FavoritesScreen")}
           >
             <AntDesign name="heart" size={24} color="black" />
-            <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
-              My Favorites
-            </Text>
-          </Pressable>              
+            <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>My Favorites</Text>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -155,21 +154,20 @@ const styles = StyleSheet.create({
     marginTop: 60,
     backgroundColor: colors.primary,
     borderRadius: 50,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   bottomContainerSecond: {
     width: "80%",
     marginTop: 10,
     backgroundColor: colors.primary,
     borderRadius: 50,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   bottomRow: {
     width: "100%",
-    flexDirection: "row",  
+    flexDirection: "row",
     padding: 15,
   },
-
 });
 
 export default More;

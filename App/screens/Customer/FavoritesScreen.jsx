@@ -15,7 +15,7 @@ import colors from "../../config/colors";
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-import Restaurants from "../../components/Restaurant/Restaurants";
+// import Restaurants from "../../components/Restaurant/Restaurants";
 import { useEffect } from "react";
 import { getFavoriteRestaurant, setSearch } from "./customerSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,21 +26,21 @@ const FavoritesScreen = () => {
   const navigation = useNavigation();
 
   const restaurant = useSelector((state) => state.customerSlice.favoriteRestaurants);
-  console.log("Check: ", restaurant);
+
+  const [listData, setListData] = useState();
 
   useEffect(() => {
     dispatch(getFavoriteRestaurant());
-  }, []);
-
-  const [listData, setListData] = useState(
-    restaurant.map((RestaurantList, index) => ({
-      key: `${index}`,
-      id: RestaurantList._id,
-      name: RestaurantList.name,
-      location: RestaurantList.address,
-      profile: RestaurantList.profile,
-    }))
-  );
+    setListData(
+      restaurant.map((RestaurantList, index) => ({
+        key: index,
+        id: RestaurantList._id,
+        name: RestaurantList.name,
+        location: RestaurantList.address,
+        profile: RestaurantList.profile,
+      }))
+    );
+  }, [restaurant]);
 
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {

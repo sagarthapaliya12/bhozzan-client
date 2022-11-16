@@ -22,7 +22,7 @@ import defaultStyles from "../../config/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "./authSlice";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
-import { toggleShowInvalidCredentialsModal } from "../../redux/ui/uiSlice";
+import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -50,7 +50,7 @@ function LoginScreen({ navigation }) {
   const status = useSelector((state) => state.authSlice.status);
 
   useEffect(() => {
-    if (status === "failed") dispatch(toggleShowInvalidCredentialsModal(true));
+    if (status === "failed") dispatch(toggleShowMessageModal(true));
   }, [status]);
 
   return (

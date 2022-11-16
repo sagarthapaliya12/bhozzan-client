@@ -32,7 +32,7 @@ const BasketList = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {basketRestaurants.map((item) => {
+        {basketRestaurants?.map((item) => {
           return (
             <TouchableWithoutFeedback
               key={item._id}

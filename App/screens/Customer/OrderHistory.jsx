@@ -4,77 +4,30 @@ import React, { useEffect } from "react";
 import colors from "../../config/colors";
 import { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
+import { getOrderHistory } from "./customerSlice";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
 
 const { height, width } = Dimensions.get("window");
 
-const BrowseCategory = () => {
-  const Bakery = [
-    {
-      id: 1,
-      title: "Cheese Cake",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "600",
-    },
-    {
-      id: 2,
-      title: "Pastry",
-      restaurantName: "Markhu Bakery",
-      location: "Gwarko, Lalitpur",
-      price: "500",
-    },
-    {
-      id: 3,
-      title: "Butter Cookies",
-      restaurantName: "Markhu Bakery",
-      location: "Tinkune, Kathmandu",
-      price: "850",
-    },
-    {
-      id: 4,
-      title: "Croissant",
-      restaurantName: "Markhu Bakery",
-      location: "Jawalakhel, Lalitpur",
-      price: "110",
-    },
-    {
-      id: 5,
-      title: "Cream Pie",
-      restaurantName: "Markhu Bakery",
-      location: "Kamalpokhari, Kathmandu",
-      price: "130",
-    },
-    {
-      id: 6,
-      title: "Blueberry Muffin",
-      restaurantName: "Markhu Bakery",
-      location: "Thimi, Bhaktapur",
-      price: "150",
-    },
-    {
-      id: 7,
-      title: "Vanilla Cake",
-      restaurantName: "Markhu Bakery",
-      location: "Sanepa, Lalitpur",
-      price: "150",
-    },
-    {
-      id: 8,
-      title: "Red Muffin",
-      restaurantName: "Markhu Bakery",
-      location: "Sallaghari, Bhaktapur",
-      price: "150",
-    },
-  ];
+const OrderHistoryList = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const OrderHistories = useSelector((state) => state.customerSlice.OrderHistories);
+
+  useEffect(() => {
+    dispatch(getOrderHistory());
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
-      {Bakery.map((item) => {
+      {OrderHistories?.map((item) => {
         return (
-          <View key={item.id} style={styles.categoryItem}>
+          <View key={item._id} style={styles.categoryItem}>
             <View style={styles.itemDetail}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.restaurantName}>{item.restaurantName}</Text>
+              <Text style={styles.title}>Order #{item._id.slice(4, 9)}</Text>
+              <Text style={styles.restaurantName}>{item.restaurant[0].name}</Text>
               <View style={styles.locationContainer}>
                 <Entypo
                   name="location-pin"
@@ -82,13 +35,15 @@ const BrowseCategory = () => {
                   color={colors.primary}
                   style={{ fontSize: 20 }}
                 />
-                <Text style={styles.location}>{item.location}</Text>
+                <Text style={styles.location}>{item.restaurant[0].address}</Text>
               </View>
             </View>
 
             <View style={styles.priceCart}>
               <View>
-                <Text style={{ color: colors.primary, fontSize: 20 }}>Rs.&nbsp;{item.price}</Text>
+                <Text style={{ color: colors.primary, fontSize: 20 }}>
+                  Rs.&nbsp;{item.totalPrice}
+                </Text>
               </View>
             </View>
           </View>
@@ -98,7 +53,7 @@ const BrowseCategory = () => {
   );
 };
 
-export default BrowseCategory;
+export default OrderHistoryList;
 
 const styles = StyleSheet.create({
   container: { backgroundColor: colors.screen },

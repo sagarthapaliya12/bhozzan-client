@@ -3,8 +3,9 @@ import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 import { Modal, Portal, Provider } from "react-native-paper";
 import colors from "../config/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleShowInvalidCredentialsModal } from "../redux/ui/uiSlice";
+import { toggleShowMessageModal } from "../redux/ui/uiSlice";
 import { useNavigation } from "@react-navigation/native";
+import { reset } from "../screens/Public/authSlice";
 
 const MessagePopUpModal = (props) => {
   const containerStyle = { backgroundColor: "white", padding: 20, margin: 20, borderRadius: 8 };
@@ -12,7 +13,7 @@ const MessagePopUpModal = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const visible = useSelector((state) => state.uiSlice.showInvalidCredentialsModal);
+  const visible = useSelector((state) => state.uiSlice.showMessageModal);
 
   const { status, successMsg, errorMsg } = useSelector((state) => state.authSlice);
 
@@ -21,7 +22,7 @@ const MessagePopUpModal = (props) => {
       <Portal>
         <Modal
           visible={visible}
-          onDismiss={() => dispatch(toggleShowInvalidCredentialsModal(false))}
+          onDismiss={() => dispatch(toggleShowMessageModal(false))}
           contentContainerStyle={containerStyle}
         >
           <View>
@@ -42,10 +43,11 @@ const MessagePopUpModal = (props) => {
               >
                 <TouchableWithoutFeedback
                   onPress={() => {
-                    dispatch(toggleShowInvalidCredentialsModal(false));
+                    dispatch(toggleShowMessageModal(false));
                     status === "success" &&
                       props.parent === "RegisterScreen" &&
                       navigation.navigate("LoginScreen");
+                    dispatch(reset());
                   }}
                 >
                   <Text>OK</Text>
