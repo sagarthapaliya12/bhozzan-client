@@ -44,6 +44,10 @@ export const addDish = createAsyncThunk("dish/add", async (dish) =>
   restaurantService.addDish(dish)
 );
 
+export const addNewTable = createAsyncThunk("table/add", async (table) =>
+  restaurantService.addNewTable(table)
+);
+
 const restaurantSlice = createSlice({
   name: "restaurant",
   initialState,
@@ -138,7 +142,6 @@ const restaurantSlice = createSlice({
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       })
-
       //Add dish
       .addCase(addDish.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
@@ -151,6 +154,18 @@ const restaurantSlice = createSlice({
       .addCase(addDish.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
+      })
+      // Add new table
+      .addCase(addNewTable.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(addNewTable.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.successMsg = action.payload.message;
+      })
+      .addCase(addNewTable.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
       });
   },
 });
