@@ -51,6 +51,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
+        console.log("Login Failed: ", action);
         state.errorMsg = action.error.message;
       })
 
@@ -60,11 +61,11 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        // console.log("dsfsdfds", action.payload);
         state.successMsg = action.payload.message;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
+        console.log("dsfsdfds", action);
         state.errorMsg = action.error.message;
       })
 
@@ -78,7 +79,7 @@ const authSlice = createSlice({
       })
       .addCase(registerRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        console.log("dsfsdfds", action.payload);
+        // console.log("dsfsdfds", action.payload);
         state.errorMsg = action.error.message;
       });
   },

@@ -12,7 +12,7 @@ import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasketRestaurants, setBasketRestaurantSearch } from "./customerSlice";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
@@ -30,7 +30,7 @@ const BasketList = () => {
   }, [isFocused]);
 
   return (
-    <View style={styles.container}>
+    <Screen>
       <ScrollView>
         {basketRestaurants?.map((item) => {
           return (
@@ -41,32 +41,34 @@ const BasketList = () => {
                 navigation.navigate("BasketDetail");
               }}
             >
-              <View style={styles.basketItem}>
-                <Image
-                  source={require("../../assets/restaurants/kfc-profile.png")}
-                  style={styles.avatar}
-                />
-                <View style={styles.itemDetail}>
-                  <Text style={styles.restaurantName}>{item.name}</Text>
-                  <View style={styles.locationContainer}>
-                    <Entypo
-                      name="location-pin"
-                      size={24}
-                      color={colors.primary}
-                      style={{ fontSize: 20 }}
-                    />
-                    <Text style={styles.location}>{item.address}</Text>
+              <View style={styles.container}>
+                <View style={styles.basketItem}>
+                  <Image
+                    source={require("../../assets/restaurants/kfc-profile.png")}
+                    style={styles.avatar}
+                  />
+                  <View style={styles.itemDetail}>
+                    <Text style={styles.restaurantName}>{item.name}</Text>
+                    <View style={styles.locationContainer}>
+                      <Entypo
+                        name="location-pin"
+                        size={24}
+                        color={colors.primary}
+                        style={{ fontSize: 20 }}
+                      />
+                      <Text style={styles.location}>{item.address}</Text>
+                    </View>
                   </View>
                 </View>
-                {/* <View style={{ height: 5, backgroundColor: colors.gray }}>
-                  <Divider style={{ backgroundColor: colors.gray, height: 1, zIndex: 1000 }} />
-                </View> */}
+                <View style={styles.itemCount}>
+                  <Text style={{ fontWeight: "700" }}>x</Text>
+                </View>
               </View>
             </TouchableWithoutFeedback>
           );
         })}
       </ScrollView>
-    </View>
+    </Screen>
   );
 };
 
@@ -74,23 +76,20 @@ export default BasketList;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.screen,
-    flex: 1,
-    paddingTop: Constants.statusBarHeight, 
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderStyle: "solid",
+    borderBottomWidth: 1,
+    borderColor: colors.gray,
+    paddingHorizontal: 10,
+    alignItems: "center",
   },
   basketItem: {
     flexDirection: "row",
     alignItems: "center",
-    width: width,
-    paddingHorizontal: 10,
     paddingVertical: 10,
-    borderStyle: "solid",
-    borderBottomWidth: 1,
-    borderColor: colors.gray,
   },
-  itemDetail: {
-    // color: colors.white,
-  },
+  itemDetail: {},
   avatar: {
     width: 40,
     height: 40,
@@ -109,8 +108,12 @@ const styles = StyleSheet.create({
   location: {
     color: colors.white,
   },
-  cart: {
-    flexDirection: "row",
+  itemCount: {
+    backgroundColor: colors.secondary,
+    borderRadius: 15,
+    width: 30,
+    height: 30,
+    justifyContent: "center",
     alignItems: "center",
   },
 });
