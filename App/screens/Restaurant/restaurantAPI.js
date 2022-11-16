@@ -64,6 +64,16 @@ const addDish = async (dish) => {
   }
 };
 
+const addNewTable = async (table) => {
+  try {
+    const { data } = await api.post(`/table/add`, table);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
 const restaurantService = {
   getAllRestaurants,
   getRestaurantDetails,
@@ -72,6 +82,7 @@ const restaurantService = {
   getDishesByRestaurantId,
   getDishesByCategory,
   addDish,
+  addNewTable,
 };
 
 export default restaurantService;

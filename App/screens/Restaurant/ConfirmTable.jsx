@@ -7,19 +7,22 @@ import defaultStyles from "../../config/styles";
 import * as Yup from "yup";
 import FormField from "../../components/forms/FormField";
 import SubmitButton from "../../components/forms/SubmitButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewTable } from "./restaurantSlice";
 
 const validationSchema = Yup.object().shape({
   price: Yup.number().required().label("Price"),
-  name: Yup.string().required().min(3).label("Name"),
+  name: Yup.string().required().min(1).label("Name"),
 });
 
 const ConfirmTable = () => {
+  const dispatch = useDispatch();
   const noOfSeats = useSelector((state) => state.restaurantSlice.noOfSeats);
 
   const addTable = (info) => {
-    const tableInfo = { seats: noOfSeats, price: info.price, name: info.name };
+    const tableInfo = { seats: noOfSeats, rate: info.price, name: info.name };
     console.log("Info: ", tableInfo);
+    dispatch(addNewTable(tableInfo));
   };
 
   return (
@@ -38,9 +41,9 @@ const ConfirmTable = () => {
               validationSchema={validationSchema}
             >
               <Text style={styles.text}>No. of Seats: {noOfSeats}</Text>
-              <Text style={styles.text}>Table Price:</Text>
+              <Text style={styles.text}>Table Rate: &#40;per hour&#41;</Text>
               <FormField autoCorrect={false} name="price" />
-              <Text style={styles.text}>Position Description:</Text>
+              <Text style={styles.text}>Table Name:</Text>
               <FormField autoCorrect={false} name="name" />
               <View style={{ marginTop: 15 }}>
                 <SubmitButton title="Add Table" />
