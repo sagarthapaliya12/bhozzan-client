@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Image, Text, StyleSheet, TouchableHighlight, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
@@ -11,26 +11,34 @@ import defaultStyles from "../../config/styles";
 import api from "../../helpers/axios";
 import colors from "../../config/colors";
 import SubmitButton from "../../components/forms/SubmitButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerRestaurant } from "./authSlice";
+import MessagePopUpModal from "../../components/MessagePopUpModal";
+import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(3).label("Restaurant Name"),
-  
+
   primaryPhoneNumber: Yup.string()
-  .phone("NP", true, "${path} is invalid")
-  .required()
-  .label("Phone Number"),
-  
+    .phone("NP", true, "${path} is invalid")
+    .required()
+    .label("Phone Number"),
+
   phoneNumbers: Yup.string().min(10).max(23).label("Secondary Contact"),
-  
+
   address: Yup.string().required().min(4).label("Location"),
 
   PAN: Yup.number().positive().required().min(9).label("Pan/Vat No."),
 });
 
-const RestaurantSignup = ({ navigation }) => {
+const RestaurantSignup = () => {
   const dispatch = useDispatch();
+
+  const status = useSelector((state) => state.authSlice.status);
+
+  useEffect(() => {
+    if (status === "success") dispatch(toggleShowMessageModal(true));
+  }, [status]);
 
   const handleSubmit = (values) => {
     dispatch(registerRestaurant(values));
@@ -40,9 +48,9 @@ const RestaurantSignup = ({ navigation }) => {
     <Screen>
       <KeyboardAwareScrollView>
         <View style={styles.container}>
-        <View style={styles.logoContainer}>
+          <View style={styles.logoContainer}>
             <Image source={require("../../assets/App-Logos.png")} style={styles.logo}></Image>
-            <Text style={{color: "#fff", marginTop: 25}}>Grow Your Business With Bhozzan</Text>
+            <Text style={{ color: "#fff", marginTop: 25 }}>Grow Your Business With Bhozzan</Text>
           </View>
           <View style={styles.formContainer}>
             <Form
@@ -75,18 +83,13 @@ const RestaurantSignup = ({ navigation }) => {
                 name="phoneNumbers"
                 placeholder="Secondary Contact"
               />
-              <FormField autoCorrect={false} icon="city"
-              name="address" placeholder="Address" />
-              <FormField
-                autoCorrect={false}
-                icon="file"
-                name="PAN"
-                placeholder="PAN/VAT No."
-              />
+              <FormField autoCorrect={false} icon="city" name="address" placeholder="Address" />
+              <FormField autoCorrect={false} icon="file" name="PAN" placeholder="PAN/VAT No." />
               <SubmitButton title="Register" />
             </Form>
           </View>
         </View>
+        <MessagePopUpModal parent="RegisterScreen" />
       </KeyboardAwareScrollView>
     </Screen>
   );
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
-  logoContainer: {    
+  logoContainer: {
     height: 200,
     display: "flex",
     flexDirection: "column",

@@ -11,7 +11,7 @@ import defaultStyles from "../../config/styles";
 import { registerUser } from "./authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
-import { toggleShowInvalidCredentialsModal } from "../../redux/ui/uiSlice";
+import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().min(3).label("First Name"),
@@ -39,7 +39,7 @@ function RegisterScreen({ navigation }) {
   const status = useSelector((state) => state.authSlice.status);
 
   useEffect(() => {
-    if (status === "success") dispatch(toggleShowInvalidCredentialsModal(true));
+    if (status === "success") dispatch(toggleShowMessageModal(true));
   }, [status]);
 
   const register = (values) => {
