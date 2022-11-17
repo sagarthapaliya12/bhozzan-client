@@ -177,7 +177,6 @@ const customerSlice = createSlice({
       .addCase(getBasketDishes.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         state.basketDishes = action.payload.dish;
-        console.log("fsdd", action.payload);
       })
       .addCase(getBasketDishes.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
@@ -190,9 +189,10 @@ const customerSlice = createSlice({
       })
       .addCase(removeBasketDish.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        // console.log("fsdd", action.payload);
-        state.basketDishes = state.basketDishes.filter((item) => item._id !== action.payload);
-        // state.basketDishes = action.payload.dish;
+        state.basketDishes = state.basketDishes.filter(
+          (item) => item.dish._id !== action.payload.dishId
+        );
+        state.basketCount--;
       })
       .addCase(removeBasketDish.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
