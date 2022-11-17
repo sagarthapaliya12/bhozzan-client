@@ -18,8 +18,9 @@ const registerUser = async (credentials) => {
     const { data } = await api.post("/user/register", credentials);
     return data;
   } catch (error) {
-    // console.log("dsfsdfds", error.response);
+    // console.log("dsfsdfds", error.response.data.error);
     throw new Error(error.response.data.error);
+    // throw new Error(error.response.data);
   }
 };
 

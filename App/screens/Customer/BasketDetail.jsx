@@ -13,7 +13,7 @@ import Screen from "../../components/Screen";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 const { height, width } = Dimensions.get("window");
 
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   containerFirst: {
     backgroundColor: colors.screen,
     flex: 1,
-    paddingTop: Constants.statusBarHeight, 
+    paddingTop: Constants.statusBarHeight,
   },
   container: {
     backgroundColor: colors.screen,

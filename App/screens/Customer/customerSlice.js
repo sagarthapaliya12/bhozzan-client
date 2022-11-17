@@ -10,6 +10,7 @@ const initialState = {
   basketRestaurantSearch: null,
   basketRestaurants: [],
   basketDishes: [],
+  todaysDishes: [],
   basketCount: 0,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
@@ -57,6 +58,9 @@ export const placeOrder = createAsyncThunk("order/create", async (order) =>
 );
 export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
   customerService.getOrderHistory()
+);
+export const getTodays = createAsyncThunk("dish/best-selling", async () =>
+  customerService.getTodays()
 );
 
 const customerSlice = createSlice({
@@ -173,7 +177,6 @@ const customerSlice = createSlice({
       .addCase(getBasketDishes.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         state.basketDishes = action.payload.dish;
-        console.log("fsdd", action.payload);
       })
       .addCase(getBasketDishes.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
@@ -186,9 +189,10 @@ const customerSlice = createSlice({
       })
       .addCase(removeBasketDish.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        // console.log("fsdd", action.payload);
-        state.basketDishes = state.basketDishes.filter((item) => item._id !== action.payload);
-        // state.basketDishes = action.payload.dish;
+        state.basketDishes = state.basketDishes.filter(
+          (item) => item.dish._id !== action.payload.dishId
+        );
+        state.basketCount--;
       })
       .addCase(removeBasketDish.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
@@ -210,15 +214,15 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.message;
       })
 
-      //Get Order History
-      .addCase(getOrderHistory.pending, (state, _action) => {
+      //Get Todays Best-Selling
+      .addCase(getTodays.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
-      .addCase(getOrderHistory.fulfilled, (state, action) => {
+      .addCase(getTodays.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.OrderHistories = action.payload.orders;
+        state.todaysDishes = action.payload.todays;
       })
-      .addCase(getOrderHistory.rejected, (state, action) => {
+      .addCase(getTodays.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       });
