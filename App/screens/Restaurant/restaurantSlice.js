@@ -11,6 +11,7 @@ const initialState = {
   dishes: [],
   allDishes: [],
   categoryState: null,
+  dishToUpdate: {},
   categoryDish: [],
   noOfSeats: 0,
   status: StatusStateEnum.IDLE,
@@ -44,6 +45,10 @@ export const addDish = createAsyncThunk("dish/add", async (dish) =>
   restaurantService.addDish(dish)
 );
 
+export const updateDish = createAsyncThunk("/dish/update", async (update) =>
+  restaurantService.updateDish(update)
+);
+
 export const addNewTable = createAsyncThunk("table/add", async (table) =>
   restaurantService.addNewTable(table)
 );
@@ -61,6 +66,9 @@ const restaurantSlice = createSlice({
     },
     addSeats: (state, action) => {
       state.noOfSeats = action.payload;
+    },
+    setDishToUpdate: (state, action) => {
+      state.dishToUpdate = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -155,6 +163,18 @@ const restaurantSlice = createSlice({
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       })
+      // Update dish
+      .addCase(updateDish.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(updateDish.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.successMsg = action.payload.message;
+      })
+      .addCase(updateDish.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
       // Add new table
       .addCase(addNewTable.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
@@ -170,5 +190,5 @@ const restaurantSlice = createSlice({
   },
 });
 
-export const { reset, changeCategoryState, addSeats } = restaurantSlice.actions;
+export const { reset, changeCategoryState, addSeats, setDishToUpdate } = restaurantSlice.actions;
 export default restaurantSlice.reducer;

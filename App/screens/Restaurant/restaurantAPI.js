@@ -64,10 +64,18 @@ const addDish = async (dish) => {
   }
 };
 
+const updateDish = async (update) => {
+  try {
+    const { data } = await api.put(`/dish/update/${update.id}`, update.dish);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
 const addNewTable = async (table) => {
   try {
     const { data } = await api.post(`/table/add`, table);
-    console.log(data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -82,6 +90,7 @@ const restaurantService = {
   getDishesByRestaurantId,
   getDishesByCategory,
   addDish,
+  updateDish,
   addNewTable,
 };
 
