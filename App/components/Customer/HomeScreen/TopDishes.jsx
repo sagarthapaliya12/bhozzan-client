@@ -1,32 +1,28 @@
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import React, { useEffect } from "react";
-import colors from "../../config/colors";
-import { useState } from "react";
+import colors from "../../../config/colors";
 import { Entypo } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderHistory } from "../Restaurant/orderSlice";
+import { getTodays } from "../../../screens/Customer/customerSlice";
 
 const { height, width } = Dimensions.get("window");
 
-const OrderHistoryList = () => {
-  const navigation = useNavigation();
+const TopDishes = () => {
   const dispatch = useDispatch();
 
-  const orderHistories = useSelector((state) => state.orderSlice.orderHistories);
+  const todays = useSelector((state) => state.customerSlice.todaysDishes);
 
   useEffect(() => {
-    dispatch(getOrderHistory());
+    dispatch(getTodays());
   }, []);
 
   return (
     <ScrollView style={styles.container}>
-      {orderHistories?.map((item) => {
+      {todays?.map((item) => {
         return (
-          <View key={item._id} style={styles.categoryItem}>
+          <View key={item.dish[0]._id} style={styles.categoryItem}>
             <View style={styles.itemDetail}>
-              <Text style={styles.title}>Order #{item._id.slice(4, 9)}</Text>
+              <Text style={styles.title}>{item.dish[0].name}</Text>
               <Text style={styles.restaurantName}>{item.restaurant[0].name}</Text>
               <View style={styles.locationContainer}>
                 <Entypo
@@ -42,7 +38,7 @@ const OrderHistoryList = () => {
             <View style={styles.priceCart}>
               <View>
                 <Text style={{ color: colors.primary, fontSize: 20 }}>
-                  Rs.&nbsp;{item.totalPrice}
+                  Rs.&nbsp;{item.dish[0].price}
                 </Text>
               </View>
             </View>
@@ -53,17 +49,17 @@ const OrderHistoryList = () => {
   );
 };
 
-export default OrderHistoryList;
+export default TopDishes;
 
 const styles = StyleSheet.create({
   container: { backgroundColor: colors.screen },
 
   title: {
-    color: colors.gray,
-    paddingVertical: 2,
-    fontSize: 16,
-    fontWeight: "600",
-    // backgroundColor: colors.gray,
+    color: colors.white,
+    fontSize: 20,
+    fontWeight: "700",
+    margin: 10,
+    marginBottom: 5,
   },
   categoryItem: {
     flexDirection: "row",

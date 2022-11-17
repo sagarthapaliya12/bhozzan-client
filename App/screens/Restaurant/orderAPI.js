@@ -10,5 +10,14 @@ const getOrders = async (param) => {
   }
 };
 
-const orderService = { getOrders };
+const getOrderHistory = async () => {
+  try {
+    const { data } = await api.get(`/order/my-orders`);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
+const orderService = { getOrders, getOrderHistory };
 export default orderService;

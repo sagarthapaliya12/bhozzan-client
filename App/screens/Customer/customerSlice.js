@@ -10,6 +10,7 @@ const initialState = {
   basketRestaurantSearch: null,
   basketRestaurants: [],
   basketDishes: [],
+  todaysDishes: [],
   basketCount: 0,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
@@ -57,6 +58,9 @@ export const placeOrder = createAsyncThunk("order/create", async (order) =>
 );
 export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
   customerService.getOrderHistory()
+);
+export const getTodays = createAsyncThunk("dish/best-selling", async () =>
+  customerService.getTodays()
 );
 
 const customerSlice = createSlice({
@@ -210,15 +214,15 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.message;
       })
 
-      //Get Order History
-      .addCase(getOrderHistory.pending, (state, _action) => {
+      //Get Todays Best-Selling
+      .addCase(getTodays.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
-      .addCase(getOrderHistory.fulfilled, (state, action) => {
+      .addCase(getTodays.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.OrderHistories = action.payload.orders;
+        state.todaysDishes = action.payload.todays;
       })
-      .addCase(getOrderHistory.rejected, (state, action) => {
+      .addCase(getTodays.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       });
