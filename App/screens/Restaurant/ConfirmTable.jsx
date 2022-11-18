@@ -9,6 +9,8 @@ import FormField from "../../components/forms/FormField";
 import SubmitButton from "../../components/forms/SubmitButton";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewTable } from "./restaurantSlice";
+import navigationTheme from "../../navigation/navigationTheme";
+import { useNavigation } from "@react-navigation/native";
 
 const validationSchema = Yup.object().shape({
   price: Yup.number().required().label("Price"),
@@ -17,12 +19,15 @@ const validationSchema = Yup.object().shape({
 
 const ConfirmTable = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const noOfSeats = useSelector((state) => state.restaurantSlice.noOfSeats);
 
   const addTable = (info) => {
     const tableInfo = { seats: noOfSeats, rate: info.price, name: info.name };
     console.log("Info: ", tableInfo);
     dispatch(addNewTable(tableInfo));
+    navigation.navigate("TableList");
   };
 
   return (
