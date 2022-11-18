@@ -19,6 +19,10 @@ export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
   orderService.getOrderHistory()
 );
 
+export const placeOrder = createAsyncThunk("order/create", async (order) =>
+  orderService.placeOrder(order)
+);
+
 const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -52,6 +56,21 @@ const orderSlice = createSlice({
         state.orderHistories = action.payload.orders;
       })
       .addCase(getOrderHistory.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
+      //Add/Place Order
+      .addCase(placeOrder.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(placeOrder.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        // state.basketDishes.push(action.payload.dish);
+        // console.log("action: ", action);
+        state.successMsg = action.payload.message;
+      })
+      .addCase(placeOrder.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       });

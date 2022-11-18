@@ -90,14 +90,14 @@ const removeBasketDish = async (dishId) => {
   }
 };
 
-const placeOrder = async (order) => {
-  try {
-    const { data } = await api.post(`/order/create`, order);
-    return data;
-  } catch (err) {
-    throw new Error(err.response.data.error);
-  }
-};
+// const placeOrder = async (order) => {
+//   try {
+//     const { data } = await api.post(`/order/create`, order);
+//     return data;
+//   } catch (err) {
+//     throw new Error(err.response.data.error);
+//   }
+// };
 
 const getOrderHistory = async () => {
   try {
@@ -128,7 +128,6 @@ const customerService = {
   getBasketRestaurants,
   getBasketDishes,
   removeBasketDish,
-  placeOrder,
   getOrderHistory,
   getTodays,
 };

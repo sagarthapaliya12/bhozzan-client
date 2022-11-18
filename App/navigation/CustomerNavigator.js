@@ -57,7 +57,7 @@ const HomeNavigator = () => {
 
 const BasketNavigator = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Basket Details" component={BasketList} options={{ headerShown: false }}/>
+    <Stack.Screen name="Basket Details" component={BasketList} options={{ headerShown: false }} />
     <Stack.Screen
       name="BasketDetail"
       component={BasketDetail}
@@ -71,6 +71,18 @@ const BasketNavigator = () => (
     />
 
     <Stack.Screen
+      name="OrderHistory"
+      component={OrderHistory}
+      options={{
+        title: "Order History",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+
+    {/* <Stack.Screen
       name="QrGenerator"
       component={QrGenerator}
       options={{
@@ -81,7 +93,7 @@ const BasketNavigator = () => (
         // },
         headerShown: false,
       }}
-    />
+    /> */}
   </Stack.Navigator>
 );
 

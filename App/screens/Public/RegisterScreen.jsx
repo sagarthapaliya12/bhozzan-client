@@ -138,7 +138,7 @@ function RegisterScreen({ navigation }) {
             <Text style={defaultStyles.link}>Register Your Restaurant Here</Text>
           </Pressable>
         </View>
-        <MessagePopUpModal parent="RegisterScreen"/>
+        <MessagePopUpModal parent="RegisterScreen" subject="auth"/>
       </KeyboardAwareScrollView>
     </Screen>
   );

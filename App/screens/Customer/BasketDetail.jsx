@@ -6,7 +6,8 @@ import { useState } from "react";
 import { Divider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getBasketDishes, placeOrder, removeBasketDish } from "./customerSlice";
+import { getBasketDishes, removeBasketDish, resetStatus } from "./customerSlice";
+import { placeOrder } from "../Restaurant/orderSlice";
 import SubmitButton from "../../components/forms/SubmitButton";
 import Form from "../../components/forms/Form";
 import Screen from "../../components/Screen";
@@ -14,6 +15,8 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Constants from "expo-constants";
+import MessagePopUpModal from "../../components/MessagePopUpModal";
+import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 
 const { height, width } = Dimensions.get("window");
 
@@ -27,6 +30,11 @@ const BasketDetail = () => {
 
   const basketDishes = useSelector((state) => state.customerSlice.basketDishes);
   const basketRestaurant = useSelector((state) => state.customerSlice.basketRestaurantSearch);
+  const status = useSelector((state) => state.orderSlice.status);
+
+  useEffect(() => {
+    if (status === "success") dispatch(toggleShowMessageModal(true));
+  }, [status]);
 
   useEffect(() => {
     dispatch(getBasketDishes(basketRestaurant));
@@ -85,12 +93,13 @@ const BasketDetail = () => {
     });
 
     dispatch(placeOrder(order));
+
     console.log(order);
-    navigation.navigate("QrGenerator");
+    // navigation.navigate("QrGenerator");
   };
 
   return (
-    <View style={styles.containerFirst}>
+    <Screen>
       <ScrollView style={styles.container}>
         {basketDishes.map((dish) => {
           return (
@@ -148,7 +157,8 @@ const BasketDetail = () => {
           </Text>
         </Pressable>
       </ScrollView>
-    </View>
+      <MessagePopUpModal parent="BasketDetail" subject="order" />
+    </Screen>
   );
 };
 
