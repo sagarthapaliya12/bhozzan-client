@@ -6,7 +6,7 @@ import Constants from "expo-constants";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurantUserId, getDishesByRestaurantId } from "./restaurantSlice";
+import { getRestaurantUserId, getDishesByRestaurantId, setDishToUpdate } from "./restaurantSlice";
 import { useIsFocused } from "@react-navigation/native";
 import SnackbarMessage from "../../components/SnackbarMessage";
 
@@ -43,14 +43,6 @@ const Menu = ({ navigation }) => {
                 <View style={styles.menuContainer}>
                   <Text style={styles.title}>{item._id.toUpperCase()}</Text>
                 </View>
-                <View style={{ alignItems: "flex-end" }}>
-                  <TouchableHighlight
-                    style={styles.editButton}
-                    onPress={() => navigation.navigate("EditMenu")}
-                  >
-                    <Entypo name="edit" size={24} color={colors.screen} />
-                  </TouchableHighlight>
-                </View>
               </View>
               {item.dishes.map((food) => {
                 return (
@@ -62,6 +54,17 @@ const Menu = ({ navigation }) => {
                           Rs.&nbsp;{food.price}
                         </Text>
                       </View>
+                    </View>
+                    <View style={{ alignItems: "flex-end" }}>
+                      <TouchableHighlight
+                        style={styles.editButton}
+                        onPress={() => {
+                          dispatch(setDishToUpdate(food));
+                          navigation.navigate("EditMenu");
+                        }}
+                      >
+                        <Entypo name="edit" size={15} color={colors.screen} />
+                      </TouchableHighlight>
                     </View>
                   </View>
                 );

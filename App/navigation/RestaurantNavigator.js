@@ -8,7 +8,8 @@ import Menu from "../screens/Restaurant/Menu";
 import AddMenu from "../screens/Restaurant/AddMenu";
 import EditMenu from "../screens/Restaurant/EditMenu";
 import Dashboard from "../screens/Restaurant/Dashboard";
-import OrderStatus from "../screens/Restaurant/OrderStatus";
+import OrderStatus from "../screens/Restaurant/OrderStatus"
+import TableList from "../screens/Restaurant/TableList";
 import AddSeats from "../screens/Restaurant/AddSeats";
 import ConfirmTable from "../screens/Restaurant/ConfirmTable";
 
@@ -38,7 +39,7 @@ const DashboardNavigator = () => (
 );
 
 const MenuNavigator = () => (
-  <Stack.Navigator  >
+  <Stack.Navigator>
     <Stack.Screen name="Feed" component={Menu} options={{ headerShown: false }} />
     <Stack.Screen
       name="AddMenu"
@@ -56,8 +57,31 @@ const MenuNavigator = () => (
 );
 
 const TablesNavigator = () => (
-  <Stack.Navigator  >
-    <Stack.Screen name="Feed" component={AddSeats} options={{ headerShown: false }} />
+  <Stack.Navigator>
+    {/* <Stack.Screen name="Feed" component={AddSeats} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="ConfirmTable"
+      component={ConfirmTable}
+      options={{
+        title: "Confirm Table",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    /> */}
+    <Stack.Screen name="Feed" component={TableList} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="AddSeats"
+      component={AddSeats}
+      options={{
+        title: "Add Seats",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
     <Stack.Screen
       name="ConfirmTable"
       component={ConfirmTable}
@@ -73,7 +97,7 @@ const TablesNavigator = () => (
 );
 
 const ProfileNavigator = () => (
-  <Stack.Navigator >
+  <Stack.Navigator>
     <Stack.Screen name="Feed" component={RestaurantProfile} options={{ headerShown: false }} />
     <Stack.Screen
       name="EditProfile"

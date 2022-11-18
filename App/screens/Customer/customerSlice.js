@@ -10,6 +10,7 @@ const initialState = {
   basketRestaurantSearch: null,
   basketRestaurants: [],
   basketDishes: [],
+  todaysDishes: [],
   basketCount: 0,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
@@ -52,11 +53,15 @@ export const removeBasketDish = createAsyncThunk("basket/removeBasketDish", asyn
   customerService.removeBasketDish(dishId)
 );
 
-export const placeOrder = createAsyncThunk("order/create", async (order) =>
-  customerService.placeOrder(order)
-);
+// export const placeOrder = createAsyncThunk("order/create", async (order) =>
+//   customerService.placeOrder(order)
+// );
+
 export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
   customerService.getOrderHistory()
+);
+export const getTodays = createAsyncThunk("dish/best-selling", async () =>
+  customerService.getTodays()
 );
 
 const customerSlice = createSlice({
@@ -69,6 +74,9 @@ const customerSlice = createSlice({
     },
     setBasketRestaurantSearch: (state, action) => {
       state.basketRestaurantSearch = action.payload;
+    },
+    resetStatus: (state, _action) => {
+      state.status = StatusStateEnum.IDLE;
     },
   },
   extraReducers: (builder) => {
@@ -195,35 +203,35 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.message;
       })
 
-      //Add/Place Order
-      .addCase(placeOrder.pending, (state, _action) => {
-        state.status = StatusStateEnum.LOADING;
-      })
-      .addCase(placeOrder.fulfilled, (state, action) => {
-        state.status = StatusStateEnum.SUCCESS;
-        // state.basketDishes.push(action.payload.dish);
-        // console.log("action: ", action);
-        state.successMsg = action.payload.message;
-      })
-      .addCase(placeOrder.rejected, (state, action) => {
-        state.status = StatusStateEnum.FAILED;
-        state.errorMsg = action.error.message;
-      })
+      // //Add/Place Order
+      // .addCase(placeOrder.pending, (state, _action) => {
+      //   state.status = StatusStateEnum.LOADING;
+      // })
+      // .addCase(placeOrder.fulfilled, (state, action) => {
+      //   state.status = StatusStateEnum.SUCCESS;
+      //   // state.basketDishes.push(action.payload.dish);
+      //   // console.log("action: ", action);
+      //   state.successMsg = action.payload.message;
+      // })
+      // .addCase(placeOrder.rejected, (state, action) => {
+      //   state.status = StatusStateEnum.FAILED;
+      //   state.errorMsg = action.error.message;
+      // })
 
-      //Get Order History
-      .addCase(getOrderHistory.pending, (state, _action) => {
+      //Get Todays Best-Selling
+      .addCase(getTodays.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
-      .addCase(getOrderHistory.fulfilled, (state, action) => {
+      .addCase(getTodays.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.OrderHistories = action.payload.orders;
+        state.todaysDishes = action.payload.todays;
       })
-      .addCase(getOrderHistory.rejected, (state, action) => {
+      .addCase(getTodays.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       });
   },
 });
 
-export const { reset, setSearch, setBasketRestaurantSearch } = customerSlice.actions;
+export const { reset, setSearch, setBasketRestaurantSearch, resetStatus } = customerSlice.actions;
 export default customerSlice.reducer;

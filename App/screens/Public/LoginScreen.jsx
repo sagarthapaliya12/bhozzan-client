@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .max(10)
     .label("Phone Number"),
-    
+
   password: Yup.string().required().min(4).label("Password"),
 });
 
@@ -114,7 +114,7 @@ function LoginScreen({ navigation }) {
         <View style={styles.btnContainer}>
           <AppButton title="Register" onPress={() => navigation.navigate("RegisterScreen")} />
         </View>
-        <MessagePopUpModal />
+        <MessagePopUpModal subject="auth" />
       </KeyboardAwareScrollView>
     </Screen>
   );

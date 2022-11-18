@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 import { Modal, Portal, Provider } from "react-native-paper";
 import colors from "../config/colors";
@@ -14,8 +14,29 @@ const MessagePopUpModal = (props) => {
   const navigation = useNavigation();
 
   const visible = useSelector((state) => state.uiSlice.showMessageModal);
+  const [status, setStatus] = useState();
+  const [successMsg, setSuccessMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState();
 
-  const { status, successMsg, errorMsg } = useSelector((state) => state.authSlice);
+  const statusAuth = useSelector((state) => state.authSlice.status);
+  const successMsgAuth = useSelector((state) => state.authSlice.successMsg);
+  const errorMsgAuth = useSelector((state) => state.authSlice.errorMsg);
+  const statusConfirmOrder = useSelector((state) => state.orderSlice.status);
+  const successMsgConfirmOrder = useSelector((state) => state.orderSlice.successMsg);
+  const errorMsgConfirmOrder = useSelector((state) => state.orderSlice.errorMsg);
+
+  useEffect(() => {
+    if (props.subject === "auth") {
+      setStatus(statusAuth);
+      setSuccessMsg(successMsgAuth);
+      setErrorMsg(errorMsgAuth);
+    }
+    if (props.subject === "order") {
+      setStatus(statusConfirmOrder);
+      setSuccessMsg(successMsgConfirmOrder);
+      setErrorMsg(errorMsgConfirmOrder);
+    }
+  }, [statusAuth, statusConfirmOrder]);
 
   return (
     <Provider>
@@ -44,10 +65,22 @@ const MessagePopUpModal = (props) => {
                 <TouchableWithoutFeedback
                   onPress={() => {
                     dispatch(toggleShowMessageModal(false));
-                    status === "success" &&
-                      props.parent === "RegisterScreen" &&
-                      navigation.navigate("LoginScreen");
-                    dispatch(reset());
+                    if (status === "success") {
+                      if (props.parent === "RegisterScreen") {
+                        navigation.navigate("LoginScreen");
+                        dispatch(reset());
+                      }
+                      if (props.parent === "BasketDetail") {
+                        navigation.navigate("OrderHistory");
+                        // dispatch(reset());
+                      }
+                    }
+
+                    // status === "success" && { if(props.parent === "RegisterScreen" (navigation.navigate("LoginScreen");)}
+                    // status === "success" &&
+                    //   props.parent === "RegisterScreen" &&
+                    //   navigation.navigate("LoginScreen");
+                    // dispatch(reset());
                   }}
                 >
                   <Text>OK</Text>

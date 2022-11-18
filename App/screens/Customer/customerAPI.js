@@ -90,18 +90,27 @@ const removeBasketDish = async (dishId) => {
   }
 };
 
-const placeOrder = async (order) => {
+// const placeOrder = async (order) => {
+//   try {
+//     const { data } = await api.post(`/order/create`, order);
+//     return data;
+//   } catch (err) {
+//     throw new Error(err.response.data.error);
+//   }
+// };
+
+const getOrderHistory = async () => {
   try {
-    const { data } = await api.post(`/order/create`, order);
+    const { data } = await api.get(`/order/my-orders`);
     return data;
   } catch (err) {
     throw new Error(err.response.data.error);
   }
 };
 
-const getOrderHistory = async () => {
+const getTodays = async () => {
   try {
-    const { data } = await api.get(`/order/my-orders`);
+    const { data } = await api.get(`dish/best-selling`);
     return data;
   } catch (err) {
     throw new Error(err.response.data.error);
@@ -119,8 +128,8 @@ const customerService = {
   getBasketRestaurants,
   getBasketDishes,
   removeBasketDish,
-  placeOrder,
   getOrderHistory,
+  getTodays,
 };
 
 export default customerService;

@@ -4,6 +4,7 @@ import orderService from "./orderAPI";
 
 const initialState = {
   orders: [],
+  orderHistories: [],
   orderStatusState: null,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
