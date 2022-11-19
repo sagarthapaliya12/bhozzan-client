@@ -12,13 +12,10 @@ import {
 import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 import Constants from "expo-constants";
-
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import Screen from "../../components/Screen";
-
 import { logout } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";

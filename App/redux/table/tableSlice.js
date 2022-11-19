@@ -37,5 +37,6 @@ const tableSlice = createSlice({
       });
   },
 });
+
 export const { reset } = tableSlice.actions;
 export default tableSlice.reducer;

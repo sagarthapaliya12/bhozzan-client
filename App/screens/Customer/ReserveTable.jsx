@@ -3,50 +3,11 @@ import React from "react";
 import Screen from "../../components/Screen";
 import tableImg from "../../assets/table.png";
 import colors from "../../config/colors";
-import { Ionicons } from "@expo/vector-icons";
+import DateTime from "../../components/Customer/DateTime";
 
 const { width } = Dimensions.get("window");
 
-const reservationList = () => {
-  return (
-    <View style={styles.reservationContainer}>
-      <View style={styles.rowOne}>
-        <View style={styles.time}>
-          <Text style={styles.timeText}>Time:</Text>
-          <View style={styles.timeContainer}>
-            <View style={{ marginRight: 10 }}>
-              <Text style={styles.showTime}>2021-12-09</Text>
-              <Text style={styles.showTime}>10:00 AM</Text>
-            </View>
-            <View style={{ marginRight: 10 }}>
-              <Text style={styles.showTime}>To</Text>
-            </View>
-            <View>
-              <Text style={styles.showTime}>2021-12-09</Text>
-              <Text style={styles.showTime}>12:00 PM</Text>
-            </View>
-          </View>
-
-          <View style={styles.reservedByContainer}>
-            <Text style={styles.reservedBy}>Reserved By:</Text>
-            <View style={{}}>
-              <Text style={styles.reserverName}>Sajag Pradhanang</Text>
-              <View style={styles.phoneContainer}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Ionicons name="call" size={20} color={colors.screen} />
-                  <Text style={styles.reserverphoneNo}>9841781490</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <Text style={styles.cost}>Rs. 200</Text>
-      </View>
-    </View>
-  );
-};
-
-const ReservationDetail = () => {
+const ReserveTable = () => {
   return (
     <Screen>
       <View style={styles.container}>
@@ -58,6 +19,7 @@ const ReservationDetail = () => {
             <Text style={styles.rate}>Rate: Rs.200</Text>
           </View>
         </View>
+        <DateTime />
         <View>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Reservations</Text>
@@ -67,13 +29,13 @@ const ReservationDetail = () => {
             showsVerticalScrollIndicator={false}
             style={{ paddingBottom: 100, marginBottom: 278 }}
           >
+            {/* {reservationList()}
             {reservationList()}
             {reservationList()}
             {reservationList()}
             {reservationList()}
             {reservationList()}
-            {reservationList()}
-            {reservationList()}
+            {reservationList()} */}
           </ScrollView>
         </View>
       </View>
@@ -81,7 +43,7 @@ const ReservationDetail = () => {
   );
 };
 
-export default ReservationDetail;
+export default ReserveTable;
 
 const styles = StyleSheet.create({
   container: {

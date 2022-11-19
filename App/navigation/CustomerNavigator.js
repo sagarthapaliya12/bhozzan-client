@@ -13,6 +13,7 @@ import BasketList from "../screens/Customer/BasketList";
 import BasketDetail from "../screens/Customer/BasketDetail";
 import QrGenerator from "../components/Customer/HomeScreen/QrGenerator";
 import TableList from "../screens/Customer/TableList";
+import ReserveTable from "../screens/Customer/ReserveTable";
 import { useSelector } from "react-redux";
 
 const Stack = createStackNavigator();
@@ -53,10 +54,21 @@ const HomeNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="ReserveTable"
+        name="RestaurantTables"
         component={TableList}
         options={{
           title: "Tables",
+          headerTintColor: colors.white,
+          headerStyle: {
+            backgroundColor: colors.screen,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="ReserveTable"
+        component={ReserveTable}
+        options={{
+          title: "Reserve Table",
           headerTintColor: colors.white,
           headerStyle: {
             backgroundColor: colors.screen,

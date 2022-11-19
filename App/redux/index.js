@@ -6,6 +6,7 @@ import restaurantReducer from "../screens/Restaurant/restaurantSlice";
 import redirectReducer from "./ui/redirectSlice";
 import orderReducer from "../screens/Restaurant/orderSlice";
 import tableReducer from "./table/tableSlice";
+import reservationReducer from "./reservation/reservationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     redirectSlice: redirectReducer,
     orderSlice: orderReducer,
     tableSlice: tableReducer,
+    reservationSlice: reservationReducer,
   },
 });

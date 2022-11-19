@@ -107,7 +107,7 @@ const RestaurantProfile = () => {
               );
             })}
           </View>
-          <TouchableHighlight onPress={() => navigation.navigate("ReserveTable")}>
+          <TouchableHighlight onPress={() => navigation.navigate("RestaurantTables")}>
             <View style={styles.reservationBtn}>
               <AntDesign name="calendar" size={24} color="black" />
               <Text style={styles.reservationText}>Make Reservation</Text>

@@ -58,10 +58,6 @@ export const removeBasketDish = createAsyncThunk("basket/removeBasketDish", asyn
   customerService.removeBasketDish(dishId)
 );
 
-// export const placeOrder = createAsyncThunk("order/create", async (order) =>
-//   customerService.placeOrder(order)
-// );
-
 export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
   customerService.getOrderHistory()
 );

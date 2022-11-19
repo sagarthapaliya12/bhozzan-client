@@ -5,9 +5,13 @@ import colors from "../../config/colors";
 import tableImg from "../../assets/table.png";
 import { getTablesByRestaurant } from "../../redux/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
+import navigationTheme from "../../navigation/navigationTheme";
+import { useNavigation } from "@react-navigation/native";
+import { getReservationByTable } from "../../redux/reservation/reservationSlice";
 
 const TableList = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
   const tableList = useSelector((state) => state.tableSlice.tableList);
@@ -30,7 +34,13 @@ const TableList = () => {
                   <Text>No.of Seats: {item.seats}</Text>
                 </View>
                 <Image source={tableImg} style={styles.tableImg} />
-                <TouchableHighlight style={styles.button}>
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => {
+                    dispatch(getReservationByTable(item._id));
+                    navigation.navigate("ReserveTable");
+                  }}
+                >
                   <Text style={styles.btnText}>Reserve</Text>
                 </TouchableHighlight>
               </View>
