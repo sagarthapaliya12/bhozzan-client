@@ -1,11 +1,20 @@
 import { View, Text, TouchableHighlight, StyleSheet, Image, FlatList } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import tableImg from "../../assets/table.png";
+import { getTablesByRestaurant } from "../../redux/table/tableSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const TableList = () => {
-  const tableList = [{}, {}, {}];
+  const dispatch = useDispatch();
+
+  const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
+  const tableList = useSelector((state) => state.tableSlice.tableList);
+
+  useEffect(() => {
+    dispatch(getTablesByRestaurant(restaurantId));
+  }, [restaurantId]);
 
   return (
     <Screen>
@@ -17,8 +26,8 @@ const TableList = () => {
             return (
               <View style={styles.card}>
                 <View style={styles.header}>
-                  <Text style={styles.title}>Table 1</Text>
-                  <Text>No.of Seats: 2</Text>
+                  <Text style={styles.title}>{item.name}</Text>
+                  <Text>No.of Seats: {item.seats}</Text>
                 </View>
                 <Image source={tableImg} style={styles.tableImg} />
                 <TouchableHighlight style={styles.button}>

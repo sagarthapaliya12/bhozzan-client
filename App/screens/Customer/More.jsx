@@ -108,7 +108,7 @@ const More = () => {
             android_ripple={{ color: colors.lightGray, borderless: true }}
             onPress={() => navigation.navigate("FavoritesScreen")}
           >
-            <AntDesign name="heart" size={24} color="black" />
+            <AntDesign name="heart" size={24} color="red" />
             <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>My Favorites</Text>
           </Pressable>
         </View>

@@ -32,6 +32,7 @@ const tableSlice = createSlice({
       })
       .addCase(getTablesByRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
+        state.tableList = [];
         state.errorMsg = action.error.errorMsg;
       });
   },
