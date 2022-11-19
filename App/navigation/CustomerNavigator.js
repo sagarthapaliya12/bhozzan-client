@@ -12,6 +12,7 @@ import FavoritesScreen from "../screens/Customer/FavoritesScreen";
 import BasketList from "../screens/Customer/BasketList";
 import BasketDetail from "../screens/Customer/BasketDetail";
 import QrGenerator from "../components/Customer/HomeScreen/QrGenerator";
+import TableList from "../screens/Customer/TableList";
 import { useSelector } from "react-redux";
 
 const Stack = createStackNavigator();
@@ -45,6 +46,17 @@ const HomeNavigator = () => {
         component={RestaurantProfile}
         options={{
           title: "Restaurant Profile",
+          headerTintColor: colors.white,
+          headerStyle: {
+            backgroundColor: colors.screen,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="ReserveTable"
+        component={TableList}
+        options={{
+          title: "Tables",
           headerTintColor: colors.white,
           headerStyle: {
             backgroundColor: colors.screen,
