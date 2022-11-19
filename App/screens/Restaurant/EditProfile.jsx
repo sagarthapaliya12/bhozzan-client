@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableHighlight, Pressable } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 import "yup-phone";
-import { useNavigation } from "@react-navigation/native";
-
 import Form from "../../components/forms/Form";
 import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
@@ -12,13 +10,15 @@ import api from "../../helpers/axios";
 import colors from "../../config/colors";
 import FormImagePicker from "../../components/forms/FormImagePicker";
 import SubmitButton from "./../../components/forms/SubmitButton";
+import { useDispatch, useSelector } from "react-redux";
+import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 
 const validationSchema = Yup.object().shape({
-  images: Yup.array()
+  profilePicture: Yup.array()
     .min(1, "Please select at least one image")
     .max(1, "please select only 1 Profile image"),
 
-  placeholder: Yup.array()
+  thumbnailPicture: Yup.array()
     .min(1, "Please select at least one image")
     .max(1, "please select only 1 Profile image"),
 
@@ -41,7 +41,15 @@ const validationSchema = Yup.object().shape({
 });
 
 const EditProfile = () => {
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
+  const restaurantUser = useSelector((state) => state.restaurantSlice.restaurantUser);
+
+  useEffect(() => {
+    dispatch(getRestaurantUserId());
+    dispatch(getRestaurantDetails(restaurantId));
+  }, [restaurantId]);
 
   const register = async (values) => {
     delete values.confirmPassword;
@@ -56,12 +64,12 @@ const EditProfile = () => {
         <View style={styles.formContainer}>
           <Form
             initialValues={{
-              images: [],
-              placeholder: [],
-              restaurantName: "",
+              profilePicture: [],
+              thumbnailPicture: [],
+              restaurantName: restaurantUser.name,
               description: "",
-              location: "",
-              phoneNumber: "",
+              location: restaurantUser.address,
+              phoneNumber: restaurantUser.primaryPhoneNumber.toString(),
               panVatNo: "",
               email: "",
               deliveryHours: "",
@@ -70,11 +78,11 @@ const EditProfile = () => {
             validationSchema={validationSchema}
           >
             <View style={styles.profile}>
-              <FormImagePicker name="images" />
+              <FormImagePicker name="profilePicture" />
             </View>
 
             <Text style={styles.FormText}>Thumbnail Image:</Text>
-            <FormImagePicker name="placeholder" />
+            <FormImagePicker name="thumbnailPicture" />
 
             <FormField
               autoCorrect={false}
@@ -126,12 +134,6 @@ const EditProfile = () => {
                 navigation.goBack;
               }}
             /> */}
-
-            {/* <Pressable style={styles.saveButton} onPress={() => console.log("message received")}>
-              <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
-                Save Changes
-              </Text>
-            </Pressable> */}
           </Form>
         </View>
       </View>
@@ -145,8 +147,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: defaultStyles.colors.screen,
-    // alignItems: "center",
-    // marginTop: 50,
     padding: 20,
   },
 

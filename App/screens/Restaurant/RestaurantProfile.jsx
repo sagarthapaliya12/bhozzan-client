@@ -26,18 +26,6 @@ import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 
 const { height, width } = Dimensions.get("window");
 
-const restaurantInfo = {
-  restaurantName: "Pizza Hut",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enimad minim veniam, quis nostrud exercitation...",
-  location: "Radhe Radhe, Bhaktapur",
-  phoneNo: "9841784512",
-  email: "admin@pizzahut.com",
-  deliveryHours: "10:00 AM - 12:00 PM",
-  panVatNo: "00157964255",
-  noOfTables: "4",
-};
-
 const RestaurantProfile = ({ navigation }) => {
   const dispatch = useDispatch();
 
