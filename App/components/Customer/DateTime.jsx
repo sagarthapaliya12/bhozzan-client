@@ -6,53 +6,71 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, use4 } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import colors from "../../config/colors";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { createReservation } from "../../redux/reservation/reservationSlice";
+import { useSelector } from "react-redux";
 
 const DateTime = () => {
+  const dispatch = useDispatch();
+
+  const tableId = useSelector((state) => state.tableSlice.tableId);
+
   const [cDate, setCDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+
+  const [showDate, setShowDate] = useState(false);
+  const [showStartTime, setShowStartTime] = useState(false);
+  const [showEndTime, setShowEndTime] = useState(false);
+
   const [date, setDate] = useState(
     cDate.getFullYear() + "-" + (cDate.getMonth() + 1) + "-" + cDate.getDate()
   );
   const [startTime, setStartTime] = useState(cDate.getHours() + ":" + cDate.getMinutes());
   const [endTime, setEndTime] = useState(cDate.getHours() + ":" + cDate.getMinutes());
 
-  const onChange = (event, selectedDate) => {
+  const handleDate = (event, selectedDate) => {
     const currentDate = selectedDate || cDate;
-    setShow(Platform.OS === "ios");
+    setShowDate(false);
     setCDate(currentDate);
-
     let tempDate = new Date(currentDate);
     let fDate = tempDate.getFullYear() + "-" + (tempDate.getMonth() + 1) + "-" + tempDate.getDate();
-    let fStartTime = tempDate.getHours() + ":" + tempDate.getMinutes();
-    let fEndTime = tempDate.getHours() + ":" + tempDate.getMinutes();
     setDate(fDate);
+  };
+
+  const handleStartTime = (event, selectedDate) => {
+    const currentDate = selectedDate || cDate;
+    setShowStartTime(false);
+    setCDate(currentDate);
+    let tempDate = new Date(currentDate);
+    let fStartTime = tempDate.getHours() + ":" + tempDate.getMinutes();
     setStartTime(fStartTime);
+  };
+
+  const handleEndTime = (event, selectedDate) => {
+    const currentDate = selectedDate || cDate;
+    setShowEndTime(false);
+    setCDate(currentDate);
+    let tempDate = new Date(currentDate);
+    let fEndTime = tempDate.getHours() + ":" + tempDate.getMinutes();
     setEndTime(fEndTime);
   };
 
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
   const handleReservation = () => {
-    const reservation = {
-      tableId: "test",
+    const reservationDetail = {
+      tableId: tableId,
       reservedSince: `${date}T${startTime}`,
-      reservedUntil: date + endTime,
+      reservedUntil: `${date}T${endTime}`,
     };
-    console.log("Test:", reservation);
+    dispatch(createReservation(reservationDetail));
   };
 
   return (
     <View>
       <Text style={styles.textSecondary}>Select Date:</Text>
-      <TouchableHighlight onPress={() => showMode("date")}>
+      <TouchableHighlight onPress={() => setShowDate(true)}>
         <View style={styles.dateContainer}>
           <AntDesign name="calendar" size={24} color="black" />
           <Text style={styles.textMain}>{date}</Text>
@@ -62,14 +80,14 @@ const DateTime = () => {
       <View style={styles.time}>
         <Text style={styles.textSecondary}>Select Time:</Text>
         <View style={styles.timeWrapper}>
-          <TouchableHighlight onPress={() => showMode("time")}>
+          <TouchableHighlight onPress={() => setShowStartTime(true)}>
             <View style={styles.timeContainer}>
               <Ionicons name="time" size={24} color="black" />
               <Text style={styles.textMain}>{startTime}</Text>
             </View>
           </TouchableHighlight>
           <Text style={styles.to}> TO</Text>
-          <TouchableHighlight onPress={() => showMode("time")}>
+          <TouchableHighlight onPress={() => setShowEndTime(true)}>
             <View style={styles.timeContainer}>
               <Ionicons name="time" size={24} color="black" />
               <Text style={styles.textMain}>{endTime}</Text>
@@ -78,17 +96,37 @@ const DateTime = () => {
         </View>
       </View>
 
-      {show && (
+      {showDate && (
         <DateTimePicker
           testID="dateTimePicker"
           value={cDate}
-          mode={mode}
+          mode="date"
           is24Hour={true}
           display="default"
-          onChange={onChange}
+          onChange={handleDate}
         />
       )}
 
+      {showStartTime && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={cDate}
+          mode="time"
+          is24Hour={true}
+          display="default"
+          onChange={handleStartTime}
+        />
+      )}
+      {showEndTime && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={cDate}
+          mode="time"
+          is24Hour={true}
+          display="default"
+          onChange={handleEndTime}
+        />
+      )}
       <TouchableOpacity style={styles.confirmBtn} onPress={handleReservation}>
         <Text style={styles.btnText}>Confirm Reservation</Text>
       </TouchableOpacity>

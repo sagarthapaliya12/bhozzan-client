@@ -9,8 +9,19 @@ const initialState = {
   successMsg: null,
 };
 
-export const getReservationByTable = createAsyncThunk(`getReservation`, async (tableId) =>
-  reservationService.getReservationByTable(tableId)
+export const getReservationByTableCustomer = createAsyncThunk(
+  `getReservationForCustomer`,
+  async (tableId) => reservationService.getReservationByTableCustomer(tableId)
+);
+
+export const getReservationByTableRestaurant = createAsyncThunk(
+  `getReservationForRestaurant`,
+  async (tableId) => reservationService.getReservationByTableRestaurant(tableId)
+);
+
+export const createReservation = createAsyncThunk(
+  `createReservation`,
+  async (reservationDetail) => reservationService.createReservation(reservationDetail)
 );
 
 const reservationSlice = createSlice({
@@ -21,15 +32,41 @@ const reservationSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Get Reservation By Table
-      .addCase(getReservationByTable.pending, (state, _action) => {
+      // Get Reservation By Table -- Customer
+      .addCase(getReservationByTableCustomer.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
-      .addCase(getReservationByTable.fulfilled, (state, action) => {
+      .addCase(getReservationByTableCustomer.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         state.reservationList = action.payload.reservations;
       })
-      .addCase(getReservationByTable.rejected, (state, action) => {
+      .addCase(getReservationByTableCustomer.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      // Get Reservation By Table -- Restaurant
+      .addCase(getReservationByTableRestaurant.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getReservationByTableRestaurant.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.reservationList = action.payload.reservations;
+      })
+      .addCase(getReservationByTableRestaurant.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      // Create Reservation
+      .addCase(createReservation.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(createReservation.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        // state.reservationList = action.payload.reservations;
+      })
+      .addCase(createReservation.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       });

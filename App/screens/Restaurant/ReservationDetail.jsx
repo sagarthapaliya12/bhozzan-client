@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Screen from "../../components/Screen";
 import tableImg from "../../assets/table.png";
 import colors from "../../config/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getReservationByTable } from "../../redux/reservation/reservationSlice";
 
 const { width } = Dimensions.get("window");
 
@@ -47,6 +49,17 @@ const reservationList = () => {
 };
 
 const ReservationDetail = () => {
+  const dispatch = useDispatch();
+
+  const tableId = useSelector((state) => state.tableSlice.tableId);
+  const reservations = useSelector((state) => state.reservationSlice.reservationList);
+
+  console.log("fsdfsdffsdfsdf: ", reservations);
+
+  useEffect(() => {
+    dispatch(getReservationByTable(tableId));
+  }, []);
+
   return (
     <Screen>
       <View style={styles.container}>

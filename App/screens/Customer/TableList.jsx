@@ -3,11 +3,10 @@ import React, { useEffect } from "react";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import tableImg from "../../assets/table.png";
-import { getTablesByRestaurant } from "../../redux/table/tableSlice";
+import { getTablesByRestaurant, setTableId } from "../../redux/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
-import navigationTheme from "../../navigation/navigationTheme";
 import { useNavigation } from "@react-navigation/native";
-import { getReservationByTable } from "../../redux/reservation/reservationSlice";
+import { getReservationByTableCustomer } from "../../redux/reservation/reservationSlice";
 
 const TableList = () => {
   const dispatch = useDispatch();
@@ -31,13 +30,15 @@ const TableList = () => {
               <View style={styles.card}>
                 <View style={styles.header}>
                   <Text style={styles.title}>{item.name}</Text>
-                  <Text>No.of Seats: {item.seats}</Text>
+                  <Text style={styles.seat}>No.of Seats: {item.seats}</Text>
+                  <Text style={styles.rate}>Rate: {item.rate}</Text>
                 </View>
                 <Image source={tableImg} style={styles.tableImg} />
                 <TouchableHighlight
                   style={styles.button}
                   onPress={() => {
-                    dispatch(getReservationByTable(item._id));
+                    dispatch(setTableId(item._id));
+                    dispatch(getReservationByTableCustomer(item._id));
                     navigation.navigate("ReserveTable");
                   }}
                 >
@@ -79,6 +80,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "700",
   },
+  seat: {},
+  rate: { color: colors.screen },
   tableImg: {
     width: 50,
     height: 50,

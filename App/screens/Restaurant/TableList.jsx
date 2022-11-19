@@ -4,13 +4,12 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  TouchableOpacity,
   TouchableHighlight,
   Image,
 } from "react-native";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTablesByRestaurant } from "../../redux/table/tableSlice";
+import { getTablesByRestaurant, setTableId } from "../../redux/table/tableSlice";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { getRestaurantUserId } from "./restaurantSlice";
@@ -18,7 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import tableImg from "../../assets/table.png";
 
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const TableList = () => {
   const dispatch = useDispatch();
@@ -34,7 +33,7 @@ const TableList = () => {
 
   useEffect(() => {
     dispatch(getTablesByRestaurant(restaurantId));
-  }, [restaurantId, isFocused]);
+  }, [restaurantId]);
 
   return (
     <Screen>
@@ -43,7 +42,10 @@ const TableList = () => {
           return (
             <TouchableHighlight
               key={table._id}
-              onPress={() => navigation.navigate("ReservationDetail")}
+              onPress={() => {
+                dispatch(setTableId(table._id));
+                navigation.navigate("ReservationDetail");
+              }}
             >
               <View style={styles.container}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>

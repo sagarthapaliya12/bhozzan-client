@@ -4,10 +4,15 @@ import Screen from "../../components/Screen";
 import tableImg from "../../assets/table.png";
 import colors from "../../config/colors";
 import DateTime from "../../components/Customer/DateTime";
+import { useSelector } from "react-redux";
 
 const { width } = Dimensions.get("window");
 
 const ReserveTable = () => {
+  const tableId = useSelector((state) => state.tableSlice.tableId);
+  const reservations = useSelector((state) => state.reservationSlice.reservationList);
+  console.log("Dfdsfsdf", reservations);
+
   return (
     <Screen>
       <View style={styles.container}>
