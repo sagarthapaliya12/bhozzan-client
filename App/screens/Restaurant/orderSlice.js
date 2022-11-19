@@ -15,12 +15,20 @@ export const getOrders = createAsyncThunk(`order/restaurant`, async (param) =>
   orderService.getOrders(param)
 );
 
-export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
-  orderService.getOrderHistory()
+export const acceptOrder = createAsyncThunk(`order/accept`, async (orderId) =>
+  orderService.acceptOrder(orderId)
 );
 
-export const placeOrder = createAsyncThunk("order/create", async (order) =>
-  orderService.placeOrder(order)
+export const rejectOrder = createAsyncThunk(`order/reject`, async (orderId) =>
+  orderService.rejectOrder(orderId)
+);
+
+export const dispatchOrder = createAsyncThunk(`order/dispatch`, async (orderId) =>
+  orderService.dispatchOrder(orderId)
+);
+
+export const serveOrder = createAsyncThunk(`order/serve`, async (orderId) =>
+  orderService.serveOrder(orderId)
 );
 
 const orderSlice = createSlice({
@@ -34,6 +42,7 @@ const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Get Orders
       .addCase(getOrders.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -47,32 +56,56 @@ const orderSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Get Order History
-      .addCase(getOrderHistory.pending, (state, _action) => {
+      // Accept Orders
+      .addCase(acceptOrder.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
-      .addCase(getOrderHistory.fulfilled, (state, action) => {
+      .addCase(acceptOrder.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        state.orderHistories = action.payload.orders;
+        state.orders = state.orders.filter((item) => item._id !== action.payload.order._id);
       })
-      .addCase(getOrderHistory.rejected, (state, action) => {
+      .addCase(acceptOrder.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        state.errorMsg = action.error.message;
+        state.errorMsg = action.error.errorMsg;
       })
 
-      //Add/Place Order
-      .addCase(placeOrder.pending, (state, _action) => {
+       // Reject Orders
+       .addCase(rejectOrder.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
-      .addCase(placeOrder.fulfilled, (state, action) => {
+      .addCase(rejectOrder.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        // state.basketDishes.push(action.payload.dish);
-        // console.log("action: ", action);
-        state.successMsg = action.payload.message;
+        state.orders = state.orders.filter((item) => item._id !== action.payload.order._id);
       })
-      .addCase(placeOrder.rejected, (state, action) => {
+      .addCase(rejectOrder.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        state.errorMsg = action.error.message;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+       // Dispatch Orders
+       .addCase(dispatchOrder.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(dispatchOrder.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.orders = state.orders.filter((item) => item._id !== action.payload.order._id);
+      })
+      .addCase(dispatchOrder.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+       // Serve Orders
+       .addCase(serveOrder.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(serveOrder.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.orders = state.orders.filter((item) => item._id !== action.payload.order._id);
+      })
+      .addCase(serveOrder.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
       });
   },
 });

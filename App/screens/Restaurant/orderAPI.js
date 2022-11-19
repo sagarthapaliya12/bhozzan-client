@@ -10,23 +10,48 @@ const getOrders = async (param) => {
   }
 };
 
-const getOrderHistory = async () => {
+const acceptOrder = async (orderId) => {
   try {
-    const { data } = await api.get(`/order/my-orders`);
+    console.log(orderId);
+    const { data } = await api.put(`/order/accept/${orderId}`);
+    console.log("accepted",data);
     return data;
-  } catch (err) {
-    throw new Error(err.response.data.error);
+  } catch (error) {
+    throw new Error(error.response.data.error);
   }
 };
 
-const placeOrder = async (order) => {
+const rejectOrder = async (orderId) => {
   try {
-    const { data } = await api.post(`/order/create`, order);
+    console.log(orderId);
+    const { data } = await api.put(`/order/reject/${orderId}`);
+    console.log("rejected",data);
     return data;
-  } catch (err) {
-    throw new Error(err.response.data.error);
+  } catch (error) {
+    throw new Error(error.response.data.error);
   }
 };
 
-const orderService = { getOrders, getOrderHistory, placeOrder };
+const dispatchOrder = async (orderId) => {
+  try {
+    console.log(orderId);
+    const { data } = await api.put(`/order/dispatch/${orderId}`);
+    console.log("dispatched",data);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
+const serveOrder = async (orderId) => {
+  try {
+    console.log(orderId);
+    const { data } = await api.put(`/order/serve/${orderId}`);
+    console.log("served",data);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+const orderService = { getOrders, acceptOrder, rejectOrder, dispatchOrder, serveOrder };
 export default orderService;

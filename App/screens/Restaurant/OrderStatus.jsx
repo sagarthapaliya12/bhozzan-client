@@ -16,99 +16,67 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders } from "./orderSlice";
+import { acceptOrder, rejectOrder, dispatchOrder, serveOrder, getOrders } from "./orderSlice";
+import { useIsFocused } from "@react-navigation/native";
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const status = useSelector((state) => state.orderSlice.orderStatusState);
+  console.log(status);
   const orders = useSelector((state) => state.orderSlice.orders);
-
-  const [listData, setListData] = useState();
-  // orders.map((order, index) => ({
-  //   key: order._id,
-
-  //   // name: RestaurantList.name,
-  //   // location: RestaurantList.location,
-  //   // profile: RestaurantList.profile,
-  // }))
-
-  // console.l;
 
   useEffect(() => {
     dispatch(getOrders(status));
-    setListData(
-      orders.map((order) => ({
-        key: order._id,
-        dishes: order.dishes,
-      }))
-    );
-  }, [status]);
+    // setListData(
+    //   orders.map((order) => ({
+    //     key: order._id,
+    //     dishes: order.dishes,
+    //   }))
+    // );
+  }, [status, isFocused]);
 
   // console.log("List Data: ", listData);
 
-  const acceptRow = (rowMap, rowKey) => {
-    console.log("This restaurant is accepted", rowKey);
-  };
+  const acceptRow = (_rowMap, orderId) => {
+    {
+      console.log("This restaurant is accepted", orderId);
+      status === "pending" && dispatch(acceptOrder(orderId));
+    }
 
-  const closeRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
+    {
+      // console.log("This order is dispatched", orderId);
+      status === "accepted" && dispatch(dispatchOrder(orderId));
     }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
-    closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex((item) => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
+  const deleteRow = (_rowMap, orderId) => {
+    {
+      console.log("This restaurant is rejected", orderId);
+      status === "pending" && dispatch(rejectOrder(orderId));
+    }
+    {
+      // console.log("This order is served", orderId);
+      status === "accepted" && dispatch(serveOrder(orderId));
+    }
   };
 
   const VisibleItem = (props) => {
-    const { data, rowHeightAnimatedValue, removeRow, leftActionState, rightActionState } = props;
-    // console.log("data is kk", typeof data, data);
-
-    // console.log(data.hasOwnProperty("_id"));
-    // console.log("dishes is here", data.dishes);
-    //
-    // if (rightActionState) {
-    //   Animated.timing(rowHeightAnimatedValue, {
-    //     toValue: 0,
-    //     duration: 200,
-    //     useNativeDriver: false,
-    //   }).start(() => {
-    //     removeRow();
-    //   });
-    // }
+    const { data, rowHeightAnimatedValue} = props;
 
     return (
-      <Animated.View style={[styles.rowFront, { height: rowHeightAnimatedValue }]}>
+      <Animated.View style={[styles.rowFront, 
+      // { height: rowHeightAnimatedValue }
+      ]}>
         <TouchableHighlight style={styles.rowFrontVisible}>
           <View style={styles.mainContainer}>
-            {/* <View style={styles.restaurantDetail}>
-              <View style={styles.profileContainer}>
-                <Image style={styles.restaurantProfile} source={data.item.profile} />
-              </View>
-            </View> */}
             {/* {console.log("Test: ", data.item.dishes)} */}
-            {/* {data.item.dishes.map((dish) => (
-              <View>
-                <Text style={styles.name} numberOfLines={1}>
-                  {dish.dishId}
-                </Text>
-                <Text></Text>
-              </View>
-            ))} */}
 
-            {data.item.dishes.map((dish) => {
+            {data?.item.dishes.map((dish) => {
               return (
-                <View>
-                  <Text key={dish.dishId} style={styles.name}>
-                    Name: {dish.dishId}
-                  </Text>
-                  <Text key={dish.quantity} style={styles.location}>
-                    Quantity: {dish.quantity}
-                  </Text>
+                <View key={dish.dishId}>
+                  <Text style={styles.name}>Name: {dish.dishId}</Text>
+                  <Text style={styles.location}>Quantity: {dish.quantity}</Text>
                 </View>
               );
             })}
@@ -120,12 +88,11 @@ const OrderStatus = () => {
   };
 
   const renderItem = (data, rowMap) => {
-    const rowHeightAnimatedValue = new Animated.Value(80);
+    // const rowHeightAnimatedValue = new Animated.Value(80);
     return (
       <VisibleItem
         data={data}
-        // rowHeightAnimatedValue={rowHeightAnimatedValue}
-        removeRow={() => deleteRow(rowMap, data.item.key)}
+        // rowHeightAnimatedValue={rowHeightAnimatedValue}        
       />
     );
   };
@@ -138,30 +105,17 @@ const OrderStatus = () => {
       rowActionAnimatedValue,
       rowHeightAnimatedValue,
       onAccept,
-      onClose,
       onDelete,
     } = props;
-
-    // if (rightActionActivated) {
-    //   Animated.spring(rowActionAnimatedValue, {
-    //     toValue: 300,
-    //     useNativeDriver: false,
-    //   }).start();
-    // } else {
-    //   Animated.spring(rowActionAnimatedValue, {
-    //     toValue: 75,
-    //     useNativeDriver: false,
-    //   }).start();
-    // }
 
     return (
       <Animated.View
         style={[
           styles.rowBack,
-          //  { height: rowHeightAnimatedValue }
+          // { height: rowHeightAnimatedValue }
         ]}
       >
-        {!rightActionActivated && (
+        {(!rightActionActivated && status === "pending" && (
           <TouchableOpacity style={[styles.frontLeftBtn]} onPress={onAccept}>
             <MaterialCommunityIcons
               name="checkbox-outline"
@@ -170,61 +124,49 @@ const OrderStatus = () => {
               color="#fff"
             />
           </TouchableOpacity>
-        )}
-
-        {!leftActionActivated && (
-          <Animated.View
-            style={[
-              styles.backRightBtn,
-              styles.backRightBtnRight,
-              {
-                flex: 1,
-                // width: rowActionAnimatedValue,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              style={[styles.backRightBtn, styles.backRightBtnRight]}
-              onPress={onDelete}
-            >
-              <Animated.View
-                style={[
-                  styles.trash,
-                  // {
-                  //   transform: [
-                  //     {
-                  //       scale: swipeAnimatedValue.interpolate({
-                  //         inputRange: [-90, 75],
-                  //         outputRange: [1, 0],
-                  //         extrapolate: "clamp",
-                  //       }),
-                  //     },
-                  //   ],
-                  // },
-                ]}
-              >
-                <MaterialCommunityIcons name="trash-can-outline" size={25} color="#fff" />
-              </Animated.View>
+        )) ||
+          (status === "accepted" && (
+            <TouchableOpacity style={[styles.frontLeftBtn]} onPress={onAccept}>              
+              <Text>Dispatch</Text>
             </TouchableOpacity>
-          </Animated.View>
-        )}
+          ))}
+
+        {(!leftActionActivated && status === "pending" && (
+          <TouchableOpacity
+            style={[styles.backRightBtn, styles.backRightBtnRight]}
+            onPress={onDelete}
+          >
+            <MaterialCommunityIcons name="trash-can-outline"  style={styles.trash} size={25} color="#fff" />
+          </TouchableOpacity>
+        )) ||
+          (status === "accepted" && (
+            <TouchableOpacity
+              style={[
+                styles.backRightBtn,
+                styles.backRightBtnRight,
+                { backgroundColor: colors.secondary },
+              ]}
+              onPress={onDelete}
+            >            
+              <Text>Serve</Text>
+            </TouchableOpacity>
+          ))}
       </Animated.View>
     );
   };
 
   const renderHiddenItem = (data, rowMap) => {
     const rowActionAnimatedValue = new Animated.Value(20);
-    const rowHeightAnimatedValue = new Animated.Value(80);
+    // const rowHeightAnimatedValue = new Animated.Value(80);
 
     return (
       <HiddenItemWithActions
         data={data}
         rowMap={rowMap}
-        // rowActionAnimatedValue={rowActionAnimatedValue}
+        rowActionAnimatedValue={rowActionAnimatedValue}
         // rowHeightAnimatedValue={rowHeightAnimatedValue}
-        onAccept={() => acceptRow(rowMap, data.item.key)}
-        // onClose={() => closeRow(rowMap, data.item.key)}
-        onDelete={() => deleteRow(rowMap, data.item.key)}
+        onAccept={() => acceptRow(rowMap, data.item._id)}
+        onDelete={() => deleteRow(rowMap, data.item._id)}
       />
     );
   };
@@ -234,7 +176,7 @@ const OrderStatus = () => {
       <StatusBar barStyle="dark-content" />
       <StatusBar backgroundColor="#161B22" barStyle="light-content" />
       <SwipeListView
-        data={listData}
+        data={orders}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={75}
@@ -260,19 +202,6 @@ const styles = StyleSheet.create({
   },
   restaurantDetail: {
     flexDirection: "column",
-  },
-  profileContainer: {
-    backgroundColor: colors.gray,
-    width: 60,
-    height: 60,
-    borderRadius: 50,
-    marginRight: 15,
-  },
-  restaurantProfile: {
-    width: 60,
-    height: 60,
-    borderRadius: 50,
-    borderColor: colors.white,
   },
   backTextWhite: {
     color: "#FFF",
@@ -314,7 +243,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: 75,
-    // height: 80,
+    height: 80,
     paddingRight: 17,
   },
   backRightBtnLeft: {
@@ -328,7 +257,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: 75,
-    // height: 80,
     paddingRight: 17,
     backgroundColor: "green",
     borderTopLeftRadius: 5,
@@ -337,13 +265,15 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: "red",
     right: 0,
+    height: 80,
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
   },
   trash: {
-    height: 25,
-    width: 25,
+    // height: 25,
+    // width: 25,
     marginRight: 7,
+    overflow: "hidden",
   },
   name: {
     fontSize: 14,
