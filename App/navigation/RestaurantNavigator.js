@@ -53,7 +53,17 @@ const MenuNavigator = () => (
         },
       }}
     />
-    <Stack.Screen name="EditMenu" component={EditMenu} />
+    <Stack.Screen
+      name="EditMenu"
+      component={EditMenu}
+      options={{
+        title: "Edit Food Menu",
+        headerTintColor: colors.white,
+        headerStyle: {          
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
   </Stack.Navigator>
 );
 
