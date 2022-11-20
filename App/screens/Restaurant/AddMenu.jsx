@@ -42,7 +42,7 @@ const AddMenu = () => {
     dish = { ...dish, category: category.value };
     dispatch(addDish(dish));
     dispatch(toggleShowSnackbar(true));
-    navigation.navigate("");
+    navigation.navigate("Menu");
   };
 
   return (

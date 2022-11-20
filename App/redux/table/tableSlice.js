@@ -4,6 +4,7 @@ import tableService from "./tableAPI";
 
 const initialState = {
   tableList: [],
+  tableId: null,
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
@@ -19,6 +20,9 @@ const tableSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    setTableId: (state, action) => {
+      state.tableId = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -32,9 +36,11 @@ const tableSlice = createSlice({
       })
       .addCase(getTablesByRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
+        state.tableList = [];
         state.errorMsg = action.error.errorMsg;
       });
   },
 });
-export const { reset } = tableSlice.actions;
+
+export const { reset, setTableId } = tableSlice.actions;
 export default tableSlice.reducer;

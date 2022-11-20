@@ -1,8 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import React, { useEffect } from "react";
 import colors from "../../config/colors";
-import { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";

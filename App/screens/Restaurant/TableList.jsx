@@ -1,18 +1,28 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTablesByRestaurant } from "../../redux/table/tableSlice";
+import { getTablesByRestaurant, setTableId } from "../../redux/table/tableSlice";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { getRestaurantUserId } from "./restaurantSlice";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import tableImg from "../../assets/table.png";
 
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const TableList = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
   const tableList = useSelector((state) => state.tableSlice.tableList);
@@ -30,19 +40,29 @@ const TableList = () => {
       <ScrollView>
         {tableList?.map((table) => {
           return (
-            <View key={table._id} style={styles.container}>
-              <View style={styles.itemDetail}>
-                <Text style={styles.tableName}>{table.name}</Text>
-                <Text style={styles.description}>No. of Seats: {table.seats}</Text>
-                <Text style={styles.description}>Rate: {table.rate}</Text>
+            <TouchableHighlight
+              key={table._id}
+              onPress={() => {
+                dispatch(setTableId(table._id));
+                navigation.navigate("ReservationDetail");
+              }}
+            >
+              <View style={styles.container}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image style={styles.tableImg} source={tableImg} />
+                  <View style={styles.itemDetail}>
+                    <Text style={styles.tableName}>{table.name}</Text>
+                    <Text style={styles.seats}>No. of Seats: {table.seats}</Text>
+                    <Text style={styles.rate}>Rate: {table.rate}</Text>
+                  </View>
+                </View>
+                <View style={styles.statusContainer}>
+                  <Text style={styles.deliverStatus}>
+                    {table.isReserved ? "Reserved" : "Not Reserved"}
+                  </Text>
+                </View>
               </View>
-
-              <View style={styles.statusContainer}>
-                <Text style={styles.deliverStatus}>
-                  {table.isReserved ? "Reserved" : "Not Reserved"}
-                </Text>
-              </View>
-            </View>
+            </TouchableHighlight>
           );
         })}
       </ScrollView>
@@ -68,14 +88,24 @@ const styles = StyleSheet.create({
     width: width,
     paddingHorizontal: 10,
     paddingVertical: 10,
+    borderBottomWidth: 0.5,
+    borderBottomColor: colors.gray,
+  },
+  tableImg: {
+    width: 50,
+    height: 50,
+    marginRight: 20,
   },
   tableName: {
     color: colors.white,
     fontWeight: "600",
     fontSize: 25,
   },
-  description: {
+  seats: {
     color: colors.gray,
+  },
+  rate: {
+    color: colors.green,
   },
   statusContainer: {
     backgroundColor: colors.secondary,

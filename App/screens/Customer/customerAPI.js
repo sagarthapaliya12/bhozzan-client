@@ -27,9 +27,9 @@ const addFavoriteRestaurant = async (restaurantId) => {
   }
 };
 
-const getFavoriteRestaurant = async (restaurantId) => {
+const getFavoriteRestaurant = async () => {
   try {
-    const { data } = await api.get(`/user/favorite`);
+    const { data } = await api.get(`/user/favorite/`);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);

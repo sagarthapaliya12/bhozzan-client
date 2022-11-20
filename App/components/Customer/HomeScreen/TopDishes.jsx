@@ -18,7 +18,7 @@ const TopDishes = () => {
 
   return (
     <ScrollView style={styles.container}>
-      {todays?.map((item) => {
+      {/* {todays?.map((item) => {
         return (
           <View key={item.dish[0]._id} style={styles.categoryItem}>
             <View style={styles.itemDetail}>
@@ -44,7 +44,7 @@ const TopDishes = () => {
             </View>
           </View>
         );
-      })}
+      })} */}
     </ScrollView>
   );
 };

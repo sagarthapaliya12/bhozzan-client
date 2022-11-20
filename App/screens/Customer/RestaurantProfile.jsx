@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import { addFavoriteRestaurant } from "./customerSlice";
 import SnackbarMessage from "../../components/SnackbarMessage";
 import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const { height, width } = Dimensions.get("window");
 
@@ -48,6 +49,7 @@ const ActionItems = [
 
 const RestaurantProfile = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
 
@@ -105,6 +107,12 @@ const RestaurantProfile = () => {
               );
             })}
           </View>
+          <TouchableHighlight onPress={() => navigation.navigate("RestaurantTables")}>
+            <View style={styles.reservationBtn}>
+              <AntDesign name="calendar" size={24} color="black" />
+              <Text style={styles.reservationText}>Make Reservation</Text>
+            </View>
+          </TouchableHighlight>
 
           <View style={styles.delivery}>
             <Text style={{ color: "green" }}>DELIVERY HOURS</Text>
@@ -172,5 +180,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
     marginBottom: 20,
+  },
+  reservationBtn: {
+    backgroundColor: colors.secondary,
+    paddingVertical: 9,
+    paddingHorizontal: 15,
+    borderRadius: 19,
+    flexDirection: "row",
+  },
+  reservationText: {
+    fontSize: 18,
+    marginLeft: 5,
   },
 });

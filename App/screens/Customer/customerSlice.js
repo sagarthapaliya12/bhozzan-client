@@ -33,6 +33,11 @@ export const getFavoriteRestaurant = createAsyncThunk("user/getFavorite", async 
   customerService.getFavoriteRestaurant()
 );
 
+export const removeFavoriteRestaurant = createAsyncThunk(
+  "user/removeFavorite",
+  async (restaurantId) => customerService.removeFavoriteRestaurant(restaurantId)
+);
+
 export const addToBasket = createAsyncThunk("basket/addToBasket", async (dishId) =>
   customerService.addToBasket(dishId)
 );
@@ -52,10 +57,6 @@ export const getBasketDishes = createAsyncThunk("basket/getBasketDishes", async 
 export const removeBasketDish = createAsyncThunk("basket/removeBasketDish", async (dishId) =>
   customerService.removeBasketDish(dishId)
 );
-
-// export const placeOrder = createAsyncThunk("order/create", async (order) =>
-//   customerService.placeOrder(order)
-// );
 
 export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
   customerService.getOrderHistory()
@@ -81,7 +82,7 @@ const customerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      //Get User Details
+      // Get User Details
       .addCase(getUserDetails.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -94,7 +95,7 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Get Restaurant Details
+      // Get Restaurant Details
       .addCase(getRestaurantDetails.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -107,7 +108,7 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Add Favourite Restaurant
+      // Add Favourite Restaurant
       .addCase(addFavoriteRestaurant.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -120,7 +121,7 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.message;
       })
 
-      //Get Favourite Restaurant
+      // Get Favourite Restaurant
       .addCase(getFavoriteRestaurant.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -133,7 +134,23 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Add To Basket
+      // Remove Favourite Restaurant
+      .addCase(removeFavoriteRestaurant.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(removeFavoriteRestaurant.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        console.log("sads", action.payload);
+        state.favoriteRestaurants = state.favoriteRestaurants.filter(
+          (item) => item._id !== action.payload._id
+        );
+      })
+      .addCase(removeFavoriteRestaurant.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      // Add To Basket
       .addCase(addToBasket.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -148,7 +165,7 @@ const customerSlice = createSlice({
         state.errorMsg = action.error.message;
       })
 
-      //Get Basket Count
+      // Get Basket Count
       .addCase(getBasketCount.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })

@@ -8,10 +8,11 @@ import Menu from "../screens/Restaurant/Menu";
 import AddMenu from "../screens/Restaurant/AddMenu";
 import EditMenu from "../screens/Restaurant/EditMenu";
 import Dashboard from "../screens/Restaurant/Dashboard";
-import OrderStatus from "../screens/Restaurant/OrderStatus"
+import OrderStatus from "../screens/Restaurant/OrderStatus";
 import TableList from "../screens/Restaurant/TableList";
 import AddSeats from "../screens/Restaurant/AddSeats";
 import ConfirmTable from "../screens/Restaurant/ConfirmTable";
+import ReservationDetail from "../screens/Restaurant/ReservationDetail";
 
 const Stack = createStackNavigator();
 
@@ -40,12 +41,12 @@ const DashboardNavigator = () => (
 
 const MenuNavigator = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Feed" component={Menu} options={{ headerShown: false }} />
+    <Stack.Screen name="Menu" component={Menu} options={{ headerShown: false }} />
     <Stack.Screen
       name="AddMenu"
       component={AddMenu}
       options={{
-        title: "Edit Profile",
+        title: "Add Dish",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,
@@ -70,7 +71,18 @@ const TablesNavigator = () => (
         },
       }}
     /> */}
-    <Stack.Screen name="Feed" component={TableList} options={{ headerShown: false }} />
+    <Stack.Screen name="TableList" component={TableList} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="ReservationDetail"
+      component={ReservationDetail}
+      options={{
+        title: "Table Reservation",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
     <Stack.Screen
       name="AddSeats"
       component={AddSeats}
