@@ -6,6 +6,8 @@ import colors from "../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function ImageInput({ imageUri, onChangeImage, style }) {
+  const [buttonClicked, setButtonClicked] = useState(false);
+
   useEffect(() => {
     requestPermission();
   }, []);
@@ -16,13 +18,16 @@ function ImageInput({ imageUri, onChangeImage, style }) {
   };
 
   const handlePress = () => {
-    if (!imageUri) {
-      selectImage();
-    } else {
-      Alert.alert("Delete", "Are you sure you want to delete this image?", [
-        { text: "Yes", onPress: () => onChangeImage(null) },
-        { text: "No" },
-      ]);
+    if (!buttonClicked) {
+      if (!imageUri) {
+        selectImage();
+        setButtonClicked(true);
+      } else {
+        Alert.alert("Delete", "Are you sure you want to delete this image?", [
+          { text: "Yes", onPress: () => onChangeImage(null) },
+          { text: "No" },
+        ]);
+      }
     }
   };
 
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
-    height:80,
+    height: 80,
     width: 80,
   },
   image: {
