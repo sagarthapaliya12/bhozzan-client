@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import HomeScreen from "../../screens/HomeScreen";
 import colors from "../../config/colors";
-// import Basket from "../../screens/Customer/Basket";
 import Notifications from "../../screens/Customer/Notifications";
-import More from "../../screens/Customer/More";
 import { HomeNavigator, BasketNavigator, MoreNavigator } from "../../navigation/CustomerNavigator";
 import { View } from "react-native";
 import { Badge } from "react-native-paper";

@@ -11,10 +11,10 @@ import More from "../screens/Customer/More";
 import FavoritesScreen from "../screens/Customer/FavoritesScreen";
 import BasketList from "../screens/Customer/BasketList";
 import BasketDetail from "../screens/Customer/BasketDetail";
-import QrGenerator from "../components/Customer/HomeScreen/QrGenerator";
 import TableList from "../screens/Customer/TableList";
 import ReserveTable from "../screens/Customer/ReserveTable";
 import { useSelector } from "react-redux";
+import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
 
 const Stack = createStackNavigator();
 
@@ -105,19 +105,6 @@ const BasketNavigator = () => (
         },
       }}
     />
-
-    {/* <Stack.Screen
-      name="QrGenerator"
-      component={QrGenerator}
-      options={{
-        // title: "Basket",
-        // headerTintColor: colors.white,
-        // headerStyle: {
-        //   backgroundColor: colors.screen,
-        // },
-        headerShown: false,
-      }}
-    /> */}
   </Stack.Navigator>
 );
 
@@ -146,6 +133,17 @@ const MoreNavigator = () => (
       component={OrderHistory}
       options={{
         title: "Order History",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="OrderHistoryDetail"
+      component={OrderHistoryDetail}
+      options={{
+        title: "Order Detail",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,

@@ -6,6 +6,7 @@ const initialState = {
   orders: [],
   orderHistories: [],
   orderStatusState: null,
+  orderHistoryDetail: {},
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
@@ -46,6 +47,9 @@ const orderSlice = createSlice({
     reset: () => initialState,
     changeOrderStatusState: (state, action) => {
       state.orderStatusState = action.payload;
+    },
+    setOrderHistoryDetail: (state, action) => {
+      state.orderHistoryDetail = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -143,5 +147,5 @@ const orderSlice = createSlice({
       });
   },
 });
-export const { changeOrderStatusState } = orderSlice.actions;
+export const { changeOrderStatusState, setOrderHistoryDetail } = orderSlice.actions;
 export default orderSlice.reducer;

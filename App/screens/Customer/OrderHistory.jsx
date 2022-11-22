@@ -4,7 +4,9 @@ import colors from "../../config/colors";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderHistory } from "../Restaurant/orderSlice";
+import { getOrderHistory, setOrderHistoryDetail } from "../Restaurant/orderSlice";
+import Screen from "../../components/Screen";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 const { height, width } = Dimensions.get("window");
 
@@ -19,43 +21,51 @@ const OrderHistoryList = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-      {orderHistories?.map((item) => {
-        return (
-          <View key={item._id} style={styles.categoryItem}>
-            <View style={styles.itemDetail}>
-              <Text style={styles.title}>Order #{item._id.slice(4, 9)}</Text>
-              <Text style={styles.restaurantName}>{item.restaurant[0].name}</Text>
-              <View style={styles.locationContainer}>
-                <Entypo
-                  name="location-pin"
-                  size={24}
-                  color={colors.primary}
-                  style={{ fontSize: 20 }}
-                />
-                <Text style={styles.location}>{item.restaurant[0].address}</Text>
-              </View>
-            </View>
+    <Screen>
+      <ScrollView>
+        {orderHistories?.map((item) => {
+          return (
+            <TouchableHighlight
+              key={item._id}
+              onPress={() => {
+                dispatch(setOrderHistoryDetail(item));
+                navigation.navigate("OrderHistoryDetail");
+              }}
+            >
+              <View style={styles.categoryItem}>
+                <View style={styles.itemDetail}>
+                  <Text style={styles.title}>Order #{item._id.slice(4, 9)}</Text>
+                  <Text style={styles.restaurantName}>{item.restaurant.name}</Text>
+                  <View style={styles.locationContainer}>
+                    <Entypo
+                      name="location-pin"
+                      size={24}
+                      color={colors.primary}
+                      style={{ fontSize: 20 }}
+                    />
+                    <Text style={styles.location}>{item.restaurant.address}</Text>
+                  </View>
+                </View>
 
-            <View style={styles.priceCart}>
-              <View>
-                <Text style={{ color: colors.primary, fontSize: 20 }}>
-                  Rs.&nbsp;{item.totalPrice}
-                </Text>
+                <View style={styles.priceCart}>
+                  <View>
+                    <Text style={{ color: colors.secondary, fontSize: 20 }}>
+                      Rs.&nbsp;{item.totalPrice}
+                    </Text>
+                  </View>
+                </View>
               </View>
-            </View>
-          </View>
-        );
-      })}
-    </ScrollView>
+            </TouchableHighlight>
+          );
+        })}
+      </ScrollView>
+    </Screen>
   );
 };
 
 export default OrderHistoryList;
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: colors.screen },
-
   title: {
     color: colors.gray,
     paddingVertical: 2,
@@ -70,7 +80,8 @@ const styles = StyleSheet.create({
     width: width,
     paddingHorizontal: 10,
     paddingVertical: 10,
-    // backgroundColor: "orange"
+    borderColor: colors.gray,
+    borderBottomWidth: 1,
   },
   itemDetail: {
     // color: colors.white,

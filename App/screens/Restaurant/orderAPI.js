@@ -1,5 +1,14 @@
 import api from "../../helpers/axios";
 
+const placeOrder = async (order) => {
+  try {
+    const { data } = await api.post(`/order/create`, order);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
 const getOrderHistory = async () => {
   try {
     const { data } = await api.get(`/order/my-orders`);
@@ -23,7 +32,7 @@ const acceptOrder = async (orderId) => {
   try {
     console.log(orderId);
     const { data } = await api.put(`/order/accept/${orderId}`);
-    console.log("accepted",data);
+    console.log("accepted", data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -34,7 +43,7 @@ const rejectOrder = async (orderId) => {
   try {
     console.log(orderId);
     const { data } = await api.put(`/order/reject/${orderId}`);
-    console.log("rejected",data);
+    console.log("rejected", data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -45,7 +54,7 @@ const dispatchOrder = async (orderId) => {
   try {
     console.log(orderId);
     const { data } = await api.put(`/order/dispatch/${orderId}`);
-    console.log("dispatched",data);
+    console.log("dispatched", data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -56,11 +65,19 @@ const serveOrder = async (orderId) => {
   try {
     console.log(orderId);
     const { data } = await api.put(`/order/serve/${orderId}`);
-    console.log("served",data);
+    console.log("served", data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
   }
 };
-const orderService = { getOrderHistory, getOrders, acceptOrder, rejectOrder, dispatchOrder, serveOrder };
+const orderService = {
+  placeOrder,
+  getOrderHistory,
+  getOrders,
+  acceptOrder,
+  rejectOrder,
+  dispatchOrder,
+  serveOrder,
+};
 export default orderService;
