@@ -45,6 +45,7 @@ const orderSlice = createSlice({
       // Get Orders
       .addCase(getOrders.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
+        state.orders = [];
       })
       .addCase(getOrders.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
@@ -52,7 +53,6 @@ const orderSlice = createSlice({
       })
       .addCase(getOrders.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        state.orders = [];
         state.errorMsg = action.error.errorMsg;
       })
 
@@ -69,8 +69,8 @@ const orderSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-       // Reject Orders
-       .addCase(rejectOrder.pending, (state, _action) => {
+      // Reject Orders
+      .addCase(rejectOrder.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
       .addCase(rejectOrder.fulfilled, (state, action) => {
@@ -82,8 +82,8 @@ const orderSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-       // Dispatch Orders
-       .addCase(dispatchOrder.pending, (state, _action) => {
+      // Dispatch Orders
+      .addCase(dispatchOrder.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
       .addCase(dispatchOrder.fulfilled, (state, action) => {
@@ -95,8 +95,8 @@ const orderSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-       // Serve Orders
-       .addCase(serveOrder.pending, (state, _action) => {
+      // Serve Orders
+      .addCase(serveOrder.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
       .addCase(serveOrder.fulfilled, (state, action) => {

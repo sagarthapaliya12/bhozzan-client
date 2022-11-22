@@ -60,9 +60,9 @@ const DateTime = () => {
 
   const handleReservation = () => {
     const reservationDetail = {
-      tableId: tableId,
-      reservedSince: `${date}T${startTime}`,
-      reservedUntil: `${date}T${endTime}`,
+      tableId,
+      reservedSince: `${date} ${startTime}`,
+      reservedUntil: `${date} ${endTime}`,
     };
     dispatch(createReservation(reservationDetail));
   };

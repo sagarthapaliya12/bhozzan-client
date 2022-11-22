@@ -11,7 +11,6 @@ const { width } = Dimensions.get("window");
 const ReserveTable = () => {
   const tableId = useSelector((state) => state.tableSlice.tableId);
   const reservations = useSelector((state) => state.reservationSlice.reservationList);
-  console.log("Dfdsfsdf", reservations);
 
   return (
     <Screen>
