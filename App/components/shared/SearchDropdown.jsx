@@ -33,7 +33,7 @@ export default function SearchDropdown(props) {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: "99%",
+    top: "150%",
     left: 0,
     right: 0,
     // bottom: 0,    

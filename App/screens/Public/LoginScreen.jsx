@@ -106,9 +106,9 @@ function LoginScreen({ navigation }) {
             <SubmitButton title="Login" />
           </Form>
 
-          <TouchableOpacity onPress={() => console.log("clicked")}>
+          {/* <TouchableOpacity onPress={() => console.log("clicked")}>
             <Text style={defaultStyles.link}>Forgot Password?</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.btnContainer}>

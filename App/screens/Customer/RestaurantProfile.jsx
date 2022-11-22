@@ -62,6 +62,7 @@ const RestaurantProfile = () => {
   const handleFeatures = (index) => {
     index === 1 && Linking.openURL(`tel:${restaurantDetail.primaryPhoneNumber}`); //only works for android
     index === 2 && addFavourite();
+    index === 3 && Linking.openURL(`sms:${restaurantDetail.primaryPhoneNumber}`); //only works for android
     index === 4 &&
       Linking.openURL(`https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley`);
   };
