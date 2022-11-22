@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import Screen from "../components/Screen";
 
-function Chat(props) {
+const Chat = () => {
 	return (
-		<View style={styles.container}>
-			<Text>Welcome to the chat page</Text>
-		</View>
+		<Screen></Screen>
 	);
 }
 

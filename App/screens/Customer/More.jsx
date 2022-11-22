@@ -80,14 +80,14 @@ const More = () => {
           </AppText>
         </View>
 
-        <View style={styles.editBtn}>
+        {/* <View style={styles.editBtn}>
           <AppButton
             title="Edit Profile"
             onPress={() => {
               navigation.navigate("EditProfile");
             }}
           />
-        </View>
+        </View> */}
 
         <View style={styles.bottomContainer}>
           <Pressable
@@ -98,6 +98,19 @@ const More = () => {
             <MaterialCommunityIcons name="history" size={24} color="black" />
             <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
               Order History
+            </Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.bottomContainerSecond}>
+          <Pressable
+            style={styles.bottomRow}
+            android_ripple={{ color: colors.lightGray, borderless: true }}
+            onPress={() => navigation.navigate("MyReservation")}
+          >
+            <AntDesign name="calendar" size={24} color="black" />
+            <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
+              My Reservations
             </Text>
           </Pressable>
         </View>

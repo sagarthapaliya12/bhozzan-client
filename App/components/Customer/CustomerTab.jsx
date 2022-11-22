@@ -84,7 +84,7 @@ const CustomerTab = () => {
         }}
       />
 
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Chat"
         component={Chat}
         options={{
@@ -92,7 +92,7 @@ const CustomerTab = () => {
             <MaterialCommunityIcons name="chat" color={color} size={size} />
           ),
         }}
-      /> */}
+      />
 
       <Tab.Screen
         name="More"

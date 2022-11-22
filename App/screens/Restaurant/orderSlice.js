@@ -11,6 +11,14 @@ const initialState = {
   successMsg: null,
 };
 
+export const placeOrder = createAsyncThunk("order/create", async (order) =>
+  orderService.placeOrder(order)
+);
+
+export const getOrderHistory = createAsyncThunk("order/my-orders", async () =>
+  orderService.getOrderHistory()
+);
+
 export const getOrders = createAsyncThunk(`order/restaurant`, async (param) =>
   orderService.getOrders(param)
 );
@@ -42,6 +50,32 @@ const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Add/Place Order
+      .addCase(placeOrder.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(placeOrder.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.successMsg = action.payload.message;
+      })
+      .addCase(placeOrder.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
+      // Get Order History
+      .addCase(getOrderHistory.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getOrderHistory.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.orderHistories = action.payload.orders;
+      })
+      .addCase(getOrderHistory.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
       // Get Orders
       .addCase(getOrders.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;

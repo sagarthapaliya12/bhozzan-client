@@ -210,6 +210,7 @@ const customerSlice = createSlice({
       })
       .addCase(removeBasketDish.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
+        console.log("fdfddfs", action.payload)
         state.basketDishes = state.basketDishes.filter(
           (item) => item.dish._id !== action.payload.dishId
         );

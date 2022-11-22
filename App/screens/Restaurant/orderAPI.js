@@ -1,5 +1,14 @@
 import api from "../../helpers/axios";
 
+const getOrderHistory = async () => {
+  try {
+    const { data } = await api.get(`/order/my-orders`);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
 const getOrders = async (param) => {
   try {
     const uri = param ? `/order/restaurant?status=${param}` : `/order/restaurant`;
@@ -53,5 +62,5 @@ const serveOrder = async (orderId) => {
     throw new Error(error.response.data.error);
   }
 };
-const orderService = { getOrders, acceptOrder, rejectOrder, dispatchOrder, serveOrder };
+const orderService = { getOrderHistory, getOrders, acceptOrder, rejectOrder, dispatchOrder, serveOrder };
 export default orderService;
