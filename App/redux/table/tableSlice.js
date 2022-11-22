@@ -5,6 +5,7 @@ import tableService from "./tableAPI";
 const initialState = {
   tableList: [],
   tableId: null,
+  tableInfo: {},
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
@@ -22,6 +23,9 @@ const tableSlice = createSlice({
     reset: () => initialState,
     setTableId: (state, action) => {
       state.tableId = action.payload;
+    },
+    setTableInfo: (state, action) => {
+      state.tableInfo = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -42,5 +46,5 @@ const tableSlice = createSlice({
   },
 });
 
-export const { reset, setTableId } = tableSlice.actions;
+export const { reset, setTableId, setTableInfo } = tableSlice.actions;
 export default tableSlice.reducer;

@@ -9,37 +9,44 @@ import { useSelector } from "react-redux";
 const { width } = Dimensions.get("window");
 
 const ReserveTable = () => {
-  const tableId = useSelector((state) => state.tableSlice.tableId);
+  const tableInfo = useSelector((state) => state.tableSlice.tableInfo);
   const reservations = useSelector((state) => state.reservationSlice.reservationList);
 
   return (
     <Screen>
       <View style={styles.container}>
-        <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 25 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 25 }}>
           <Image style={styles.tableImg} source={tableImg} />
           <View style={styles.itemDetail}>
-            <Text style={styles.tableName}>Table 1234</Text>
-            <Text style={styles.seats}>No. of Seats: 4</Text>
-            <Text style={styles.rate}>Rate: Rs.200</Text>
+            <Text style={styles.tableName}>{tableInfo.name}</Text>
+            <Text style={styles.seats}>No. of Seats: {tableInfo.seats}</Text>
+            <Text style={styles.rate}>Rate: Rs.{tableInfo.rate}</Text>
           </View>
         </View>
         <DateTime />
         <View>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}>Current Reservations</Text>
           </View>
 
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ paddingBottom: 100, marginBottom: 278 }}
           >
-            {/* {reservationList()}
-            {reservationList()}
-            {reservationList()}
-            {reservationList()}
-            {reservationList()}
-            {reservationList()}
-            {reservationList()} */}
+            {reservations?.map((reservation) => {
+              return (
+                <View key={reservations._id} style={styles.reservationContainer}>
+                  <Text style={styles.reservationText}>
+                    {reservation.reservedSince}
+                    {/* {new Date(reservation.reservedSince)} */}
+                  </Text>
+                  <Text style={styles.reservationText}>
+                    {reservation.reservedUntil}
+                    {/* {new Date(reservation.reservedUntil)} */}
+                  </Text>
+                </View>
+              );
+            })}
           </ScrollView>
         </View>
       </View>
@@ -130,4 +137,10 @@ const styles = StyleSheet.create({
     color: colors.screen,
     marginLeft: 5,
   },
+  reservationContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+  },
+  reservationText: { color: colors.gray },
 });

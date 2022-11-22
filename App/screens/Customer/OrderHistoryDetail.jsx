@@ -48,7 +48,7 @@ const OrderHistoryDetail = () => {
           </View>
           {orderDetail.dishes.map((dish) => {
             return (
-              <View style={styles.dishItem}>
+              <View key={dish._id} style={styles.dishItem}>
                 <View>
                   <Text style={styles.dishTitle}>{dish.name}</Text>
                   <Text style={styles.qtyText}>Quantity: {dish.quantity}</Text>

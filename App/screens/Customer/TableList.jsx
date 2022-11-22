@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import tableImg from "../../assets/table.png";
-import { getTablesByRestaurant, setTableId } from "../../redux/table/tableSlice";
+import { getTablesByRestaurant, setTableInfo } from "../../redux/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { getReservationByTableCustomer } from "../../redux/reservation/reservationSlice";
@@ -37,7 +37,7 @@ const TableList = () => {
                 <TouchableHighlight
                   style={styles.button}
                   onPress={() => {
-                    dispatch(setTableId(item._id));
+                    dispatch(setTableInfo(item));
                     dispatch(getReservationByTableCustomer(item._id));
                     navigation.navigate("ReserveTable");
                   }}

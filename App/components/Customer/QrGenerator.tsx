@@ -5,15 +5,18 @@ import QRCode from "react-native-qrcode-svg";
 import { QrCodeProps } from "../Restaurant/QrCodeProps";
 import { StackScreenProps } from "../../navigation/StackScreenProps";
 import colors from "../../config/colors";
+import { useSelector } from "react-redux";
 
 const QrGenerator: React.FunctionComponent<StackScreenProps> = (props) => {
   // const { navigation } = props;
 
-  const payload: QrCodeProps = {
-    name: "John Legend",
-    number: "9845190491",
-    message: "Order has been delivered",
-  };
+  const orderDetail = useSelector((state: any) => state.orderSlice.orderHistoryDetail._id);
+
+  // const payload: QrCodeProps = {
+  //   name: "John Legend",
+  //   number: "9845190491",
+  //   message: "Order has been delivered",
+  // };
   
   return (
     <View style={styles.container}>
@@ -21,7 +24,8 @@ const QrGenerator: React.FunctionComponent<StackScreenProps> = (props) => {
       size={200}      
       color= {colors.gray} 
       backgroundColor= {colors.screen} 
-      value={JSON.stringify(payload)} 
+      value={JSON.stringify(orderDetail)} 
+      // value={JSON.stringify(payload)} 
       />
 
     {/* //   {/* <View style={styles.button}>
