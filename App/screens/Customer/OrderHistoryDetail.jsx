@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import colors from "../../config/colors";
 import pizzaHut from "../../assets/pizza-hut.png";
 import { Entypo, Ionicons } from "@expo/vector-icons";
+import { ScrollView } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window");
 
@@ -21,49 +22,61 @@ const OrderHistoryDetail = () => {
 
   return (
     <Screen>
-      <QrGenerator />
-      <View>
-        <View style={styles.restaurantContainer}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Image style={styles.restaurantImg} source={pizzaHut} />
-            <View style={styles.itemDetail}>
-              <Text style={styles.restaurantName}>{orderDetail.restaurant.name}</Text>
-              <View style={{ flexDirection: "row" }}>
-                <Entypo name="location-pin" size={20} color={colors.primary} />
-                <Text style={styles.address}>{orderDetail.restaurant.address}</Text>
-              </View>
+      <ScrollView style={styles.container}>
+        <QrGenerator />
+        <View>
+          <View style={{ alignItems: "center" }}>
+            <View style={styles.statusContainer}>
+              <Text style={styles.statusText}>
+                {orderDetail.status === "otw"
+                  ? "On The Way"
+                  : orderDetail.status.charAt(0).toUpperCase() + orderDetail.status.slice(1)}
+                {/* {orderDetail.status.charAt(0).toUpperCase() + orderDetail.status.slice(1)} */}
+              </Text>
             </View>
           </View>
-          <TouchableHighlight
-            style={styles.callBtn}
-            onPress={() => Linking.openURL(`tel:${orderDetail.restaurant.primaryPhoneNumber}`)}
-          >
-            <Ionicons name="call" size={30} color="black" />
-          </TouchableHighlight>
-        </View>
-
-        <View style={styles.dishContainer}>
-          <View style={styles.yourOrderContainer}>
-            <Text style={styles.yourOrderText}>YOUR ORDERS</Text>
-          </View>
-          {orderDetail.dishes.map((dish) => {
-            return (
-              <View key={dish._id} style={styles.dishItem}>
-                <View>
-                  <Text style={styles.dishTitle}>{dish.name}</Text>
-                  <Text style={styles.qtyText}>Quantity: {dish.quantity}</Text>
-                  <Text style={styles.qtyText}>Rate: Rs. {dish.rate}</Text>
+          <View style={styles.restaurantContainer}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image style={styles.restaurantImg} source={pizzaHut} />
+              <View style={styles.itemDetail}>
+                <Text style={styles.restaurantName}>{orderDetail.restaurant.name}</Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Entypo name="location-pin" size={20} color={colors.primary} />
+                  <Text style={styles.address}>{orderDetail.restaurant.address}</Text>
                 </View>
-                <Text style={styles.priceText}>Rs. {dish.price}</Text>
               </View>
-            );
-          })}
-          <View style={styles.totalContainer}>
-            <Text style={styles.totalText}>Total</Text>
-            <Text style={styles.totalText}>{orderDetail.totalPrice}</Text>
+            </View>
+            <TouchableHighlight
+              style={styles.callBtn}
+              onPress={() => Linking.openURL(`tel:${orderDetail.restaurant.primaryPhoneNumber}`)}
+            >
+              <Ionicons name="call" size={30} color="black" />
+            </TouchableHighlight>
+          </View>
+
+          <View style={styles.dishContainer}>
+            <View style={styles.yourOrderContainer}>
+              <Text style={styles.yourOrderText}>YOUR ORDERS</Text>
+            </View>
+            {orderDetail.dishes.map((dish) => {
+              return (
+                <View key={dish._id} style={styles.dishItem}>
+                  <View>
+                    <Text style={styles.dishTitle}>{dish.dishId.name}</Text>
+                    <Text style={styles.qtyText}>Quantity: {dish.quantity}</Text>
+                    <Text style={styles.qtyText}>Rate: Rs. {dish.rate}</Text>
+                  </View>
+                  <Text style={styles.priceText}>Rs. {dish.price}</Text>
+                </View>
+              );
+            })}
+            <View style={styles.totalContainer}>
+              <Text style={styles.totalText}>Total</Text>
+              <Text style={styles.totalText}>{orderDetail.totalPrice}</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </Screen>
   );
 };
@@ -71,12 +84,26 @@ const OrderHistoryDetail = () => {
 export default OrderHistoryDetail;
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 15,
+  },
+  statusContainer: {
+    backgroundColor: colors.secondary,
+    borderRadius: 15,
+    paddingVertical: 3,
+    marginTop: 10,
+    width: 200,
+    alignItems: "center",
+  },
+  statusText: {
+    color: colors.screen,
+    fontWeight: "700",
+    fontSize: 20,
+  },
   restaurantContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: width,
-    paddingHorizontal: 15,
     paddingVertical: 10,
   },
   restaurantImg: {
@@ -102,7 +129,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dishContainer: {
-    paddingHorizontal: 15,
     marginTop: 12,
   },
   yourOrderContainer: {

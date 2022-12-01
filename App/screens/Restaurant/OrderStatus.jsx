@@ -25,6 +25,7 @@ const OrderStatus = () => {
   const status = useSelector((state) => state.orderSlice.orderStatusState);
   console.log(status);
   const orders = useSelector((state) => state.orderSlice.orders);
+  console.log(orders);
 
   useEffect(() => {
     dispatch(getOrders(status));

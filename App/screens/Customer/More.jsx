@@ -59,7 +59,7 @@ const More = () => {
 
       <View style={styles.info}>
         <Image source={require("../../assets/Avatar.jpg")} style={styles.avatar} />
-        <AppText style={{ color: "white" }}>{`${user.firstName} ${user.lastName}`}</AppText>
+        <AppText style={{ color: "white" }}>{`${user?.firstName} ${user?.lastName}`}</AppText>
 
         <View style={styles.details}>
           <Ionicons name="call" size={24} color="white" />

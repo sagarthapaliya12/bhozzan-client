@@ -34,7 +34,10 @@ const OrderHistoryList = () => {
             >
               <View style={styles.categoryItem}>
                 <View style={styles.itemDetail}>
-                  <Text style={styles.title}>Order #{item._id.slice(4, 9)}</Text>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={styles.title}>Order #{item._id.slice(4, 9)} | </Text>
+                    <Text style={styles.location}>{new Date(item.createdAt).toDateString()}</Text>
+                  </View>
                   <Text style={styles.restaurantName}>{item.restaurant.name}</Text>
                   <View style={styles.locationContainer}>
                     <Entypo
@@ -44,6 +47,14 @@ const OrderHistoryList = () => {
                       style={{ fontSize: 20 }}
                     />
                     <Text style={styles.location}>{item.restaurant.address}</Text>
+                  </View>
+                  <View style={styles.statusContainer}>
+                    <Text style={styles.statusText}>
+                      {/* {item.status.charAt(0).toUpperCase() + item.status.slice(1)} */}
+                      {item.status === "otw"
+                        ? "On The Way"
+                        : item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+                    </Text>
                   </View>
                 </View>
 
@@ -83,9 +94,6 @@ const styles = StyleSheet.create({
     borderColor: colors.gray,
     borderBottomWidth: 1,
   },
-  itemDetail: {
-    // color: colors.white,
-  },
   restaurantName: {
     color: colors.white,
     fontWeight: "600",
@@ -101,5 +109,18 @@ const styles = StyleSheet.create({
   cart: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  statusContainer: {
+    backgroundColor: colors.secondary,
+    borderRadius: 15,
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    marginTop: 10,
+    width: 100,
+    alignItems: "center",
+  },
+  statusText: {
+    color: colors.screen,
+    fontWeight: "700",
   },
 });
