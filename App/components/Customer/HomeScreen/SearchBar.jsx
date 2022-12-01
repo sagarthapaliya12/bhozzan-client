@@ -1,6 +1,6 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 import { React, useState } from "react";
 import colors from "../../../config/colors";
@@ -46,6 +46,7 @@ export default function SearchBar(props) {
       <FontAwesome name="search" size={24} style={styles.icon} />
       {searching && (
         <SearchDropdown
+         
           onPress={(item) => {
             setSearching(false);
             props.navigation.navigate("dataSource", { item: item });
@@ -60,21 +61,24 @@ export default function SearchBar(props) {
 const styles = StyleSheet.create({
   container: {
     margin: 10,
-    // marginTop: 40,       
-     paddingTop: Constants.statusBarHeight, 
+    // marginTop: 40,
+    // paddingTop: Constants.statusBarHeight,
     flexDirection: "row",
+    alignItems: "center",
   },
   input: {
-    backgroundColor: "#f4eded",
+    // backgroundColor: "#f4eded",
+    backgroundColor: colors.gray,
     width: "100%",
-    padding: 10,
-    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 80,
     color: "#000",
     borderWidth: 1,
   },
   icon: {
     position: "absolute",
-    // 
+    //
     marginTop: 40,
     right: 20,
     color: colors.darkGray,

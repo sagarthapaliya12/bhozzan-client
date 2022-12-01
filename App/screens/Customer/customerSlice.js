@@ -142,7 +142,7 @@ const customerSlice = createSlice({
         state.status = StatusStateEnum.SUCCESS;
         console.log("sads", action.payload);
         state.favoriteRestaurants = state.favoriteRestaurants.filter(
-          (item) => item._id !== action.payload._id
+          (item) => item._id !== action.payload.restaurantId
         );
       })
       .addCase(removeFavoriteRestaurant.rejected, (state, action) => {

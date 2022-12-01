@@ -31,7 +31,7 @@ const BasketDetail = () => {
   const status = useSelector((state) => state.orderSlice.status);
 
   useEffect(() => {
-    if (status === "success") dispatch(toggleShowMessageModal(true));
+    // if (status === "success") dispatch(toggleShowMessageModal(true));
   }, [status]);
 
   useEffect(() => {
@@ -91,6 +91,7 @@ const BasketDetail = () => {
     });
 
     dispatch(placeOrder(order));
+    if (status === "success") dispatch(toggleShowMessageModal(true));
 
     console.log(order);
     // navigation.navigate("QrGenerator");

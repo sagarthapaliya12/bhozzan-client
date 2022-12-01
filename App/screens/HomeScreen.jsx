@@ -10,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { getAllDishes } from "./Restaurant/restaurantSlice";
 import SearchBar from "./../components/Customer/HomeScreen/SearchBar";
 import TopDishes from "../components/Customer/HomeScreen/TopDishes";
+import Screen from "../components/Screen";
+import Constants from "expo-constants";
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -19,15 +21,15 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <Screen>
+      <ScrollView style={styles.container}>
         <SearchBar />
         <BrowseCategories onPress={() => navigation.navigate("BrowseCategory")} />
         <LocalCusines />
         <TopRestaurants />
         <TopDishes />
       </ScrollView>
-    </View>
+    </Screen>
   );
 };
 
@@ -35,7 +37,8 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.screen,
-    flex: 1,
+    paddingTop: Constants.statusBarHeight,
+    // backgroundColor: colors.screen,
+    // flex: 1,
   },
 });
