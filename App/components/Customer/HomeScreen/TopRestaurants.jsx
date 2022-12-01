@@ -97,7 +97,7 @@ export default TopRestaurants;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: 60,
   },
   title: {
     color: colors.white,

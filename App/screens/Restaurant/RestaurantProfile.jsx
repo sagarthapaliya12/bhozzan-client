@@ -23,7 +23,6 @@ import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 import AppButton from "./../../components/AppButton";
 import { useNavigation } from "@react-navigation/native";
 
-
 const { height, width } = Dimensions.get("window");
 
 const RestaurantProfile = () => {
@@ -72,29 +71,25 @@ const RestaurantProfile = () => {
         </View>
         <View style={styles.details}>
           <Entypo name="location-pin" size={24} color={colors.secondary} />
-          <Text style={styles.locationText}>&nbsp;{restaurantUser.address}</Text>
+          <Text style={styles.normalText}>&nbsp;{restaurantUser.address}</Text>
         </View>
         <View style={styles.details}>
           <Ionicons name="call" size={24} color={colors.secondary} />
-          <Text style={{ color: colors.white }}>
+          <Text style={styles.normalText}>
             &nbsp;&nbsp;{restaurantUser.primaryPhoneNumber}
           </Text>
         </View>
-        {/* <View style={styles.details}>
-          <AntDesign name="mail" size={24} color={colors.secondary} />
-          <Text style={{ color: colors.white }}>&nbsp;&nbsp;{restaurantUser.email}</Text>
-        </View> */}
         <View style={styles.details}>
           <Text style={{ color: colors.secondary }}>DELIVERY HOURS:&nbsp;</Text>
-          <Text style={{ color: colors.white }}>10:00 AM - 12:00 PM</Text>
+          <Text style={styles.normalText}>10:00 AM - 12:00 PM</Text>
         </View>
         <View style={styles.details}>
           <Text style={{ color: colors.secondary }}>PAN/VAT No:&nbsp;</Text>
-          <Text style={{ color: colors.white }}>{restaurantUser.PAN}</Text>
+          <Text style={styles.normalText}>{restaurantUser.PAN}</Text>
         </View>
         <View style={styles.details}>
           <Text style={{ color: colors.secondary }}>No. of Tables:&nbsp;</Text>
-          <Text style={{ color: colors.white }}>{restaurantUser.tables?.length}</Text>
+          <Text style={styles.normalText}>{restaurantUser.tables?.length}</Text>
         </View>
 
         <AppButton
@@ -149,5 +144,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 10,
     alignItems: "center",
+  },
+  normalText: {
+    fontSize: 18,
+    color: colors.gray
   },
 });

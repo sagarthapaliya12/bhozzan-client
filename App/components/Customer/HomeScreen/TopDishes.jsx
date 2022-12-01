@@ -12,17 +12,21 @@ const TopDishes = () => {
 
   const todays = useSelector((state) => state.customerSlice.todaysDishes);
 
+  // console.log("jnjn", todays);
+
   useEffect(() => {
     dispatch(getTodays());
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-      {/* {todays?.map((item) => {
+    <View style={styles.container}>
+      {/* {todays?.map((item, index) => {
         return (
-          <View key={item.dish[0]._id} style={styles.categoryItem}>
+          <View
+            key={item.dish._id}
+            style={styles.categoryItem}
+          >
             <View style={styles.itemDetail}>
-              <Text style={styles.title}>{item.dish[0].name}</Text>
               <Text style={styles.restaurantName}>{item.restaurant[0].name}</Text>
               <View style={styles.locationContainer}>
                 <Entypo
@@ -45,7 +49,7 @@ const TopDishes = () => {
           </View>
         );
       })} */}
-    </ScrollView>
+    </View>
   );
 };
 

@@ -44,6 +44,8 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
+    // paddingBottom: 100,
+    // marginBottom: 100,
     // backgroundColor: colors.screen,
     // flex: 1,
   },
