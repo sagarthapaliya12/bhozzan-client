@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTablesByRestaurant, setTableId } from "../../redux/table/tableSlice";
+import { getTablesByRestaurant, setTableId, setTableInfo } from "../../redux/table/tableSlice";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { getRestaurantUserId } from "./restaurantSlice";
@@ -44,6 +44,7 @@ const TableList = () => {
               key={table._id}
               onPress={() => {
                 dispatch(setTableId(table._id));
+                dispatch(setTableInfo(table))
                 navigation.navigate("ReservationDetail");
               }}
             >
@@ -56,11 +57,11 @@ const TableList = () => {
                     <Text style={styles.rate}>Rate: {table.rate}</Text>
                   </View>
                 </View>
-                <View style={styles.statusContainer}>
+                {/* <View style={styles.statusContainer}>
                   <Text style={styles.deliverStatus}>
                     {table.isReserved ? "Reserved" : "Not Reserved"}
                   </Text>
-                </View>
+                </View> */}
               </View>
             </TouchableHighlight>
           );

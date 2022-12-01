@@ -68,6 +68,7 @@ const reservationSlice = createSlice({
       })
       .addCase(createReservation.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
+        console.log("sdsd", action)
         state.errorMsg = action.error.errorMsg;
       });
   },

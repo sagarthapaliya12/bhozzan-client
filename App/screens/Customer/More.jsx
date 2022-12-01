@@ -57,30 +57,31 @@ const More = () => {
         <MaterialCommunityIcons name="logout" size={30} color="white" />
       </TouchableOpacity>
 
-      <View style={styles.info}>
-        <Image source={require("../../assets/Avatar.jpg")} style={styles.avatar} />
-        <AppText style={{ color: "white" }}>{`${user?.firstName} ${user?.lastName}`}</AppText>
+      {user ? (
+        <View style={styles.info}>
+          <Image source={require("../../assets/Avatar.jpg")} style={styles.avatar} />
+          <AppText style={{ color: "white" }}>{`${user.firstName} ${user.lastName}`}</AppText>
 
-        <View style={styles.details}>
-          <Ionicons name="call" size={24} color="white" />
-          <AppText style={{ color: "white", marginLeft: 10 }}>{user.phoneNumber}</AppText>
-        </View>
+          <View style={styles.details}>
+            <Ionicons name="call" size={24} color="white" />
+            <AppText style={{ color: "white", marginLeft: 10 }}>{user.phoneNumber}</AppText>
+          </View>
 
-        <View style={styles.details}>
-          <MaterialIcons name="location-city" size={24} color="white" />
-          <AppText style={{ color: "white", marginLeft: 10, marginBottom: 20 }}>
-            {user.address}
-          </AppText>
-        </View>
+          <View style={styles.details}>
+            <MaterialIcons name="location-city" size={24} color="white" />
+            <AppText style={{ color: "white", marginLeft: 10, marginBottom: 20 }}>
+              {user.address}
+            </AppText>
+          </View>
 
-        <View style={styles.details}>
-          <AntDesign name="star" size={24} color="gold" />
-          <AppText style={{ color: "white", marginLeft: 10, color: "gold" }}>
-            Reward Points: {user.rewardPoints}
-          </AppText>
-        </View>
+          <View style={styles.details}>
+            <AntDesign name="star" size={24} color="gold" />
+            <AppText style={{ color: "white", marginLeft: 10, color: "gold" }}>
+              Reward Points: {user.rewardPoints}
+            </AppText>
+          </View>
 
-        {/* <View style={styles.editBtn}>
+          {/* <View style={styles.editBtn}>
           <AppButton
             title="Edit Profile"
             onPress={() => {
@@ -89,43 +90,46 @@ const More = () => {
           />
         </View> */}
 
-        <View style={styles.bottomContainer}>
-          <Pressable
-            style={styles.bottomRow}
-            android_ripple={{ color: colors.lightGray, borderless: true }}
-            onPress={() => navigation.navigate("OrderHistory")}
-          >
-            <MaterialCommunityIcons name="history" size={24} color="black" />
-            <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
-              Order History
-            </Text>
-          </Pressable>
-        </View>
+          <View style={styles.bottomContainer}>
+            <Pressable
+              style={styles.bottomRow}
+              android_ripple={{ color: colors.lightGray, borderless: true }}
+              onPress={() => navigation.navigate("OrderHistory")}
+            >
+              <MaterialCommunityIcons name="history" size={24} color="black" />
+              <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
+                Order History
+              </Text>
+            </Pressable>
+          </View>
 
-        <View style={styles.bottomContainerSecond}>
-          <Pressable
-            style={styles.bottomRow}
-            android_ripple={{ color: colors.lightGray, borderless: true }}
-            onPress={() => navigation.navigate("MyReservation")}
-          >
-            <AntDesign name="calendar" size={24} color="black" />
-            <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
-              My Reservations
-            </Text>
-          </Pressable>
-        </View>
+          <View style={styles.bottomContainerSecond}>
+            <Pressable
+              style={styles.bottomRow}
+              android_ripple={{ color: colors.lightGray, borderless: true }}
+              onPress={() => navigation.navigate("MyReservation")}
+            >
+              <AntDesign name="calendar" size={24} color="black" />
+              <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
+                My Reservations
+              </Text>
+            </Pressable>
+          </View>
 
-        <View style={styles.bottomContainerSecond}>
-          <Pressable
-            style={styles.bottomRow}
-            android_ripple={{ color: colors.lightGray, borderless: true }}
-            onPress={() => navigation.navigate("FavoritesScreen")}
-          >
-            <AntDesign name="heart" size={24} color="red" />
-            <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>My Favorites</Text>
-          </Pressable>
+          <View style={styles.bottomContainerSecond}>
+            <Pressable
+              style={styles.bottomRow}
+              android_ripple={{ color: colors.lightGray, borderless: true }}
+              onPress={() => navigation.navigate("FavoritesScreen")}
+            >
+              <AntDesign name="heart" size={24} color="red" />
+              <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
+                My Favorites
+              </Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
+      ) : null}
     </View>
   );
 };

@@ -156,7 +156,7 @@ const restaurantSlice = createSlice({
       })
       .addCase(addDish.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        // state.categoryDish = action.payload.dishes;////////////incomplete
+        state.categoryDish;
         state.successMsg = action.payload.message;
       })
       .addCase(addDish.rejected, (state, action) => {

@@ -1,4 +1,13 @@
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableHighlight,
+  Linking,
+} from "react-native";
 import React, { useEffect } from "react";
 import Screen from "../../components/Screen";
 import tableImg from "../../assets/table.png";
@@ -9,52 +18,12 @@ import { getReservationByTableRestaurant } from "../../redux/reservation/reserva
 
 const { width } = Dimensions.get("window");
 
-const reservationList = () => {
-  return (
-    <View style={styles.reservationContainer}>
-      <View style={styles.rowOne}>
-        <View style={styles.time}>
-          <Text style={styles.timeText}>Time:</Text>
-          <View style={styles.timeContainer}>
-            <View style={{ marginRight: 10 }}>
-              <Text style={styles.showTime}>2021-12-09</Text>
-              <Text style={styles.showTime}>10:00 AM</Text>
-            </View>
-            <View style={{ marginRight: 10 }}>
-              <Text style={styles.showTime}>To</Text>
-            </View>
-            <View>
-              <Text style={styles.showTime}>2021-12-09</Text>
-              <Text style={styles.showTime}>12:00 PM</Text>
-            </View>
-          </View>
-
-          <View style={styles.reservedByContainer}>
-            <Text style={styles.reservedBy}>Reserved By:</Text>
-            <View style={{}}>
-              <Text style={styles.reserverName}>Sajag Pradhanang</Text>
-              <View style={styles.phoneContainer}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Ionicons name="call" size={20} color={colors.screen} />
-                  <Text style={styles.reserverphoneNo}>9841781490</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <Text style={styles.cost}>Rs. 200</Text>
-      </View>
-    </View>
-  );
-};
-
 const ReservationDetail = () => {
   const dispatch = useDispatch();
 
   const tableId = useSelector((state) => state.tableSlice.tableId);
   const reservations = useSelector((state) => state.reservationSlice.reservationList);
-
-  console.log("fsdfsdffsdfsdf: ", reservations);
+  const tableInfo = useSelector((state) => state.tableSlice.tableInfo);
 
   useEffect(() => {
     dispatch(getReservationByTableRestaurant(tableId));
@@ -66,9 +35,9 @@ const ReservationDetail = () => {
         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 25 }}>
           <Image style={styles.tableImg} source={tableImg} />
           <View style={styles.itemDetail}>
-            <Text style={styles.tableName}>Table 1234</Text>
-            <Text style={styles.seats}>No. of Seats: 4</Text>
-            <Text style={styles.rate}>Rate: Rs.200</Text>
+            <Text style={styles.tableName}>{tableInfo.name}</Text>
+            <Text style={styles.seats}>No. of Seats: {tableInfo.seats}</Text>
+            <Text style={styles.rate}>Rate: Rs.{tableInfo.rate}</Text>
           </View>
         </View>
         <View>
@@ -80,13 +49,66 @@ const ReservationDetail = () => {
             showsVerticalScrollIndicator={false}
             style={{ paddingBottom: 100, marginBottom: 278 }}
           >
-            {reservationList()}
-            {reservationList()}
-            {reservationList()}
-            {reservationList()}
-            {reservationList()}
-            {reservationList()}
-            {reservationList()}
+            {reservations.map((reservation) => {
+              return (
+                <View style={styles.reservationContainer} key={reservation._id}>
+                  <Text style={styles.showTime}>
+                    {new Date(reservation.reservedSince).toLocaleDateString()}
+                  </Text>
+                  <View style={styles.rowOne}>
+                    <View style={styles.time}>
+                      {/* <Text style={styles.timeText}>Time:</Text> */}
+                      <View style={styles.timeContainer}>
+                        <View style={{ marginRight: 10 }}>
+                          <Text style={styles.showTime}>
+                            {new Date(reservation.reservedSince).toLocaleTimeString()}
+                          </Text>
+                        </View>
+                        <View style={{ marginRight: 10 }}>
+                          <Text style={styles.showTime}>To</Text>
+                        </View>
+                        <View>
+                          <Text style={styles.showTime}>
+                            {new Date(reservation.reservedUntil).toLocaleTimeString()}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View style={styles.reservedByContainer}>
+                        <Text style={styles.reservedBy}>Reserved By:</Text>
+                        <View style={{}}>
+                          {/* <View style={styles.phoneContainer}> */}
+                          <TouchableHighlight
+                            onPress={() =>
+                              Linking.openURL(`tel:${reservation.customer.phoneNumber}`)
+                            }
+                          >
+                            <View
+                              // style={{
+                              //   flexDirection: "row",
+
+                              //   // alignItems: "center",
+                              //   // justifyContent: "center",
+                              // }}
+                              style={styles.phoneContainer}
+                            >
+                              <Ionicons name="call" size={20} color={colors.screen} />
+                              <Text style={styles.reserverName}>
+                                {reservation.customer.firstName +
+                                  " " +
+                                  reservation.customer.lastName}
+                              </Text>
+                            </View>
+                          </TouchableHighlight>
+                          {/* </View> */}
+                        </View>
+                      </View>
+                    </View>
+                    <Text style={styles.cost}>Rs. {reservation.cost}</Text>
+                  </View>
+                </View>
+              );
+            })}
           </ScrollView>
         </View>
       </View>
@@ -149,6 +171,7 @@ const styles = StyleSheet.create({
   timeContainer: { flexDirection: "row", alignItems: "center" },
   showTime: {
     color: colors.secondary,
+    fontSize: 18,
   },
   cost: {
     color: colors.green,
@@ -161,8 +184,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   reserverName: {
-    color: colors.green,
-    marginBottom: 5,
+    color: colors.screen,
+    marginLeft: 5,
   },
   phoneContainer: {
     flexDirection: "row",
@@ -172,7 +195,7 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 24,
     width: 130,
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   reserverphoneNo: {
     color: colors.screen,

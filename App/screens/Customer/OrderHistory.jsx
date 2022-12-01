@@ -50,7 +50,6 @@ const OrderHistoryList = () => {
                   </View>
                   <View style={styles.statusContainer}>
                     <Text style={styles.statusText}>
-                      {/* {item.status.charAt(0).toUpperCase() + item.status.slice(1)} */}
                       {item.status === "otw"
                         ? "On The Way"
                         : item.status.charAt(0).toUpperCase() + item.status.slice(1)}
