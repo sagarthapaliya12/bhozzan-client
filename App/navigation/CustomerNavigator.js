@@ -15,6 +15,7 @@ import TableList from "../screens/Customer/TableList";
 import ReserveTable from "../screens/Customer/ReserveTable";
 import { useSelector } from "react-redux";
 import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
+import MyReservation from "../screens/Customer/MyReservation";
 
 const Stack = createStackNavigator();
 
@@ -155,6 +156,17 @@ const MoreNavigator = () => (
       component={FavoritesScreen}
       options={{
         title: "Favorites List",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="MyReservation"
+      component={MyReservation}
+      options={{
+        title: "My Reservations",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,

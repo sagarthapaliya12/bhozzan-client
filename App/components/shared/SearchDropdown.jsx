@@ -1,5 +1,5 @@
 import React from "react";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { TouchableOpacity, StyleSheet, ScrollView, View, Text, TextInput } from "react-native";
 import colors from "../../config/colors";
@@ -10,13 +10,17 @@ export default function SearchDropdown(props) {
     <View style={styles.container}>
       <View style={styles.subContainer}>
         {dataSource.length ? (
-          dataSource.map((item) => {
+          dataSource.map((item, index) => {
             return (
-              <TouchableOpacity onPress={() => props.onPress(item)} style={styles.itemView}>
-               <View style={styles.searchList}>
-                <FontAwesome5 name="hotel" size={20} color={colors.darkGray} />
-                <Text style={styles.itemText}>{item}</Text>
-               </View>
+              <TouchableOpacity
+                onPress={() => props.onPress(item)}
+                style={styles.itemView}
+                key={index}
+              >
+                <View style={styles.searchList}>
+                  <FontAwesome5 name="hotel" size={20} color={colors.darkGray} />
+                  <Text style={styles.itemText}>{item}</Text>
+                </View>
               </TouchableOpacity>
             );
           })
@@ -33,32 +37,33 @@ export default function SearchDropdown(props) {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: "150%",
+    top: "100%",
     left: 0,
     right: 0,
-    // bottom: 0,    
-    backgroundColor: colors.darkGray,    
-    zIndex: 100, 
+    // bottom: 0,
+    backgroundColor: colors.darkGray,
+    zIndex: 100,
     elevation: 100,
-    
   },
-  subContainer: {      
-    // backgroundColor: "red",    
+  subContainer: {
+    // backgroundColor: "red",
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
-    flexDirection: "column",    
-    alignItems: "center",    
+    flexDirection: "column",
+    alignItems: "center",
   },
-  itemView: {    
-    backgroundColor: "white",
+  itemView: {
+    // backgroundColor: "white",
+    backgroundColor: colors.gray,
+
     height: 50,
-    width: "100%",    
+    width: "100%",
     marginBottom: 3,
     justifyContent: "center",
     borderRadius: 4,
   },
   searchList: {
-    flex:1,
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 10,
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   noResultView: {
-    alignSelf: "center",    
+    alignSelf: "center",
     height: 100,
     width: "100%",
     justifyContent: "center",

@@ -72,6 +72,7 @@ const MessagePopUpModal = (props) => {
                       }
                       if (props.parent === "BasketDetail") {
                         navigation.navigate("OrderHistory");
+                        // toggleShowMessageModal
                         // dispatch(reset());
                       }
                     }
