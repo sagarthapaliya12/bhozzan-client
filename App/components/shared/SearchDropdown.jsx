@@ -3,9 +3,15 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import { TouchableOpacity, StyleSheet, ScrollView, View, Text, TextInput } from "react-native";
 import colors from "../../config/colors";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { setSearch } from "../../screens/Customer/customerSlice";
 
 export default function SearchDropdown(props) {
   const { dataSource } = props;
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
@@ -13,13 +19,16 @@ export default function SearchDropdown(props) {
           dataSource.map((item, index) => {
             return (
               <TouchableOpacity
-                onPress={() => props.onPress(item)}
+                onPress={() => {
+                  dispatch(setSearch(item._id));
+                  navigation.navigate("RestaurantProfile");
+                }}
                 style={styles.itemView}
                 key={index}
               >
                 <View style={styles.searchList}>
                   <FontAwesome5 name="hotel" size={20} color={colors.darkGray} />
-                  <Text style={styles.itemText}>{item}</Text>
+                  <Text style={styles.itemText}>{item.name}</Text>
                 </View>
               </TouchableOpacity>
             );
