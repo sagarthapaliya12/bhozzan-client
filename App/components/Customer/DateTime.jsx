@@ -13,11 +13,13 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { createReservation } from "../../redux/reservation/reservationSlice";
 import { useSelector } from "react-redux";
+import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 
 const DateTime = () => {
   const dispatch = useDispatch();
 
   const tableId = useSelector((state) => state.tableSlice.tableId);
+  const status = useSelector((state) => state.tableSlice.status);
 
   const [cDate, setCDate] = useState(new Date());
 
@@ -65,6 +67,10 @@ const DateTime = () => {
       reservedUntil: `${date} ${endTime}`,
     };
     dispatch(createReservation(reservationDetail));
+
+    if(status === "success"){
+      dispatch(toggleShowMessageModal(true))
+    }
   };
 
   return (

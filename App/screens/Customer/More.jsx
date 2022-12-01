@@ -8,9 +8,9 @@ import { AntDesign } from "@expo/vector-icons";
 
 import colors from "../../config/colors";
 import AppText from "../../components/AppText";
-import AppButton from "../../components/AppButton";
-import ListItem from "../../components/ListItem";
-import Icon from "../../components/Icon";
+// import AppButton from "../../components/AppButton";
+// import ListItem from "../../components/ListItem";
+// import Icon from "../../components/Icon";
 
 import { logout, reset } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";

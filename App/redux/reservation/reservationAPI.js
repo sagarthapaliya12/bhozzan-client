@@ -18,8 +18,18 @@ const getReservationByTableRestaurant = async (tableId) => {
   }
 };
 
+const getMyReservation = async () => {
+  try {
+    const { data } = await api.get(`/reservation/my`);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
 const createReservation = async (reservationDetail) => {
   try {
+    console.log("fdf", reservationDetail)
     const { data } = await api.post(`/reservation/create`, reservationDetail);
     return data;
   } catch (err) {
@@ -30,6 +40,7 @@ const createReservation = async (reservationDetail) => {
 const reservationService = {
   getReservationByTableRestaurant,
   getReservationByTableCustomer,
+  getMyReservation,
   createReservation,
 };
 export default reservationService;

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import tableImg from "../../assets/table.png";
-import { getTablesByRestaurant, setTableInfo } from "../../redux/table/tableSlice";
+import { getTablesByRestaurant, setTableId, setTableInfo } from "../../redux/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { getReservationByTableCustomer } from "../../redux/reservation/reservationSlice";
@@ -38,6 +38,7 @@ const TableList = () => {
                   style={styles.button}
                   onPress={() => {
                     dispatch(setTableInfo(item));
+                    dispatch(setTableId(item._id));
                     dispatch(getReservationByTableCustomer(item._id));
                     navigation.navigate("ReserveTable");
                   }}

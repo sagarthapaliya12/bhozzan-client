@@ -71,7 +71,7 @@ const OrderStatus = () => {
       ]}>
         <TouchableHighlight style={styles.rowFrontVisible}>
           <View style={styles.mainContainer}>
-            {/* {console.log("Test: ", data.item.dishes)} */}
+            {console.log("Test: ", data.item.dishes)}
 
             {data?.item.dishes.map((dish) => {
               return (

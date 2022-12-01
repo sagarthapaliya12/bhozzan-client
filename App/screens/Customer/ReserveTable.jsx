@@ -5,6 +5,7 @@ import tableImg from "../../assets/table.png";
 import colors from "../../config/colors";
 import DateTime from "../../components/Customer/DateTime";
 import { useSelector } from "react-redux";
+import MessagePopUpModal from "../../components/MessagePopUpModal";
 
 const { width } = Dimensions.get("window");
 
@@ -39,7 +40,6 @@ const ReserveTable = () => {
                   <View>
                     <Text style={styles.reservationText}>
                       {new Date(reservation.reservedSince).toLocaleTimeString()}
-                      {/* //use substring */}
                     </Text>
                     <Text style={styles.reservationText}>
                       {new Date(reservation.reservedUntil).toLocaleTimeString()}
@@ -51,6 +51,7 @@ const ReserveTable = () => {
           </ScrollView>
         </View>
       </View>
+      <MessagePopUpModal />
     </Screen>
   );
 };

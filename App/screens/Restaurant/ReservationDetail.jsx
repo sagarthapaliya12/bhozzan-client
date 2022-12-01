@@ -57,7 +57,6 @@ const ReservationDetail = () => {
                   </Text>
                   <View style={styles.rowOne}>
                     <View style={styles.time}>
-                      {/* <Text style={styles.timeText}>Time:</Text> */}
                       <View style={styles.timeContainer}>
                         <View style={{ marginRight: 10 }}>
                           <Text style={styles.showTime}>
@@ -77,21 +76,12 @@ const ReservationDetail = () => {
                       <View style={styles.reservedByContainer}>
                         <Text style={styles.reservedBy}>Reserved By:</Text>
                         <View style={{}}>
-                          {/* <View style={styles.phoneContainer}> */}
                           <TouchableHighlight
                             onPress={() =>
                               Linking.openURL(`tel:${reservation.customer.phoneNumber}`)
                             }
                           >
-                            <View
-                              // style={{
-                              //   flexDirection: "row",
-
-                              //   // alignItems: "center",
-                              //   // justifyContent: "center",
-                              // }}
-                              style={styles.phoneContainer}
-                            >
+                            <View style={styles.phoneContainer}>
                               <Ionicons name="call" size={20} color={colors.screen} />
                               <Text style={styles.reserverName}>
                                 {reservation.customer.firstName +
@@ -100,7 +90,6 @@ const ReservationDetail = () => {
                               </Text>
                             </View>
                           </TouchableHighlight>
-                          {/* </View> */}
                         </View>
                       </View>
                     </View>

@@ -19,9 +19,12 @@ export const getReservationByTableRestaurant = createAsyncThunk(
   async (tableId) => reservationService.getReservationByTableRestaurant(tableId)
 );
 
-export const createReservation = createAsyncThunk(
-  `createReservation`,
-  async (reservationDetail) => reservationService.createReservation(reservationDetail)
+export const getMyReservation = createAsyncThunk(`getMyReservation`, async () =>
+  reservationService.getMyReservation()
+);
+
+export const createReservation = createAsyncThunk(`createReservation`, async (reservationDetail) =>
+  reservationService.createReservation(reservationDetail)
 );
 
 const reservationSlice = createSlice({
@@ -38,6 +41,7 @@ const reservationSlice = createSlice({
       })
       .addCase(getReservationByTableCustomer.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
+        console.log("hbhb", action.payload);
         state.reservationList = action.payload.reservations;
       })
       .addCase(getReservationByTableCustomer.rejected, (state, action) => {
@@ -58,6 +62,19 @@ const reservationSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
+      // Get My Reservation
+      .addCase(getMyReservation.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getMyReservation.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.reservationList = action.payload.reservations;
+      })
+      .addCase(getMyReservation.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
       // Create Reservation
       .addCase(createReservation.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
@@ -68,7 +85,7 @@ const reservationSlice = createSlice({
       })
       .addCase(createReservation.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        console.log("sdsd", action)
+        console.log("sdsd", action);
         state.errorMsg = action.error.errorMsg;
       });
   },

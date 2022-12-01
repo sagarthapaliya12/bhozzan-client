@@ -181,6 +181,7 @@ const restaurantSlice = createSlice({
       })
       .addCase(addNewTable.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
+        console.log("fdfd", action.payload);
         state.successMsg = action.payload.message;
       })
       .addCase(addNewTable.rejected, (state, action) => {

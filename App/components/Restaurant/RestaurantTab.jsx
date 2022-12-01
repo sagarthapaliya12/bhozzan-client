@@ -43,7 +43,7 @@ const RestaurantTab = () => (
     />
 
     <Tab.Screen
-      name="Menu"
+      name="Menus"
       component={MenuNavigator}
       options={{
         headerShown: false,

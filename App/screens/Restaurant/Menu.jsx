@@ -7,13 +7,14 @@ import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { useDispatch, useSelector } from "react-redux";
 import { getRestaurantUserId, getDishesByRestaurantId, setDishToUpdate } from "./restaurantSlice";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import SnackbarMessage from "../../components/SnackbarMessage";
 
 const { height, width } = Dimensions.get("window");
 
-const Menu = ({ navigation }) => {
+const Menu = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const isFocused = useIsFocused();
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
@@ -29,7 +30,7 @@ const Menu = ({ navigation }) => {
       <ScrollView style={styles.container}>
         {dishes?.map((item, index) => {
           return (
-            <View key={index} style={{ marginBottom: 40 }}>
+            <View key={index} style={{ marginBottom: 0 }}>
               <View style={{ position: "relative" }}>
                 <View
                   style={{
@@ -46,16 +47,8 @@ const Menu = ({ navigation }) => {
               </View>
               {item.dishes.map((food) => {
                 return (
-                  <View key={food._id} style={styles.menuItem}>
-                    <Text style={{ color: colors.gray, fontSize: 18 }}>{food.name}</Text>
-                    <View style={styles.priceCart}>
-                      <View>
-                        <Text style={{ color: colors.primary, fontSize: 20 }}>
-                          Rs.&nbsp;{food.price}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ alignItems: "flex-end" }}>
+                  <View key={food._id} style={styles.detailContainer}>
+                    <View style={{ alignItems: "flex-end", marginRight: 12 }}>
                       <TouchableHighlight
                         style={styles.editButton}
                         onPress={() => {
@@ -65,6 +58,16 @@ const Menu = ({ navigation }) => {
                       >
                         <Entypo name="edit" size={15} color={colors.screen} />
                       </TouchableHighlight>
+                    </View>
+                    <View style={styles.menuItem}>
+                      <Text style={{ color: colors.gray, fontSize: 18 }}>{food.name}</Text>
+                      <View style={styles.priceCart}>
+                        <View>
+                          <Text style={{ color: colors.primary, fontSize: 20 }}>
+                            Rs.&nbsp;{food.price}
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
                 );
@@ -133,4 +136,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   priceCart: { alignItems: "center" },
+  detailContainer: {
+    marginBottom: 12,
+  },
 });

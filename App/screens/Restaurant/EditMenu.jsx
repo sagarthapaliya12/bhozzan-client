@@ -14,6 +14,9 @@ import defaultStyles from "../../config/styles";
 import colors from "../../config/colors";
 import { updateDish } from "./restaurantSlice";
 import { SubmitButton } from "../../components/forms";
+import navigationTheme from "../../navigation/navigationTheme";
+import { useNavigation } from "@react-navigation/native";
+import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(3).label("Food Name"),
@@ -22,8 +25,12 @@ const validationSchema = Yup.object().shape({
 
 const EditMenu = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const handleSubmit = (updatedDishInfo) => {
     dispatch(updateDish({ id: dishToUpdate._id, dish: updatedDishInfo }));
+    dispatch(toggleShowSnackbar(true));
+    navigation.navigate("Menu");
   };
   const dishToUpdate = useSelector((state) => state.restaurantSlice.dishToUpdate);
   return (

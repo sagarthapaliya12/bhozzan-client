@@ -33,7 +33,7 @@ const TableList = () => {
 
   useEffect(() => {
     dispatch(getTablesByRestaurant(restaurantId));
-  }, [restaurantId]);
+  }, [restaurantId, isFocused]);
 
   return (
     <Screen>
