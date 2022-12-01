@@ -13,6 +13,7 @@ import TableList from "../screens/Restaurant/TableList";
 import AddSeats from "../screens/Restaurant/AddSeats";
 import ConfirmTable from "../screens/Restaurant/ConfirmTable";
 import ReservationDetail from "../screens/Restaurant/ReservationDetail";
+import QrScanner from '../components/Customer/HomeScreen/QrScanner';
 
 const Stack = createStackNavigator();
 
@@ -59,7 +60,7 @@ const MenuNavigator = () => (
       options={{
         title: "Edit Food Menu",
         headerTintColor: colors.white,
-        headerStyle: {          
+        headerStyle: {
           backgroundColor: colors.screen,
         },
       }}
@@ -132,6 +133,7 @@ const ProfileNavigator = () => (
         },
       }}
     />
+    <Stack.Screen name="QrScanner" component={QrScanner} options={{ title: "Scan QR" }} />
   </Stack.Navigator>
 );
 

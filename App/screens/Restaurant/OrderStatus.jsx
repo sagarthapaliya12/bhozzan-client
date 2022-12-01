@@ -74,8 +74,8 @@ const OrderStatus = () => {
 
             {data?.item.dishes.map((dish) => {
               return (
-                <View key={dish.dishId}>
-                  <Text style={styles.name}>Name: {dish.dishId}</Text>
+                <View key={dish.dishId._id}>
+                  <Text style={styles.name}>Name: {dish.dishId.name}</Text>
                   <Text style={styles.location}>Quantity: {dish.quantity}</Text>
                 </View>
               );

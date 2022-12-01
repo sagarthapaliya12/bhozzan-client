@@ -1,5 +1,6 @@
 import api from "../../helpers/axios";
 
+
 const placeOrder = async (order) => {
   try {
     const { data } = await api.post(`/order/create`, order);
@@ -71,6 +72,17 @@ const serveOrder = async (orderId) => {
     throw new Error(error.response.data.error);
   }
 };
+
+const deliverOrder = async (orderId) => {
+  try {
+    console.log("fdgfg", orderId);
+    const { data } = await api.put(`/order/deliver/${orderId}`);
+    console.log("delivered", data);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
 const orderService = {
   placeOrder,
   getOrderHistory,
@@ -79,5 +91,6 @@ const orderService = {
   rejectOrder,
   dispatchOrder,
   serveOrder,
+  deliverOrder
 };
 export default orderService;

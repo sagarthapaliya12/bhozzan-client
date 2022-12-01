@@ -4,7 +4,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/Admin/HomeScreen";
 import RestaurantProfile from "../screens/Restaurant/RestaurantProfile";
 import AdminProfile from "../screens/Admin/AdminProfile";
-import QrScanner from '../components/Customer/HomeScreen/QrScanner';
 
 const Stack = createStackNavigator();
 
@@ -29,7 +28,6 @@ const AdminProfileNavigator = () => (
     }}
   >
     <Stack.Screen name="AdminProfile" component={AdminProfile} />
-    <Stack.Screen name="QrScanner" component={QrScanner} options={{ title: "Scan QR" }} />
   </Stack.Navigator>
 );
 
