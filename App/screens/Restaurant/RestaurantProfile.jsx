@@ -20,11 +20,15 @@ import { logout } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
+import AppButton from "./../../components/AppButton";
+import { useNavigation } from "@react-navigation/native";
+
 
 const { height, width } = Dimensions.get("window");
 
-const RestaurantProfile = ({ navigation }) => {
+const RestaurantProfile = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
   const restaurantUser = useSelector((state) => state.restaurantSlice.restaurantUser);
@@ -92,6 +96,13 @@ const RestaurantProfile = ({ navigation }) => {
           <Text style={{ color: colors.secondary }}>No. of Tables:&nbsp;</Text>
           <Text style={{ color: colors.white }}>{restaurantUser.tables?.length}</Text>
         </View>
+
+        <AppButton
+          title="Scan QR Code"
+          onPress={() => {
+            navigation.navigate("QrScanner");
+          }}
+        />
       </SafeAreaView>
     </Screen>
   );

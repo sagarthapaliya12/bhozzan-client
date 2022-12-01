@@ -6,33 +6,25 @@ import { React, useState } from "react";
 import colors from "../../../config/colors";
 import RestaurantProfile from "../../../screens/Customer/RestaurantProfile";
 import SearchDropdown from "../../shared/SearchDropdown";
+import { useSelector } from "react-redux";
+import navigationTheme from "../../../navigation/navigationTheme";
+import { useNavigation } from "@react-navigation/native";
+import generateRegex from "../../../utils/generateRegex";
 
 export default function SearchBar(props) {
-  const [dataSource] = useState([
-    "kfc",
-    "thakali bhansa",
-    "newari khaja",
-    "narayan dai ko momo",
-    "angan sweets",
-    "biryani house",
-    "italiyan bakery",
-    "sheikh curry restro",
-    "durbar hotel",
-    "hotel shangri la",
-    "bajeko sukuti",
-    "bota momo",
-  ]);
+  const dataSource = useSelector((state) => state.restaurantSlice.restaurantList);
+  const navigation = useNavigation();
+
   const [filtered, setFiltered] = useState(dataSource);
   const [searching, setSearching] = useState(false);
 
   const onSearch = (text) => {
     if (text) {
       setSearching(true);
-      const temp = text.toLowerCase();
-
-      const tempList = dataSource.filter((item) => {
-        if (item.match(temp)) return item;
-      });
+      // Create regex
+      const regex = generateRegex(text);
+      // Use regex to find matches
+      const tempList = dataSource.filter((item) => item.name.match(regex));
       setFiltered(tempList);
     } else {
       setSearching(false);
@@ -46,10 +38,9 @@ export default function SearchBar(props) {
       <FontAwesome name="search" size={24} style={styles.icon} />
       {searching && (
         <SearchDropdown
-         
           onPress={(item) => {
             setSearching(false);
-            props.navigation.navigate("dataSource", { item: item });
+            // props.navigation.navigate("dataSource", { item: item });
           }}
           dataSource={filtered}
         />

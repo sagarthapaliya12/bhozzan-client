@@ -40,6 +40,10 @@ export const serveOrder = createAsyncThunk(`order/serve`, async (orderId) =>
   orderService.serveOrder(orderId)
 );
 
+export const deliverOrder = createAsyncThunk(`order/deliver`, async (orderId) =>
+  orderService.deliverOrder(orderId)
+);
+
 const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -142,6 +146,19 @@ const orderSlice = createSlice({
         state.orders = state.orders.filter((item) => item._id !== action.payload.order._id);
       })
       .addCase(serveOrder.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+       // deliver Orders
+       .addCase(deliverOrder.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(deliverOrder.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.orders = state.orders.filter((item) => item._id !== action.payload.order._id);
+      })
+      .addCase(deliverOrder.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       });

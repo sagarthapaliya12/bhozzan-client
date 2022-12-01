@@ -5,15 +5,24 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 
 import { StackScreenProps } from "../../../navigation/StackScreenProps";
 import { QrCodeProps } from "../../Restaurant/QrCodeProps";
+import { useDispatch } from "react-redux";
+import { deliverOrder } from "../../../screens/Restaurant/orderSlice";
+import AppButton from './../../AppButton';
 
-const QrScanner: React.FunctionComponent<StackScreenProps> = (props) => {
+const QrScanner = (props) => {
   const [loading, setLoading] = useState(true);
-  const [scanData, setScanData] = useState<QrCodeProps>();
+  const [orderId, setOrderId] = useState("");
   const [permission, setPermission] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     requestCameraPermission();
   }, []);
+
+  useEffect(() => {
+    // const orderId = scanData.orderId;
+    dispatch(deliverOrder(orderId));
+  }, [orderId]);
 
   const requestCameraPermission = async () => {
     try {
@@ -39,13 +48,11 @@ const QrScanner: React.FunctionComponent<StackScreenProps> = (props) => {
         <Text>Requesting Permission ...</Text>
       </View>
     );
-  if (scanData)
+  if (orderId)
     return (
       <View style={styles.container}>
-        <Text>
-          Order ID: {scanData.orderId}
-        </Text>
-        <Button title="Scan Again" onPress={() => setScanData(undefined)} />
+        <Text>Order ID: {orderId.orderId}</Text>
+        <AppButton title="Scan Again" onPress={() => setOrderId(undefined)} />
       </View>
     );
   if (permission)
@@ -54,16 +61,16 @@ const QrScanner: React.FunctionComponent<StackScreenProps> = (props) => {
         style={[styles.container]}
         onBarCodeScanned={({ type, data }) => {
           try {
-            console.log(type);
-            console.log(data);
+            // console.log(type);
+            // console.log(data);
             let _data = JSON.parse(data);
-            setScanData(_data);
+            setOrderId(_data);
           } catch (error) {
             console.log("Unable to parse: ", error);
           }
         }}
       >
-        <Text style={styles.text}> Scan the QR Code</Text>
+        {/* <Text style={styles.text}> Scan the QR Code</Text> */}
       </BarCodeScanner>
     );
 
@@ -82,6 +89,6 @@ const styles = StyleSheet.create({
   },
   text: {
     backgroundColor: "black",
-    color: "white"
+    color: "white",
   },
 });
