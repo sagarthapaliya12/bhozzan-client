@@ -10,13 +10,14 @@ import { useSelector } from "react-redux";
 const QrGenerator: React.FunctionComponent<StackScreenProps> = (props) => {
   // const { navigation } = props;
 
-  const orderDetail = useSelector((state: any) => state.orderSlice.orderHistoryDetail._id);
+  const orderDetail = useSelector((state: any) => state.orderSlice.orderHistoryDetail);
 
-  // const payload: QrCodeProps = {
-  //   name: "John Legend",
-  //   number: "9845190491",
-  //   message: "Order has been delivered",
-  // };
+  const payload: QrCodeProps = {
+    // name: "John Legend",
+    // number: "9845190491",
+    // message: "Order has been delivered",
+    orderId: orderDetail._id,
+  };
   
   return (
     <View style={styles.container}>
@@ -24,8 +25,8 @@ const QrGenerator: React.FunctionComponent<StackScreenProps> = (props) => {
       size={200}      
       color= {colors.gray} 
       backgroundColor= {colors.screen} 
-      value={JSON.stringify(orderDetail)} 
-      // value={JSON.stringify(payload)} 
+      // value={JSON.stringify(orderDetail)} 
+      value={JSON.stringify(payload)} 
       />
 
     {/* //   {/* <View style={styles.button}>

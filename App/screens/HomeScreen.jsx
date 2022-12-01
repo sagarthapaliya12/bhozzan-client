@@ -2,6 +2,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BrowseCategories from "../components/Customer/HomeScreen/BrowseCategories";
 import colors from "../config/colors";
+import socket from "../utils/socket";
 import React, { useEffect } from "react";
 import TopRestaurants from "../components/Customer/HomeScreen/TopRestaurants";
 import LocalCusines from "../components/Customer/HomeScreen/LocalCusines";

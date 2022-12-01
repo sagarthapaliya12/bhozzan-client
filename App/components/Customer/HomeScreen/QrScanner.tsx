@@ -43,7 +43,7 @@ const QrScanner: React.FunctionComponent<StackScreenProps> = (props) => {
     return (
       <View style={styles.container}>
         <Text>
-          Name: {scanData.name}, Number: {scanData.number}
+          Order ID: {scanData.orderId}
         </Text>
         <Button title="Scan Again" onPress={() => setScanData(undefined)} />
       </View>

@@ -36,14 +36,15 @@ const ReserveTable = () => {
             {reservations?.map((reservation) => {
               return (
                 <View key={reservations._id} style={styles.reservationContainer}>
-                  <Text style={styles.reservationText}>
-                    {reservation.reservedSince}
-                    {/* {new Date(reservation.reservedSince)} */}
-                  </Text>
-                  <Text style={styles.reservationText}>
-                    {reservation.reservedUntil}
-                    {/* {new Date(reservation.reservedUntil)} */}
-                  </Text>
+                  <View>
+                    <Text style={styles.reservationText}>
+                      {new Date(reservation.reservedSince).toLocaleTimeString()}
+                      {/* //use substring */}
+                    </Text>
+                    <Text style={styles.reservationText}>
+                      {new Date(reservation.reservedUntil).toLocaleTimeString()}
+                    </Text>
+                  </View>
                 </View>
               );
             })}

@@ -30,7 +30,7 @@ const BasketList = () => {
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView style={styles.layout}>
         {basketRestaurants?.map((item) => {
           return (
             <TouchableWithoutFeedback
@@ -74,6 +74,9 @@ const BasketList = () => {
 export default BasketList;
 
 const styles = StyleSheet.create({
+  layout: {
+    marginTop: 40,
+  },
   container: {
     flexDirection: "row",
     justifyContent: "space-between",

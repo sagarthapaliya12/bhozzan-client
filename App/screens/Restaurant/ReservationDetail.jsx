@@ -5,7 +5,7 @@ import tableImg from "../../assets/table.png";
 import colors from "../../config/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getReservationByTable } from "../../redux/reservation/reservationSlice";
+import { getReservationByTableRestaurant } from "../../redux/reservation/reservationSlice";
 
 const { width } = Dimensions.get("window");
 
@@ -57,7 +57,7 @@ const ReservationDetail = () => {
   console.log("fsdfsdffsdfsdf: ", reservations);
 
   useEffect(() => {
-    dispatch(getReservationByTable(tableId));
+    dispatch(getReservationByTableRestaurant(tableId));
   }, []);
 
   return (
@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
   container: {
     width: width,
     paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   tableImg: {
     width: 50,
