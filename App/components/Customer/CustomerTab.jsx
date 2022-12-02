@@ -16,6 +16,9 @@ const Tab = createBottomTabNavigator();
 const CustomerTab = () => {
   const dispatch = useDispatch();
   const basketCount = useSelector((state) => state.customerSlice.basketCount);
+  const newNotificationsCount = useSelector(
+    (state) => state.notificationSlice.notifications.unviewed.length
+  );
 
   useEffect(() => {
     dispatch(getBasketCount());
@@ -54,7 +57,14 @@ const CustomerTab = () => {
         component={Notifications}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={size} />
+            <View>
+              <MaterialCommunityIcons name="bell" color={color} size={size} />
+              {newNotificationsCount ? (
+                <Badge style={{ position: "absolute", right: 0 }} size={size - 6}>
+                  <Text> {newNotificationsCount}</Text>
+                </Badge>
+              ) : null}
+            </View>
           ),
         }}
       />
@@ -67,11 +77,7 @@ const CustomerTab = () => {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <View>
-              <MaterialCommunityIcons                
-                name="basket"
-                color={color}
-                size={size}
-              />
+              <MaterialCommunityIcons name="basket" color={color} size={size} />
               <Badge style={{ position: "absolute", right: 0 }} size={size - 6}>
                 {basketCount}
               </Badge>

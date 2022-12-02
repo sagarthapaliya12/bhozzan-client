@@ -12,6 +12,7 @@ import SearchBar from "./../components/Customer/HomeScreen/SearchBar";
 import TopDishes from "../components/Customer/HomeScreen/TopDishes";
 import Screen from "../components/Screen";
 import Constants from "expo-constants";
+import { setUniewedNotifications } from "../redux/notifications/notificationSlice";
 
 const HomeScreen = ({ navigation }) => {
   const userId = useSelector((state) => state.authSlice.user.id);
@@ -22,6 +23,7 @@ const HomeScreen = ({ navigation }) => {
     socket.emit("join", userId);
 
     socket.on("notification", (notification) => {
+      dispatch(setUniewedNotifications(notification));
       console.log("new notification", notification);
     });
   }, []);
