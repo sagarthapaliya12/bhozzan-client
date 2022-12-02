@@ -81,6 +81,7 @@ const reservationSlice = createSlice({
       })
       .addCase(createReservation.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
+        state.successMsg = action.payload.message;
         // state.reservationList = action.payload.reservations;
       })
       .addCase(createReservation.rejected, (state, action) => {

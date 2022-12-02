@@ -13,47 +13,52 @@ const { width } = Dimensions.get("window");
 const ReserveTable = () => {
   const tableInfo = useSelector((state) => state.tableSlice.tableInfo);
   const reservations = useSelector((state) => state.reservationSlice.reservationList);
-  console.log(reservations);
 
   return (
     <Screen>
-      <View style={styles.container}>
-        <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 25 }}>
-          <Image style={styles.tableImg} source={tableImg} />
-          <View style={styles.itemDetail}>
-            <Text style={styles.tableName}>{tableInfo.name}</Text>
-            <Text style={styles.seats}>No. of Seats: {tableInfo.seats}</Text>
-            <Text style={styles.rate}>Rate: Rs.{tableInfo.rate}</Text>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 25 }}>
+            <Image style={styles.tableImg} source={tableImg} />
+            <View style={styles.itemDetail}>
+              <Text style={styles.tableName}>{tableInfo.name}</Text>
+              <Text style={styles.seats}>No. of Seats: {tableInfo.seats}</Text>
+              <Text style={styles.rate}>Rate: Rs.{tableInfo.rate}</Text>
+            </View>
           </View>
-        </View>
-        <DateTime />
-        <View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Current Reservations</Text>
-          </View>
+          <DateTime />
+          <View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>Current Reservations</Text>
+            </View>
 
-          <ScrollView
+            {/* <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ paddingBottom: 100, marginBottom: 278 }}
-          >
+          > */}
             {reservations?.map((reservation) => {
               return (
-                <View key={reservations._id} style={styles.reservationContainer}>
+                <View key={reservation._id} style={styles.reservationContainer}>
                   <View>
-                    <Text style={styles.reservationText}>
-                      {getFormattedTime(reservation.reservedSince)}
+                    <Text style={styles.reservationDate}>
+                      {new Date(reservation.reservedSince).toDateString()}
                     </Text>
-                    <Text style={styles.reservationText}>
+                    <Text style={styles.reservationTime}>
+                      {getFormattedTime(reservation.reservedSince)} To{" "}
                       {getFormattedTime(reservation.reservedUntil)}
                     </Text>
+                    {/* <Text style={styles.reservationText}>
+                      {getFormattedTime(reservation.reservedUntil)}
+                    </Text> */}
                   </View>
                 </View>
               );
             })}
-          </ScrollView>
+            {/* </ScrollView> */}
+          </View>
         </View>
-      </View>
-      <MessagePopUpModal />
+      </ScrollView>
+      <MessagePopUpModal subject="reservation" />
     </Screen>
   );
 };
@@ -146,5 +151,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 12,
   },
-  reservationText: { color: colors.gray },
+  reservationDate: { fontSize: 18, color: colors.secondary },
+  reservationTime: { fontSize: 16, color: colors.gray },
 });

@@ -29,7 +29,7 @@ const MyReservation = () => {
     <Screen>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ paddingBottom: 100, marginBottom: 278 }}
+        // style={{ paddingBottom: 100, marginBottom: 278 }}
       >
         {reservations.map((reservation) => {
           return (
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     width: width,
     paddingHorizontal: 20,
     paddingVertical: 20,
+    flex: 1,
   },
   tableImg: {
     width: 50,
