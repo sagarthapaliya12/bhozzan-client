@@ -21,9 +21,14 @@ const MessagePopUpModal = (props) => {
   const statusAuth = useSelector((state) => state.authSlice.status);
   const successMsgAuth = useSelector((state) => state.authSlice.successMsg);
   const errorMsgAuth = useSelector((state) => state.authSlice.errorMsg);
+
   const statusConfirmOrder = useSelector((state) => state.orderSlice.status);
   const successMsgConfirmOrder = useSelector((state) => state.orderSlice.successMsg);
   const errorMsgConfirmOrder = useSelector((state) => state.orderSlice.errorMsg);
+
+  const statusTableReserve = useSelector((state) => state.reservationSlice.status);
+  const successMsgTableReserve = useSelector((state) => state.reservationSlice.successMsg);
+  const errorMsgTableReserve = useSelector((state) => state.reservationSlice.errorMsg);
 
   useEffect(() => {
     if (props.subject === "auth") {
@@ -36,7 +41,12 @@ const MessagePopUpModal = (props) => {
       setSuccessMsg(successMsgConfirmOrder);
       setErrorMsg(errorMsgConfirmOrder);
     }
-  }, [statusAuth, statusConfirmOrder]);
+    if (props.subject === "reservation") {
+      setStatus(statusTableReserve);
+      setSuccessMsg(successMsgTableReserve);
+      setErrorMsg(errorMsgTableReserve);
+    }
+  }, [statusAuth, statusConfirmOrder, statusTableReserve]);
 
   return (
     <Provider>
