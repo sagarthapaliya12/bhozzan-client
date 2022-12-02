@@ -6,12 +6,14 @@ import colors from "../../config/colors";
 import DateTime from "../../components/Customer/DateTime";
 import { useSelector } from "react-redux";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
+import getFormattedTime from "../../utils/getFormattedTime";
 
 const { width } = Dimensions.get("window");
 
 const ReserveTable = () => {
   const tableInfo = useSelector((state) => state.tableSlice.tableInfo);
   const reservations = useSelector((state) => state.reservationSlice.reservationList);
+  console.log(reservations);
 
   return (
     <Screen>
@@ -39,10 +41,10 @@ const ReserveTable = () => {
                 <View key={reservations._id} style={styles.reservationContainer}>
                   <View>
                     <Text style={styles.reservationText}>
-                      {new Date(reservation.reservedSince).toLocaleTimeString()}
+                      {getFormattedTime(reservation.reservedSince)}
                     </Text>
                     <Text style={styles.reservationText}>
-                      {new Date(reservation.reservedUntil).toLocaleTimeString()}
+                      {getFormattedTime(reservation.reservedUntil)}
                     </Text>
                   </View>
                 </View>
