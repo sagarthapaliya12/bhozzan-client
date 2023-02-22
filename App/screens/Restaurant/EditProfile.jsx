@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 import "yup-phone";
@@ -13,14 +13,12 @@ import SubmitButton from "./../../components/forms/SubmitButton";
 import { useDispatch, useSelector } from "react-redux";
 import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 
-const validationSchema = Yup.object().shape({
-  profilePicture: Yup.array()
-    .min(1, "Please select at least one image")
-    .max(1, "please select only 1 Profile image"),
+const { width } = Dimensions.get("window");
 
-  thumbnailPicture: Yup.array()
-    .min(1, "Please select at least one image")
-    .max(1, "please select only 1 Profile image"),
+const validationSchema = Yup.object().shape({
+  profilePicture: Yup.string().required(),
+
+  thumbnailPicture: Yup.string().required(),
 
   restaurantName: Yup.string().required().min(3).label("Restaurant Name"),
 
@@ -54,9 +52,9 @@ const EditProfile = () => {
   const register = async (values) => {
     delete values.confirmPassword;
     console.log(values);
-    const { data } = await api.post("/user/register", values);
+    // const { data } = await api.post("/user/register", values);
 
-    console.log(data);
+    // console.log(data);
   };
   return (
     <KeyboardAwareScrollView style={styles.container}>
@@ -64,12 +62,12 @@ const EditProfile = () => {
         <View style={styles.formContainer}>
           <Form
             initialValues={{
-              profilePicture: [],
-              thumbnailPicture: [],
+              profilePicture: null,
+              thumbnailPicture: null,
               restaurantName: restaurantUser.name,
               description: "",
               location: restaurantUser.address,
-              phoneNumber: restaurantUser.primaryPhoneNumber.toString(),
+              phoneNumber: restaurantUser.primaryPhoneNumber?.toString(),
               panVatNo: "",
               email: "",
               deliveryHours: "",
@@ -77,12 +75,22 @@ const EditProfile = () => {
             onSubmit={(values) => register(values)}
             validationSchema={validationSchema}
           >
-            <View style={styles.profile}>
-              <FormImagePicker name="profilePicture" />
+            <View style={styles.imageArea}>
+              <View style={styles.profile}>
+                <FormImagePicker name="profilePicture" dimension={{ width: 93, height: 93 }} />
+              </View>
+              <Text style={styles.FormText}>Profile Picture</Text>
             </View>
 
-            <Text style={styles.FormText}>Thumbnail Image:</Text>
-            <FormImagePicker name="thumbnailPicture" />
+            <View style={styles.imageArea}>
+              <View style={styles.thumbnail}>
+                <FormImagePicker
+                  name="thumbnailPicture"
+                  dimension={{ width: width - 80 - 5, height: width / 2.2 - 5 }}
+                />
+              </View>
+              <Text style={styles.FormText}>Thumbnail Image</Text>
+            </View>
 
             <FormField
               autoCorrect={false}
@@ -162,10 +170,35 @@ const styles = StyleSheet.create({
     width: "90%",
     marginVertical: 20,
     marginHorizontal: 20,
+    alignItems: "center",
+  },
+
+  imageArea: {
+    display: "flex",
+    marginBottom: 25,
+    alignItems: "center",
   },
 
   profile: {
-    paddingLeft: 100,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 4,
+    borderColor: colors.secondary,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+
+  thumbnail: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 4,
+    borderColor: colors.secondary,
+    width: width - 80,
+    height: width / 2.2,
+    borderRadius: 9,
   },
 
   FormText: {

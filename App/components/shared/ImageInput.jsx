@@ -1,12 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { View, Image, TouchableWithoutFeedback, StyleSheet, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 import colors from "../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function ImageInput({ imageUri, onChangeImage, style }) {
-  const [buttonClicked, setButtonClicked] = useState(false);
+const ImageInput = ({ imageUri, onChangeImage, dimension }) => {
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.red,
+      borderRadius: dimension.width < 100 ? dimension.width : 10,
+      justifyContent: "center",
+      alignItems: "center",
+      overflow: "hidden",
+      height: dimension.height,
+      width: dimension.width,
+    },
+    image: {
+      height: "100%",
+      width: "100%",
+    },
+  });
 
   useEffect(() => {
     requestPermission();
@@ -18,16 +32,13 @@ function ImageInput({ imageUri, onChangeImage, style }) {
   };
 
   const handlePress = () => {
-    if (!buttonClicked) {
-      if (!imageUri) {
-        selectImage();
-        setButtonClicked(true);
-      } else {
-        Alert.alert("Delete", "Are you sure you want to delete this image?", [
-          { text: "Yes", onPress: () => onChangeImage(null) },
-          { text: "No" },
-        ]);
-      }
+    if (!imageUri) {
+      selectImage();
+    } else {
+      Alert.alert("Delete", "Are you sure you want to delete this image?", [
+        { text: "Yes", onPress: onChangeImage },
+        { text: "No" },
+      ]);
     }
   };
 
@@ -44,28 +55,12 @@ function ImageInput({ imageUri, onChangeImage, style }) {
   };
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={[styles.container, style]}>
-        {/* {console.log("tioisf", imageUri)} */}
+      <View style={styles.container}>
         {!imageUri && <MaterialCommunityIcons color={colors.medium} name="camera" size={40} />}
         {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.red,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-    height: 80,
-    width: 80,
-  },
-  image: {
-    height: "100%",
-    width: "100%",
-  },
-});
 export default ImageInput;
