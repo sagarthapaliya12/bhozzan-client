@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrderHistory, setOrderHistoryDetail } from "../Restaurant/orderSlice";
 import Screen from "../../components/Screen";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import StatusStateEnum from "../../enums/statusEnum";
+import Loading from "../../components/Loading/Loading";
 
 const { height, width } = Dimensions.get("window");
 
@@ -14,11 +16,18 @@ const OrderHistoryList = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const orderHistories = useSelector((state) => state.orderSlice.orderHistories);
+  const { orderHistories, status } = useSelector((state) => state.orderSlice);
 
   useEffect(() => {
     dispatch(getOrderHistory());
   }, []);
+
+  if (status === StatusStateEnum.LOADING)
+    return (
+      <Screen>
+        <Loading />
+      </Screen>
+    );
 
   return (
     <Screen>

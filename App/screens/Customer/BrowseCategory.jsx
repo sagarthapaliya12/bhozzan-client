@@ -2,37 +2,31 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  TouchableHighlight,
+  // TouchableOpacity,
+  // TouchableHighlight,
   Dimensions,
   ScrollView,
 } from "react-native";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import colors from "../../config/colors";
 import { Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getDishesByCategory } from "../Restaurant/restaurantSlice";
-import { Ionicons } from "@expo/vector-icons";
-import { addToBasket } from "./customerSlice";
-import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
 import Screen from "../../components/Screen";
 import SnackbarMessage from "../../components/SnackbarMessage";
+import AddToBasketButton from "../../components/Customer/AddToBasketButton";
 
 const { height, width } = Dimensions.get("window");
 
 const BrowseCategory = () => {
   const dispatch = useDispatch();
+
   const categoryState = useSelector((state) => state.restaurantSlice.categoryState);
   const dishes = useSelector((state) => state.restaurantSlice.categoryDish);
 
   useEffect(() => {
     dispatch(getDishesByCategory(categoryState));
   }, []);
-
-  const handleBasket = (dishId) => {
-    dispatch(addToBasket(dishId));
-    dispatch(toggleShowSnackbar(true));
-  };
 
   return (
     <Screen>
@@ -59,23 +53,7 @@ const BrowseCategory = () => {
                     Rs.&nbsp;{food.price}
                   </Text>
                 </View>
-                <TouchableHighlight onPress={() => handleBasket(food._id)}>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      backgroundColor: colors.secondary,
-                      borderRadius: 15,
-                      marginTop: 5,
-                      paddingVertical: 5,
-                      paddingHorizontal: 10,
-                    }}
-                  >
-                    <Ionicons name="basket" size={30} color={colors.screen} />
-                    <Text style={{ color: colors.v }}>Add To Basket</Text>
-                  </View>
-                </TouchableHighlight>
+                <AddToBasketButton dishId={food._id} />
               </View>
             </View>
           );

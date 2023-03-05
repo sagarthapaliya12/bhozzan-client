@@ -1,20 +1,9 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  TouchableHighlight,
-} from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { useEffect } from "react";
 import colors from "../../../config/colors";
 import { getDishesByRestaurantId } from "../../../screens/Restaurant/restaurantSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Ionicons } from "@expo/vector-icons";
-import { addToBasket } from "../../../screens/Customer/customerSlice";
-import { toggleShowSnackbar } from "../../../redux/ui/uiSlice";
-
+import AddToBasketButton from "../AddToBasketButton";
 const { height, width } = Dimensions.get("window");
 
 const Menu = () => {
@@ -27,20 +16,6 @@ const Menu = () => {
   useEffect(() => {
     dispatch(getDishesByRestaurantId(restaurantId));
   }, [restaurantId]);
-
-  const handleBasket = (dishId) => {
-    dispatch(addToBasket(dishId));
-    dispatch(toggleShowSnackbar(true));
-  };
-  // const [noOfItem, setNoOfItem] = useState(0);
-
-  // const incrementCount = () => {
-  //   setNoOfItem((prevCount) => prevCount + 1);
-  // };
-
-  // const decrementCount = () => {
-  //   noOfItem >= 1 ? setNoOfItem((prevCount) => prevCount - 1) : "";
-  // };
 
   return (
     <View>
@@ -71,41 +46,7 @@ const Menu = () => {
                         Rs.&nbsp;{food.price}
                       </Text>
                     </View>
-                    <TouchableHighlight onPress={() => handleBasket(food._id)}>
-                      <View
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          backgroundColor: colors.secondary,
-                          borderRadius: 15,
-                          marginTop: 5,
-                          paddingVertical: 5,
-                          paddingHorizontal: 10,
-                        }}
-                      >
-                        <Ionicons name="basket" size={30} color={colors.screen} />
-                        <Text style={{ color: colors.v }}>Add To Basket</Text>
-                      </View>
-                    </TouchableHighlight>
-
-                    {/* <View style={styles.cart}>
-                      <AntDesign
-                        name="minuscircle"
-                        size={24}
-                        color={colors.gray}
-                        onPress={() => decrementCount()}
-                      />
-                      <Text style={{ color: colors.gray, margin: 10, fontSize: 20 }}>
-                        {noOfItem}
-                      </Text>
-                      <AntDesign
-                        name="pluscircle"
-                        size={24}
-                        color={colors.gray}
-                        onPress={() => incrementCount()}
-                      />
-                    </View> */}
+                    <AddToBasketButton dishId={food._id} />
                   </View>
                 </View>
               );

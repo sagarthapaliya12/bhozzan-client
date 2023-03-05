@@ -48,11 +48,12 @@ const ImageInput = ({ imageUri, onChangeImage, dimension }) => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
       });
-      if (!result.cancelled) onChangeImage(result.uri);
+      if (!result.canceled) onChangeImage(result.assets[0].uri);
     } catch (error) {
       console.error({ ImageError: error });
     }
   };
+
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
       <View style={styles.container}>

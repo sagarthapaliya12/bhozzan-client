@@ -16,6 +16,7 @@ import { logout, reset } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "./customerSlice";
 import { useNavigation } from "@react-navigation/native";
+import Loading from "../../components/Loading/Loading";
 
 // const buttonItems = [
 //   {
@@ -53,9 +54,9 @@ const More = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.logout} onPress={() => handleLogout()}>
+      {/* <TouchableOpacity style={styles.logout} onPress={() => handleLogout()}>
         <MaterialCommunityIcons name="logout" size={30} color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {user ? (
         <View style={styles.info}>
@@ -81,51 +82,38 @@ const More = () => {
             </AppText>
           </View>
 
-          {/* <View style={styles.editBtn}>
-          <AppButton
-            title="Edit Profile"
-            onPress={() => {
-              navigation.navigate("EditProfile");
-            }}
-          />
-        </View> */}
-
-          <View style={styles.bottomContainer}>
+          <View style={styles.features}>
             <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => navigation.navigate("OrderHistory")}
             >
-              <MaterialCommunityIcons name="history" size={24} color="black" />
-              <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
-                Order History
-              </Text>
+              <MaterialCommunityIcons name="history" size={24} color={colors.gray} />
+              <Text style={styles.bottomText}>Order History</Text>
             </Pressable>
-          </View>
-
-          <View style={styles.bottomContainerSecond}>
             <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => navigation.navigate("MyReservation")}
             >
-              <AntDesign name="calendar" size={24} color="black" />
-              <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
-                My Reservations
-              </Text>
+              <AntDesign name="calendar" size={24} color={colors.gray} />
+              <Text style={styles.bottomText}>My Reservations</Text>
             </Pressable>
-          </View>
-
-          <View style={styles.bottomContainerSecond}>
             <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => navigation.navigate("FavoritesScreen")}
             >
               <AntDesign name="heart" size={24} color="red" />
-              <Text style={{ color: "black", marginHorizontal: 10, fontSize: 18 }}>
-                My Favorites
-              </Text>
+              <Text style={styles.bottomText}>My Favorites</Text>
+            </Pressable>
+            <Pressable
+              style={styles.bottomRow}
+              android_ripple={{ color: colors.lightGray, borderless: true }}
+              onPress={() => handleLogout()}
+            >
+              <MaterialCommunityIcons name="logout" size={24} color={colors.white} />
+              <Text style={styles.bottomText}>Logout</Text>
             </Pressable>
           </View>
         </View>
@@ -167,23 +155,24 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   bottomContainer: {
-    width: "80%",
-    marginTop: 60,
-    backgroundColor: colors.primary,
-    borderRadius: 50,
-    overflow: "hidden",
-  },
-  bottomContainerSecond: {
-    width: "80%",
-    marginTop: 10,
-    backgroundColor: colors.primary,
-    borderRadius: 50,
-    overflow: "hidden",
-  },
-  bottomRow: {
     width: "100%",
+    paddingVertical: 15,
+    borderColor: colors.gray,
+    borderBottomWidth: 1,
+  },
+  bottomText: {
+    color: colors.gray,
+    marginHorizontal: 10,
+    fontSize: 18,
+  },
+  features: { width: "100%", alignItems: "center", marginTop: 30 },
+  bottomRow: {
+    width: "90%",
     flexDirection: "row",
-    padding: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderColor: colors.gray,
+    borderBottomWidth: 1,
   },
 });
 

@@ -12,6 +12,7 @@ import FormImagePicker from "../../components/forms/FormImagePicker";
 import SubmitButton from "./../../components/forms/SubmitButton";
 import { useDispatch, useSelector } from "react-redux";
 import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
+import { uploadFiles } from "../../helpers/uploadHelper";
 
 const { width } = Dimensions.get("window");
 
@@ -22,7 +23,7 @@ const validationSchema = Yup.object().shape({
 
   restaurantName: Yup.string().required().min(3).label("Restaurant Name"),
 
-  description: Yup.string().required().min(3).label("Description"),
+  description: Yup.string().label("Description"),
 
   location: Yup.string().required().min(4).label("Location"),
 
@@ -31,11 +32,11 @@ const validationSchema = Yup.object().shape({
     .required()
     .label("Phone Number"),
 
-  panVatNo: Yup.string().required().min(6).max(14).label("Pan/Vat No."),
+  panVatNo: Yup.string().min(6).max(14).label("Pan/Vat No."),
 
-  email: Yup.string().required().email().label("Email"),
+  email: Yup.string().email().label("Email"),
 
-  deliveryHours: Yup.string().required().min(6).label("Delivery Hours"),
+  deliveryHours: Yup.string().min(6).label("Delivery Hours"),
 });
 
 const EditProfile = () => {
@@ -50,8 +51,9 @@ const EditProfile = () => {
   }, [restaurantId]);
 
   const register = async (values) => {
-    delete values.confirmPassword;
-    console.log(values);
+
+    const [response] = await uploadFiles(values.profilePicture, 'Bhozzan')
+    // console.log("Image Test", response)
     // const { data } = await api.post("/user/register", values);
 
     // console.log(data);
@@ -117,8 +119,8 @@ const EditProfile = () => {
               icon="file"
               name="panVatNo"
               placeholder="PAN/VAT No."
-              secureTextEntry
-              textContentType="password"
+              // secureTextEntry
+              // textContentType="password"
             />
             <FormField
               autoCorrect={false}
