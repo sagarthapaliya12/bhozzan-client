@@ -1,11 +1,6 @@
-import axios from "axios";
+import { Alert } from "react-native";
 
-export const uploadFiles = async (image, folder) => {
-
-  REACT_APP_CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/bhozzan/image/upload";
-  REACT_APP_CLOUD_NAME = "bhozzan";
-  REACT_APP_UPLOAD_PRESET = "bhozzan";
-
+export const uploadFiles = async (image) => {
   try {
     const file = {
       uri: image,
@@ -13,19 +8,26 @@ export const uploadFiles = async (image, folder) => {
       name: `test.${image.split(".").pop()}`,
     };
 
-    console.log("Image Test", file);
-
     const formData = new FormData();
 
     formData.append("file", file);
-    formData.append("upload_preset", "bhozzan");
-    formData.append("cloud_name", "bhozzan");
+    formData.append("upload_preset", process.env.REACT_APP_CLOUD_NAME); //make sure unsigned upload preset is created in your cloudinary
+    formData.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
 
-    const { data } = await axios.post(REACT_APP_CLOUDINARY_URL, formData);
+    const res = await fetch(process.env.REACT_APP_CLOUDINARY_URL, {
+      method: "post",
+      body: formData,
+    });
 
-    console.log("test", data);
-
+    try {
+      const { secure_url } = await res.json();
+      return secure_url;
+    } catch (error) {
+      console.log("Error Uploading: ", error);
+    }
   } catch (error) {
+    console.log("Error Uploading: ", error);
+    Alert.alert("An Error Occured While Uploading");
     throw new Error("Error uploading the files");
   }
 };

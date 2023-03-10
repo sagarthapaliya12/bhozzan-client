@@ -1,15 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableHighlight, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 import "yup-phone";
-
 import Screen from "../../components/Screen";
 import Form from "../../components/forms/Form";
 import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
-import api from "../../helpers/axios";
 import colors from "../../config/colors";
+import { useDispatch, useSelector } from "react-redux";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().min(2).label("First Name"),
@@ -21,17 +20,18 @@ const validationSchema = Yup.object().shape({
     .required()
     .label("Phone Number"),
 
-  email: Yup.string().required().email().label("Email"),
+  address: Yup.string().required().min(4).label("Address"),
 });
 
 const EditProfile = () => {
-  const register = async (values) => {
-    delete values.confirmPassword;
-    console.log(values);
-    const { data } = await api.post("/user/register", values);
+  const dispatch = useDispatch();
 
-    console.log(data);
+  const user = useSelector((state) => state.customerSlice.user);
+
+  const register = async (values) => {
+    console.log(values);
   };
+
   return (
     <Screen>
       <KeyboardAwareScrollView>
@@ -39,10 +39,10 @@ const EditProfile = () => {
           <View style={styles.formContainer}>
             <Form
               initialValues={{
-                firstName: "",
-                lastName: "",
-                phoneNumber: "",
-                email: "",
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phoneNumber: user.phoneNumber?.toString(),
+                address: user.address,
               }}
               onSubmit={(values) => register(values)}
               validationSchema={validationSchema}
@@ -70,12 +70,11 @@ const EditProfile = () => {
               <FormField
                 autoCapitalize="none"
                 autoCorrect={false}
-                icon="email"
-                name="email"
-                placeholder="Email"
-                keyboardType="email-address"
-                textContentType="emailAddress"
+                icon="city"
+                name="address"
+                placeholder="Address"
               />
+
               <Pressable style={styles.saveButton} onPress={() => console.log("submitted")}>
                 <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
                   Save Changes
@@ -98,18 +97,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
-
-  logo: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    top: 20,
-  },
-
   formContainer: {
     display: "flex",
     width: "90%",
-    marginVertical: 40,
+    marginVertical: 20,
   },
 
   text: {

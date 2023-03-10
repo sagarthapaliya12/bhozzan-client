@@ -1,41 +1,13 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Text, Image, TouchableOpacity, Pressable } from "react-native";
-import Constants from "expo-constants";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-
+import { View, StyleSheet, Text, Image, Pressable } from "react-native";
+import { MaterialCommunityIcons, MaterialIcons, Ionicons, AntDesign } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import AppText from "../../components/AppText";
-// import AppButton from "../../components/AppButton";
-// import ListItem from "../../components/ListItem";
-// import Icon from "../../components/Icon";
-
 import { logout, reset } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "./customerSlice";
 import { useNavigation } from "@react-navigation/native";
-import Loading from "../../components/Loading/Loading";
-
-// const buttonItems = [
-//   {
-//     id: 1,
-//     title: "Order History",
-//     icons: {
-//       name: "login",
-//       backgroundColor: "#000",
-//     },
-//   },
-//   {
-//     id: 2,
-//     title: "My Favorites",
-//     icons: {
-//       name: "login",
-//       backgroundColor: "#fff",
-//     },
-//   },
-// ];
+import EditButton from "../../components/shared/EditButton";
 
 const More = () => {
   const dispatch = useDispatch();
@@ -54,20 +26,27 @@ const More = () => {
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity style={styles.logout} onPress={() => handleLogout()}>
-        <MaterialCommunityIcons name="logout" size={30} color="white" />
-      </TouchableOpacity> */}
-
       {user ? (
         <View style={styles.info}>
-          <Image source={require("../../assets/Avatar.jpg")} style={styles.avatar} />
-          <AppText style={{ color: "white" }}>{`${user.firstName} ${user.lastName}`}</AppText>
-
-          <View style={styles.details}>
-            <Ionicons name="call" size={24} color="white" />
-            <AppText style={{ color: "white", marginLeft: 10 }}>{user.phoneNumber}</AppText>
+          <View
+            style={{
+              right: 20,
+              position: "absolute",
+              top: 0,
+            }}
+          >
+            <EditButton />
           </View>
 
+          <View style={{ marginTop: 20, alignItems: "center", justifyContent: "center" }}>
+            <Image source={require("../../assets/Avatar.jpg")} style={styles.avatar} />
+            <AppText style={{ color: "white" }}>{`${user.firstName} ${user.lastName}`}</AppText>
+
+            <View style={styles.details}>
+              <Ionicons name="call" size={24} color="white" />
+              <AppText style={{ color: "white", marginLeft: 10 }}>{user.phoneNumber}</AppText>
+            </View>
+          </View>
           <View style={styles.details}>
             <MaterialIcons name="location-city" size={24} color="white" />
             <AppText style={{ color: "white", marginLeft: 10, marginBottom: 20 }}>
@@ -110,9 +89,17 @@ const More = () => {
             <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
+              // onPress={}
+            >
+              <Ionicons name="ellipsis-horizontal-circle-sharp" size={24} color={colors.gray} />
+              <Text style={styles.bottomText}>Change Password</Text>
+            </Pressable>
+            <Pressable
+              style={styles.bottomRow}
+              android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => handleLogout()}
             >
-              <MaterialCommunityIcons name="logout" size={24} color={colors.white} />
+              <MaterialCommunityIcons name="logout" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Logout</Text>
             </Pressable>
           </View>
@@ -125,7 +112,6 @@ const More = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: "#161B22",
   },
 
@@ -136,9 +122,9 @@ const styles = StyleSheet.create({
   },
   info: {
     marginVertical: 60,
-    display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
   },
   avatar: {
     width: 100,

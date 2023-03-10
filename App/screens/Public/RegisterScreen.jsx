@@ -43,7 +43,6 @@ function RegisterScreen({ navigation }) {
   }, [status]);
 
   const register = (values) => {
-    delete values.confirmPassword; // Remove the confirmPassword field from the set of user input values
     dispatch(registerUser(values));
   };
 
@@ -138,7 +137,7 @@ function RegisterScreen({ navigation }) {
             <Text style={defaultStyles.link}>Register Your Restaurant Here</Text>
           </Pressable>
         </View>
-        <MessagePopUpModal parent="RegisterScreen" subject="auth"/>
+        <MessagePopUpModal parent="RegisterScreen" subject="auth" />
       </KeyboardAwareScrollView>
     </Screen>
   );
@@ -156,6 +155,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 30,
   },
 
   logo: {

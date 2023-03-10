@@ -26,7 +26,7 @@ const validationSchema = Yup.object().shape({
 
   phoneNumbers: Yup.string().min(10).max(23).label("Secondary Contact"),
 
-  address: Yup.string().required().min(4).label("Location"),
+  address: Yup.string().required().min(4).label("Address"),
 
   PAN: Yup.number().positive().required().min(9).label("Pan/Vat No."),
 });
@@ -50,7 +50,17 @@ const RestaurantSignup = () => {
         <View style={styles.container}>
           <View style={styles.logoContainer}>
             <Image source={require("../../assets/App-Logos.png")} style={styles.logo}></Image>
-            <Text style={{ color: "#fff", marginTop: 25 }}>Grow Your Business With Bhozzan</Text>
+            <Text
+              style={{
+                color: colors.gray,
+                marginTop: 25,
+                fontSize: 28,
+                textAlign: "center",
+                fontWeight: "200",
+              }}
+            >
+              Grow Your Business with Bhozzan
+            </Text>
           </View>
           <View style={styles.formContainer}>
             <Form
@@ -110,6 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 30,
   },
   logo: {
     width: 100,
@@ -121,7 +132,7 @@ const styles = StyleSheet.create({
   formContainer: {
     display: "flex",
     width: "90%",
-    marginVertical: 60,
+    marginTop: 40,
   },
 
   text: {

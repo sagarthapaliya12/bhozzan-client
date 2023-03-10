@@ -6,7 +6,6 @@ import "yup-phone";
 import Form from "../../components/forms/Form";
 import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
-import api from "../../helpers/axios";
 import colors from "../../config/colors";
 import FormImagePicker from "../../components/forms/FormImagePicker";
 import SubmitButton from "./../../components/forms/SubmitButton";
@@ -32,7 +31,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .label("Phone Number"),
 
-  panVatNo: Yup.string().min(6).max(14).label("Pan/Vat No."),
+  panVatNo: Yup.string().min(9).max(9).label("Pan/Vat No."),
 
   email: Yup.string().email().label("Email"),
 
@@ -51,13 +50,10 @@ const EditProfile = () => {
   }, [restaurantId]);
 
   const register = async (values) => {
-
-    const [response] = await uploadFiles(values.profilePicture, 'Bhozzan')
-    // console.log("Image Test", response)
-    // const { data } = await api.post("/user/register", values);
-
-    // console.log(data);
+    const cloudinaryLink = await uploadFiles(values.profilePicture);
+    console.log("Link", cloudinaryLink);
   };
+
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View>
@@ -70,7 +66,7 @@ const EditProfile = () => {
               description: "",
               location: restaurantUser.address,
               phoneNumber: restaurantUser.primaryPhoneNumber?.toString(),
-              panVatNo: "",
+              panVatNo: restaurantUser.PAN.toString(),
               email: "",
               deliveryHours: "",
             }}
@@ -99,12 +95,6 @@ const EditProfile = () => {
               icon="account"
               name="restaurantName"
               placeholder="Restaurant Name"
-            />
-            <FormField
-              autoCorrect={false}
-              icon="account"
-              name="description"
-              placeholder="Description"
             />
             <FormField autoCorrect={false} icon="city" name="location" placeholder="Location" />
             <FormField
@@ -137,6 +127,12 @@ const EditProfile = () => {
               placeholder="Delivery Hours"
             />
 
+            <FormField
+              autoCorrect={false}
+              icon="account"
+              name="description"
+              placeholder="Description"
+            />
             <SubmitButton title="Save Changes" />
             {/* <SubmitButton
               title="Save Changes"

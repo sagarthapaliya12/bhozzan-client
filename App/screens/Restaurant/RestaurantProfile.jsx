@@ -5,9 +5,7 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  TouchableHighlight,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -21,13 +19,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 import AppButton from "./../../components/AppButton";
-import { useNavigation } from "@react-navigation/native";
+import EditButton from "../../components/shared/EditButton";
 
 const { height, width } = Dimensions.get("window");
 
 const RestaurantProfile = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
   const restaurantUser = useSelector((state) => state.restaurantSlice.restaurantUser);
@@ -54,13 +51,7 @@ const RestaurantProfile = () => {
           <TouchableOpacity style={styles.logout} onPress={handleLogout}>
             <MaterialCommunityIcons name="logout" size={30} color="white" />
           </TouchableOpacity>
-
-          <TouchableHighlight
-            style={styles.editButton}
-            onPress={() => navigation.navigate("EditProfile")}
-          >
-            <Entypo name="edit" size={24} color={colors.screen} />
-          </TouchableHighlight>
+          <EditButton />
         </View>
         <View style={styles.info}>
           <View>
@@ -75,9 +66,7 @@ const RestaurantProfile = () => {
         </View>
         <View style={styles.details}>
           <Ionicons name="call" size={24} color={colors.secondary} />
-          <Text style={styles.normalText}>
-            &nbsp;&nbsp;{restaurantUser.primaryPhoneNumber}
-          </Text>
+          <Text style={styles.normalText}>&nbsp;&nbsp;{restaurantUser.primaryPhoneNumber}</Text>
         </View>
         <View style={styles.details}>
           <Text style={{ color: colors.secondary }}>DELIVERY HOURS:&nbsp;</Text>
@@ -112,14 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
   },
-  editButton: {
-    backgroundColor: colors.secondary,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   info: {
     alignItems: "center",
   },
@@ -147,6 +128,6 @@ const styles = StyleSheet.create({
   },
   normalText: {
     fontSize: 18,
-    color: colors.gray
+    color: colors.gray,
   },
 });
