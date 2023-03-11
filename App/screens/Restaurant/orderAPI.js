@@ -75,10 +75,11 @@ const serveOrder = async (orderId) => {
 const deliverOrder = async (orderId) => {
   try {
     console.log("fdgfg", orderId);
-    const { data } = await api.put(`/order/deliver/${orderId.orderId}`);
+    const { data } = await api.put(`/order/deliver/${orderId}`);
     console.log("delivered", data);
     return data;
   } catch (error) {
+    console.log("error delivered", error);
     throw new Error(error.response.data.error);
   }
 };

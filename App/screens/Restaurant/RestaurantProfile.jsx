@@ -20,11 +20,13 @@ import { useEffect } from "react";
 import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 import AppButton from "./../../components/AppButton";
 import EditButton from "../../components/shared/EditButton";
+import { useNavigation } from "@react-navigation/native";
 
 const { height, width } = Dimensions.get("window");
 
 const RestaurantProfile = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
   const restaurantUser = useSelector((state) => state.restaurantSlice.restaurantUser);

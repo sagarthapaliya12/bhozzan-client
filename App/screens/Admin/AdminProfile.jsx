@@ -1,11 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Image, TouchableOpacity, FlatList } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import colors from "../../config/colors";
 import AppText from "../../components/AppText";
 import AppButton from "../../components/AppButton";
-import ListItem from "../../components/ListItem";
 import { logout } from "../Public/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";

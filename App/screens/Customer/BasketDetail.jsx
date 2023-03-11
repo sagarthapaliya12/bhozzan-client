@@ -2,26 +2,24 @@ import { View, Text, StyleSheet, Dimensions, ScrollView, Pressable } from "react
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import colors from "../../config/colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Divider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { getBasketDishes, removeBasketDish } from "./customerSlice";
 import { placeOrder } from "../Restaurant/orderSlice";
 import Screen from "../../components/Screen";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Constants from "expo-constants";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
 import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const BasketDetail = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  const navigation = useNavigation();
 
   const [quantity, setQuantity] = useState({});
   const [subTotalToDisplay, setSubTotalToDisplay] = useState(0);
@@ -29,10 +27,6 @@ const BasketDetail = () => {
   const basketDishes = useSelector((state) => state.customerSlice.basketDishes);
   const basketRestaurant = useSelector((state) => state.customerSlice.basketRestaurantSearch);
   const status = useSelector((state) => state.orderSlice.status);
-
-  useEffect(() => {
-    // if (status === "success") dispatch(toggleShowMessageModal(true));
-  }, [status]);
 
   useEffect(() => {
     dispatch(getBasketDishes(basketRestaurant));
@@ -56,7 +50,6 @@ const BasketDetail = () => {
   };
 
   const updateTotal = () => {
-    // const selectedItems = basketDishes.filter((item) => item.selection);
     let subTotal = 0;
     basketDishes.forEach((item) => {
       subTotal += quantity[item.dish._id] * item.dish.price;
@@ -84,17 +77,16 @@ const BasketDetail = () => {
     dispatch(removeBasketDish(dishId));
   };
 
-  const checkout = () => {
+  const checkout = async () => {
     const order = basketDishes.map((item) => {
       const dish = item.dish;
       return { dishId: dish._id, restaurant: dish.restaurant, quantity: quantity[dish._id] };
     });
 
-    dispatch(placeOrder(order));
-    if (status === "success") dispatch(toggleShowMessageModal(true));
-
-    console.log(order);
-    // navigation.navigate("QrGenerator");
+    try {
+      const res = await dispatch(placeOrder(order)).unwrap();
+      if (!res.error) dispatch(toggleShowMessageModal(true));
+    } catch (err) {}
   };
 
   return (
@@ -146,10 +138,6 @@ const BasketDetail = () => {
             {subTotalToDisplay}
           </Text>
         </View>
-        {/* 
-      <Form onSubmit={checkout}>
-        <SubmitButton title="Confirm Order" />
-      </Form> */}
         <Pressable style={styles.checkoutButton} onPress={checkout}>
           <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
             Confirm Order

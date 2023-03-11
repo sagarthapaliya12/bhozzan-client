@@ -1,6 +1,5 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import colors from "../config/colors";
 import HomeScreen from "../screens/HomeScreen";
 import RestaurantProfile from "../screens/Customer/RestaurantProfile";

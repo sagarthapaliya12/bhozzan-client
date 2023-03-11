@@ -1,8 +1,6 @@
 import React from "react";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import colors from "../../config/colors";
 import { ProfileNavigator, MenuNavigator } from "../../navigation/RestaurantNavigator";
 import AdminProfile from '../../screens/Admin/AdminProfile';

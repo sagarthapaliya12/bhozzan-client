@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   ScrollView,
   Image,
   TouchableWithoutFeedback,
@@ -12,10 +11,8 @@ import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasketRestaurants, setBasketRestaurantSearch } from "./customerSlice";
-
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
-const { height, width } = Dimensions.get("window");
 
 const BasketList = () => {
   const navigation = useNavigation();
@@ -60,7 +57,7 @@ const BasketList = () => {
                   </View>
                 </View>
                 <View style={styles.itemCount}>
-                  <Text style={{ fontWeight: "700" }}>x</Text>
+                  <Text style={{ fontWeight: "700" }}>{item.count}</Text>
                 </View>
               </View>
             </TouchableWithoutFeedback>
