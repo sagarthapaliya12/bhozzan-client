@@ -15,6 +15,7 @@ import ReserveTable from "../screens/Customer/ReserveTable";
 import { useSelector } from "react-redux";
 import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
 import MyReservation from "../screens/Customer/MyReservation";
+import ChangePassword from "../screens/Customer/ChangePassword";
 
 const Stack = createStackNavigator();
 
@@ -166,6 +167,17 @@ const MoreNavigator = () => (
       component={MyReservation}
       options={{
         title: "My Reservations",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="ChangePassword"
+      component={ChangePassword}
+      options={{
+        title: "Change Password",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,

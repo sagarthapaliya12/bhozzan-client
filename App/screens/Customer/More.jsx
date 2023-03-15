@@ -89,7 +89,7 @@ const More = () => {
             <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
-              // onPress={}
+              onPress={() => navigation.navigate("ChangePassword")}
             >
               <Ionicons name="ellipsis-horizontal-circle-sharp" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Change Password</Text>
