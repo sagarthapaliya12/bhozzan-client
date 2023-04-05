@@ -16,9 +16,9 @@ const QrScanner = () => {
 
   useEffect(() => {
     const handleDeliever = async () => {
-      console.log("i am here");
+      // console.log("i am here");
       await dispatch(deliverOrder(orderId)).then((res) => {
-        console.log("dsfs", res);
+        // console.log("dsfs", res);
       });
     };
 

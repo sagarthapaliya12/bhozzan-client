@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../../config/colors";
 import Notifications from "../../screens/Customer/Notifications";
-import { HomeNavigator, BasketNavigator, MoreNavigator } from "../../navigation/CustomerNavigator";
+import { HomeNavigator, BasketNavigator, MoreNavigator, MapNavigator } from "../../navigation/CustomerNavigator";
 import { View } from "react-native";
 import { Badge } from "react-native-paper";
 import Chat from "../../screens/Chat";
@@ -48,6 +48,17 @@ const CustomerTab = () => {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Nearby"
+        component={MapNavigator}
+        options={{
+          headerShown: true,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="map" color={color} size={size} />
           ),
         }}
       />
