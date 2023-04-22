@@ -17,6 +17,8 @@ import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
 import MyReservation from "../screens/Customer/MyReservation";
 import ExploreScreen from "../screens/Customer/ExploreScreen";
 import ChangePassword from "../screens/Customer/ChangePassword";
+import Chat from "../screens/Chat";
+import Messages from "../screens/Customer/Messages";
 
 const Stack = createStackNavigator();
 
@@ -127,6 +129,35 @@ const BasketNavigator = () => (
   </Stack.Navigator>
 );
 
+const ChatNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="Chat"
+      component={Chat}
+      options={{
+        title: "Chat",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+
+    <Stack.Screen
+      name="Messages"
+      component={Messages}
+      options={{
+        title: "Messages",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+  </Stack.Navigator>
+);
+
 const MoreNavigator = () => (
   <Stack.Navigator
   // presentation="modal"
@@ -206,4 +237,4 @@ const MoreNavigator = () => (
 );
 // };
 
-export { HomeNavigator, MapNavigator, BasketNavigator, MoreNavigator };
+export { HomeNavigator, MapNavigator, BasketNavigator, ChatNavigator, MoreNavigator };

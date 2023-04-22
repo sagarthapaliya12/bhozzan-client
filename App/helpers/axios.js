@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
 
 const api = axios.create({
-  baseURL: "http://192.168.1.73:7000",
+  baseURL: "http://bhozzan.onrender.com",
   headers: {
     Accept: "application/json",
   },
