@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -9,41 +9,40 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-
 import colors from "../../config/colors";
-
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+// import Restaurants from "../../components/Restaurant/Restaurants";
+import { useDispatch, useSelector } from "react-redux";
+import { getUnverifiedRestaurants, verifyRestaurant } from "../Restaurant/restaurantSlice";
+import profilePic from "../../assets/App-Logos.png";
 
-import Restaurants from "../../components/Restaurant/Restaurants";
+const RestaurantApproval = () => {
+  const dispatch = useDispatch();
 
-const RestaurantApproval = ({ navigation }) => {
-  const [listData, setListData] = useState(
-    Restaurants.map((RestaurantList, index) => ({
-      key: `${index}`,
-      name: RestaurantList.name,
-      location: RestaurantList.location,
-      profile: RestaurantList.profile,
-    }))
-  );
+  useEffect(() => {
+    dispatch(getUnverifiedRestaurants());
+  }, []);
 
-  const acceptRow = (rowMap, rowKey) => {
-    console.log("This restaurant is accepted", rowKey);
+  const restaurants = useSelector((state) => state.restaurantSlice.unVerifiedRestaurants);
+
+  const acceptRow = (_rowMap, rowKey) => {
+    dispatch(verifyRestaurant(rowKey));
   };
 
-  const closeRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-  };
+  // const closeRow = (rowMap, rowKey) => {
+  //   if (rowMap[rowKey]) {
+  //     rowMap[rowKey].closeRow();
+  //   }
+  // };
 
-  const deleteRow = (rowMap, rowKey) => {
-    closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex((item) => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
-  };
+  // const deleteRow = (rowMap, rowKey) => {
+  //   closeRow(rowMap, rowKey);
+  //   const newData = [...listData];
+  //   const prevIndex = listData.findIndex((item) => item.key === rowKey);
+  //   newData.splice(prevIndex, 1);
+  //   setListData(newData);
+  // };
 
   const VisibleItem = (props) => {
     const { data, rowHeightAnimatedValue, removeRow, leftActionState, rightActionState } = props;
@@ -62,13 +61,13 @@ const RestaurantApproval = ({ navigation }) => {
       <Animated.View style={[styles.rowFront, { height: rowHeightAnimatedValue }]}>
         <TouchableHighlight
           style={styles.rowFrontVisible}
-          onPress={() => navigation.navigate("RestaurantProfile")}
+          // onPress={() => navigation.navigate("RestaurantProfile")}
           // underlayColor={"#aaa"}
         >
           <View style={styles.mainContainer}>
             <View style={styles.restaurantDetail}>
               <View style={styles.profileContainer}>
-                <Image style={styles.restaurantProfile} source={data.item.profile} />
+                <Image style={styles.restaurantProfile} source={profilePic} />
               </View>
             </View>
 
@@ -77,7 +76,7 @@ const RestaurantApproval = ({ navigation }) => {
                 {data.item.name}
               </Text>
               <Text style={styles.location} numberOfLines={1}>
-                {data.item.location}
+                {data.item.address}
               </Text>
             </View>
           </View>
@@ -93,7 +92,7 @@ const RestaurantApproval = ({ navigation }) => {
       <VisibleItem
         data={data}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        removeRow={() => deleteRow(rowMap, data.item.key)}
+        // removeRow={() => deleteRow(rowMap, data.item.key)}
       />
     );
   };
@@ -135,20 +134,8 @@ const RestaurantApproval = ({ navigation }) => {
             />
           </TouchableOpacity>
         )}
-        {!leftActionActivated && (
-          <TouchableOpacity
-            style={[styles.backRightBtn, styles.backRightBtnLeft]}
-            onPress={onClose}
-          >
-            <MaterialCommunityIcons
-              name="close-circle-outline"
-              size={25}
-              style={styles.trash}
-              color="#fff"
-            />
-          </TouchableOpacity>
-        )}
-        {!leftActionActivated && (
+
+        {/* {!leftActionActivated && (
           <Animated.View
             style={[
               styles.backRightBtn,
@@ -183,7 +170,7 @@ const RestaurantApproval = ({ navigation }) => {
               </Animated.View>
             </TouchableOpacity>
           </Animated.View>
-        )}
+        )} */}
       </Animated.View>
     );
   };
@@ -194,13 +181,13 @@ const RestaurantApproval = ({ navigation }) => {
 
     return (
       <HiddenItemWithActions
-        data={data}
+        data={restaurants}
         rowMap={rowMap}
         rowActionAnimatedValue={rowActionAnimatedValue}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        onAccept={() => acceptRow(rowMap, data.item.key)}
+        onAccept={() => acceptRow(rowMap, data.item._id)}
         onClose={() => closeRow(rowMap, data.item.key)}
-        onDelete={() => deleteRow(rowMap, data.item.key)}
+        // onDelete={() => deleteRow(rowMap, data.item.key)}
       />
     );
   };
@@ -210,16 +197,16 @@ const RestaurantApproval = ({ navigation }) => {
       <StatusBar barStyle="dark-content" />
       <StatusBar backgroundColor="#161B22" barStyle="light-content" />
       <SwipeListView
-        data={listData}
+        data={restaurants}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
+        disableLeftSwipe
         leftOpenValue={75}
-        rightOpenValue={-150}
-        // disableRightSwipe
-        leftActivationValue={100}
-        rightActivationValue={-200}
+        leftActivationValue={1000}
         leftActionValue={0}
-        rightActionValue={-500}
+        // rightOpenValue={-150}
+        // rightActivationValue={-200}
+        // rightActionValue={-500}
       />
     </View>
   );
@@ -292,7 +279,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: 75,
-    height:80,
+    height: 80,
     paddingRight: 17,
   },
   backRightBtnLeft: {
@@ -306,11 +293,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     width: 75,
-    height:80,
+    height: 80,
     paddingRight: 17,
     backgroundColor: "green",
     borderTopLeftRadius: 5,
-    borderBottomLeftRadius:5,
+    borderBottomLeftRadius: 5,
   },
   backRightBtnRight: {
     backgroundColor: "red",
