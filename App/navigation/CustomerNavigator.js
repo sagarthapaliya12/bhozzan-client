@@ -15,6 +15,7 @@ import ReserveTable from "../screens/Customer/ReserveTable";
 import { useSelector } from "react-redux";
 import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
 import MyReservation from "../screens/Customer/MyReservation";
+import ExploreScreen from "../screens/Customer/ExploreScreen";
 import ChangePassword from "../screens/Customer/ChangePassword";
 
 const Stack = createStackNavigator();
@@ -79,6 +80,23 @@ const HomeNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+const MapNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Nearby" component={ExploreScreen} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="ExploreScreen"
+      component={ExploreScreen}
+      options={{
+        title: "Nearby",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+  </Stack.Navigator>
+);
 
 const BasketNavigator = () => (
   <Stack.Navigator>
@@ -188,4 +206,4 @@ const MoreNavigator = () => (
 );
 // };
 
-export { HomeNavigator, BasketNavigator, MoreNavigator };
+export { HomeNavigator, MapNavigator, BasketNavigator, MoreNavigator };
