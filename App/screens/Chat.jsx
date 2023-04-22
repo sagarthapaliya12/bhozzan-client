@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
 //           data={Messages}
 //           keyExtractor={item=>item.id}
 //           renderItem={({item}) => (
-//             <Card onPress={() => navigation.navigate('Messages', {userName: item.userName})}>
+//             
 //               <UserInfo>
 //                 <UserImgWrapper>
 //                   <UserImg source={item.userImg} />
