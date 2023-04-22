@@ -32,6 +32,11 @@ export const getRestaurantDetails = createAsyncThunk("restaurant", async (restau
   restaurantService.getRestaurantDetails(restaurantId)
 );
 
+export const updateRestaurantDetails = createAsyncThunk(
+  "restaurant/update",
+  async (restaurantDetails) => restaurantService.updateRestaurantDetails(restaurantDetails)
+);
+
 export const getRestaurantUserId = createAsyncThunk("user/my-details", async () =>
   restaurantService.getRestaurantUserId()
 );
@@ -121,6 +126,18 @@ const restaurantSlice = createSlice({
         state.restaurantUser = action.payload.restaurant;
       })
       .addCase(getRestaurantDetails.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      // Update Restaurant Details
+      .addCase(updateRestaurantDetails.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(updateRestaurantDetails.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+      })
+      .addCase(updateRestaurantDetails.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       })

@@ -28,6 +28,15 @@ const getRestaurantDetails = async (restaurantId) => {
   }
 };
 
+const updateRestaurantDetails = async (restaurantDetails) => {
+  try {
+    const { data } = await api.put(`/restaurant/update`, restaurantDetails);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
+  }
+};
+
 const getRestaurantUserId = async () => {
   try {
     const { data } = await api.get(`/user/my-details`);
@@ -113,6 +122,7 @@ const restaurantService = {
   getAllRestaurants,
   getUnverifiedRestaurants,
   getRestaurantDetails,
+  updateRestaurantDetails,
   getRestaurantUserId,
   getAllDishes,
   getDishesByRestaurantId,
