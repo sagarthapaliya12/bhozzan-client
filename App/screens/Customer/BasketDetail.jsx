@@ -5,10 +5,10 @@ import colors from "../../config/colors";
 import { useState, useEffect } from "react";
 import { Divider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { getBasketDishes, removeBasketDish } from "./customerSlice";
+import { getBasketCount, getBasketDishes, removeBasketDish } from "./customerSlice";
 import { placeOrder } from "../Restaurant/orderSlice";
 import Screen from "../../components/Screen";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Constants from "expo-constants";
@@ -19,6 +19,7 @@ const { width } = Dimensions.get("window");
 
 const BasketDetail = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const isFocused = useIsFocused();
 
   const [quantity, setQuantity] = useState({});
@@ -30,6 +31,7 @@ const BasketDetail = () => {
 
   useEffect(() => {
     dispatch(getBasketDishes(basketRestaurant));
+    dispatch(getBasketCount());
   }, [isFocused]);
 
   useEffect(() => {
@@ -88,6 +90,8 @@ const BasketDetail = () => {
       if (!res.error) dispatch(toggleShowMessageModal(true));
     } catch (err) {}
   };
+
+  if (basketDishes.length === 0) return navigation.navigate("BasketList");
 
   return (
     <Screen>

@@ -115,11 +115,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#161B22",
   },
 
-  logout: {
-    position: "absolute",
-    right: 20,
-    top: 40,
-  },
+  // logout: {
+  //   position: "absolute",
+  //   right: 20,
+  //   top: 40,
+  // },
   info: {
     marginVertical: 60,
     alignItems: "center",

@@ -25,7 +25,7 @@ const AdminTab = () => (
     }}
   >
     <Tab.Screen
-      name="Restaurant List"
+      name="Active Restaurants"
       component={HomeScreenNavigator}
       options={{
         tabBarIcon: ({ color }) => (

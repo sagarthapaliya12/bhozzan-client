@@ -9,7 +9,8 @@ const { height, width } = Dimensions.get("window");
 const Menu = () => {
   const dispatch = useDispatch();
 
-  const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
+  // const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
+  const restaurantId = useSelector((state) => state.uiSlice.restaurantIdSearch);
 
   const dishes = useSelector((state) => state.restaurantSlice.dishes);
 
