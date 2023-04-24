@@ -1,5 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+
 import colors from "../config/colors";
 import HomeScreen from "../screens/HomeScreen";
 import RestaurantProfile from "../screens/Customer/RestaurantProfile";
@@ -12,13 +13,14 @@ import BasketList from "../screens/Customer/BasketList";
 import BasketDetail from "../screens/Customer/BasketDetail";
 import TableList from "../screens/Customer/TableList";
 import ReserveTable from "../screens/Customer/ReserveTable";
-import { useSelector } from "react-redux";
 import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
 import MyReservation from "../screens/Customer/MyReservation";
 import ExploreScreen from "../screens/Customer/ExploreScreen";
 import ChangePassword from "../screens/Customer/ChangePassword";
 import Chat from "../screens/Chat";
 import Messages from "../screens/Customer/Messages";
+
+import { useSelector } from "react-redux";
 
 const Stack = createStackNavigator();
 
@@ -28,10 +30,9 @@ const HomeNavigator = () => {
   return (
     <Stack.Navigator
     // presentation="modal"
-    // screenOptions={{
-    //   headerShown: false,
-    //   animationDuration: 800,
-    // }}
+    screenOptions={{      
+      animationDuration: 300,
+    }}
     >
       <Stack.Screen name="Feed" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen
@@ -130,10 +131,14 @@ const BasketNavigator = () => (
 );
 
 const ChatNavigator = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
+  <Stack.Navigator
+    screenOptions={{
+      headerTitleAlign: "center",
+      animationDuration: 800,
+    }}
+  >
     <Stack.Screen
-      name="Chat"
+      name="Chat Screen"
       component={Chat}
       options={{
         title: "Chat",
@@ -145,26 +150,22 @@ const ChatNavigator = () => (
     />
 
     <Stack.Screen
-      name="Messages"
+      name="Messages Screen"
       component={Messages}
-      options={{
-        title: "Messages",
+      options={({ route }) => ({
+        title: route.params.userName,
         headerTintColor: colors.white,
+        tabBarStyle: {display: "none"},
         headerStyle: {
           backgroundColor: colors.screen,
         },
-      }}
+      })}
     />
   </Stack.Navigator>
 );
 
 const MoreNavigator = () => (
   <Stack.Navigator
-  // presentation="modal"
-  // screenOptions={{
-  //   headerShown: false,
-  //   animationDuration: 800,
-  // }}
   >
     <Stack.Screen name="Feed" component={More} options={{ headerShown: false }} />
     <Stack.Screen

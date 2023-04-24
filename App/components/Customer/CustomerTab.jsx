@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import Notifications from "../../screens/Customer/Notifications";
-import { HomeNavigator, BasketNavigator, MoreNavigator, MapNavigator } from "../../navigation/CustomerNavigator";
+import {
+  HomeNavigator,
+  BasketNavigator,
+  MoreNavigator,
+  MapNavigator,
+  ChatNavigator,
+} from "../../navigation/CustomerNavigator";
 import { View } from "react-native";
 import { Badge } from "react-native-paper";
-import Chat from "../../screens/Chat";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasketCount } from "../../screens/Customer/customerSlice";
 
@@ -37,7 +43,7 @@ const CustomerTab = () => {
         headerTintColor: colors.white,
         headerTitleAlign: "center",
         headerStatusBarHeight: 10,
-        animationDuration: 800,
+        animationDuration: 300,
       }}
     >
       <Tab.Screen
@@ -98,12 +104,22 @@ const CustomerTab = () => {
 
       <Tab.Screen
         name="Chat"
-        component={Chat}
-        options={{
+        component={ChatNavigator}
+        options={({ route }) => ({
+          tabBarStyle: ((route) => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+            if (routeName === "Messages Screen") {
+              return { display: "none" };
+            }
+            return { backgroundColor: "#1D2227" };
+          })(route),
+
+          tabBarVisible: false,
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="chat" color={color} size={size} />
           ),
-        }}
+        })}
       />
 
       <Tab.Screen
