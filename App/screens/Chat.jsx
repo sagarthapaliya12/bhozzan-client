@@ -3,21 +3,19 @@ import { View, Text, StyleSheet } from "react-native";
 import Screen from "../components/Screen";
 
 const Chat = () => {
-	return (
-		<Screen>
-      <Text>
-        chat screen
-      </Text>
-			
-		</Screen>
-	);
-}
+  return (
+    <Screen>
+      <Text>chat screen</Text>
+    </Screen>
+  );
+};
 
 const styles = StyleSheet.create({
-	container: {},
+  container: {},
 });
 
-// export default Chat;
+export default Chat;
+
 // import React from 'react';
 // import { View, Text, Button, StyleSheet, FlatList } from 'react-native';
 // import {
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
 //   {
 //     id: '4',
 //     userName: 'Selina Paul',
-//     userImg: require('../assets/Avatar.jpg'),    
+//     userImg: require('../assets/Avatar.jpg'),
 //     messageTime: '1 day ago',
 //     messageText:
 //       'Hey there, this is my test for a post of my social app in React Native.',
@@ -79,11 +77,11 @@ const styles = StyleSheet.create({
 // const Chat = ({navigation}) => {
 //     return (
 //       <Container>
-//         <FlatList 
+//         <FlatList
 //           data={Messages}
 //           keyExtractor={item=>item.id}
 //           renderItem={({item}) => (
-//             
+//
 //               <UserInfo>
 //                 <UserImgWrapper>
 //                   <UserImg source={item.userImg} />
@@ -107,8 +105,8 @@ const styles = StyleSheet.create({
 
 // const styles = StyleSheet.create({
 //   container: {
-//     flex: 1, 
-//     alignItems: 'center', 
+//     flex: 1,
+//     alignItems: 'center',
 //     justifyContent: 'center'
 //   },
 // });
