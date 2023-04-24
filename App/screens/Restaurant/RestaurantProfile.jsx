@@ -4,15 +4,15 @@ import {
   Text,
   StyleSheet,
   Image,
-  Dimensions,
   TouchableOpacity,
+  Dimensions,
+  Pressable,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import colors from "../../config/colors";
-import pizzaHut from "../../assets/pizza-hut.png";
 import Screen from "../../components/Screen";
 import { logout } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +21,10 @@ import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 import AppButton from "./../../components/AppButton";
 import EditButton from "../../components/shared/EditButton";
 import { useNavigation } from "@react-navigation/native";
+import profilePic from "../../assets/App-Logos.png";
+import thumbnail from "../../assets/thumbnail.jpg";
 
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const RestaurantProfile = () => {
   const dispatch = useDispatch();
@@ -43,24 +45,36 @@ const RestaurantProfile = () => {
   return (
     <Screen>
       <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            flexDirection: "row-reverse",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-          }}
-        >
-          <TouchableOpacity style={styles.logout} onPress={handleLogout}>
-            <MaterialCommunityIcons name="logout" size={30} color="white" />
-          </TouchableOpacity>
-          <EditButton />
-        </View>
         <View style={styles.info}>
-          <View>
-            <Image style={styles.profilePicture} source={pizzaHut} />
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.profilePicture}
+              source={
+                restaurantUser.profileImageLink
+                  ? {
+                      uri: restaurantUser.profileImageLink,
+                    }
+                  : profilePic
+              }
+            />
+            <Image
+              style={styles.thumbnailPicture}
+              source={
+                restaurantUser.imageLink
+                  ? {
+                      uri: restaurantUser.imageLink,
+                    }
+                  : thumbnail
+              }
+            />
+            <View style={styles.editButton}>
+              <EditButton />
+            </View>
           </View>
           <Text style={styles.title}>{restaurantUser.name}</Text>
-          <Text style={styles.descriptionText}>Description{restaurantUser.description}</Text>
+          <Text style={styles.descriptionText}>
+            {restaurantUser.description ? restaurantUser.description : "---"}
+          </Text>
         </View>
         <View style={styles.details}>
           <Entypo name="location-pin" size={24} color={colors.secondary} />
@@ -89,6 +103,15 @@ const RestaurantProfile = () => {
             navigation.navigate("QrScanner");
           }}
         />
+
+        <Pressable
+          style={styles.bottomRow}
+          android_ripple={{ color: colors.lightGray, borderless: true }}
+          onPress={() => handleLogout()}
+        >
+          <MaterialCommunityIcons name="logout" size={24} color={colors.gray} />
+          <Text style={styles.bottomText}>Logout</Text>
+        </Pressable>
       </SafeAreaView>
     </Screen>
   );
@@ -104,13 +127,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   info: {
-    alignItems: "center",
+    // alignItems: "center",
+  },
+  imageContainer: {
+    position: "relative",
+    marginBottom: 60,
   },
   profilePicture: {
     width: 100,
     height: 100,
     borderRadius: 50,
     marginVertical: 5,
+    position: "absolute",
+    zIndex: 100,
+    bottom: -50,
+    borderColor: colors.white,
+    borderWidth: 3,
+  },
+  thumbnailPicture: {
+    width: width - 30,
+    height: 175,
+    marginVertical: 5,
+    borderRadius: 10,
+  },
+  editButton: {
+    position: "absolute",
+    right: 0,
+    top: 15,
   },
   title: {
     fontSize: 25,
@@ -131,5 +174,19 @@ const styles = StyleSheet.create({
   normalText: {
     fontSize: 18,
     color: colors.gray,
+  },
+  bottomRow: {
+    width: "90%",
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderColor: colors.gray,
+    borderBottomWidth: 1,
+    marginTop: 20,
+  },
+  bottomText: {
+    color: colors.gray,
+    marginHorizontal: 10,
+    fontSize: 18,
   },
 });

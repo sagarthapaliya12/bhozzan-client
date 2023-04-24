@@ -51,7 +51,8 @@ const RestaurantProfile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
+  // const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
+  const restaurantId = useSelector((state) => state.uiSlice.restaurantIdSearch);
 
   const restaurantDetail = useSelector((state) => state.customerSlice.searchedRestaurantInfo);
 

@@ -1,10 +1,12 @@
 import axios from "react-native-axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
+// const baseURL = process.env.REACT_APP_SERVER_BASE_URL;
+// console.log("Fdf", baseURL);
 
 const api = axios.create({
-  baseURL: "http://bhozzan.onrender.com",
+  // baseURL: "http://bhozzan.onrender.com",
+  baseURL: "http://192.168.1.84:7000",
   headers: {
     Accept: "application/json",
   },

@@ -10,36 +10,42 @@ import colors from "../../config/colors";
 import FormImagePicker from "../../components/forms/FormImagePicker";
 import SubmitButton from "./../../components/forms/SubmitButton";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
+import {
+  getRestaurantDetails,
+  getRestaurantUserId,
+  updateRestaurantDetails,
+} from "./restaurantSlice";
 import { uploadFiles } from "../../helpers/uploadHelper";
+import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
 const validationSchema = Yup.object().shape({
-  profilePicture: Yup.string().required(),
+  // profilePicture: Yup.string().required(),
 
-  thumbnailPicture: Yup.string().required(),
+  // thumbnailPicture: Yup.string().required(),
 
-  restaurantName: Yup.string().required().min(3).label("Restaurant Name"),
+  name: Yup.string().required().min(3).label("Restaurant Name"),
 
   description: Yup.string().label("Description"),
 
-  location: Yup.string().required().min(4).label("Location"),
+  address: Yup.string().required().min(4).label("Location"),
 
   phoneNumber: Yup.string()
     .phone("NP", true, "${path} is invalid")
     .required()
     .label("Phone Number"),
 
-  panVatNo: Yup.string().min(9).max(9).label("Pan/Vat No."),
+  PAN: Yup.string().min(9).max(9).label("Pan/Vat No."),
 
-  email: Yup.string().email().label("Email"),
+  // email: Yup.string().email().label("Email"),
 
-  deliveryHours: Yup.string().min(6).label("Delivery Hours"),
+  // deliveryHours: Yup.string().min(6).label("Delivery Hours"),
 });
 
 const EditProfile = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
   const restaurantUser = useSelector((state) => state.restaurantSlice.restaurantUser);
@@ -49,9 +55,23 @@ const EditProfile = () => {
     dispatch(getRestaurantDetails(restaurantId));
   }, [restaurantId]);
 
-  const register = async (values) => {
-    const cloudinaryLink = await uploadFiles(values.profilePicture);
-    console.log("Link", cloudinaryLink);
+  const register = async (details) => {
+    if (details.profilePicture) {
+      const profileImageLink = await uploadFiles(details.profilePicture);
+      details = { ...details, profileImageLink };
+    }
+    if (details.thumbnailPicture) {
+      const imageLink = await uploadFiles(details.thumbnailPicture);
+      details = { ...details, imageLink };
+    }
+    try {
+      const res = await dispatch(updateRestaurantDetails(details)).unwrap();
+      if (res) {
+        navigation.navigate("Feed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -62,13 +82,13 @@ const EditProfile = () => {
             initialValues={{
               profilePicture: null,
               thumbnailPicture: null,
-              restaurantName: restaurantUser.name,
+              name: restaurantUser.name,
               description: "",
-              location: restaurantUser.address,
+              address: restaurantUser.address,
               phoneNumber: restaurantUser.primaryPhoneNumber?.toString(),
-              panVatNo: restaurantUser.PAN.toString(),
-              email: "",
-              deliveryHours: "",
+              PAN: restaurantUser.PAN.toString(),
+              // email: "",
+              // deliveryHours: "",
             }}
             onSubmit={(values) => register(values)}
             validationSchema={validationSchema}
@@ -93,10 +113,10 @@ const EditProfile = () => {
             <FormField
               autoCorrect={false}
               icon="account"
-              name="restaurantName"
+              name="name"
               placeholder="Restaurant Name"
             />
-            <FormField autoCorrect={false} icon="city" name="location" placeholder="Location" />
+            <FormField autoCorrect={false} icon="city" name="address" placeholder="Location" />
             <FormField
               autoCorrect={false}
               icon="phone"
@@ -107,25 +127,25 @@ const EditProfile = () => {
             <FormField
               autoCorrect={false}
               icon="file"
-              name="panVatNo"
+              name="PAN"
               placeholder="PAN/VAT No."
               // secureTextEntry
               // textContentType="password"
             />
-            <FormField
+            {/* <FormField
               autoCorrect={false}
               icon="email"
               name="email"
               placeholder="Email"
               keyboardType="email-address"
               textContentType="emailAddress"
-            />
-            <FormField
+            /> */}
+            {/* <FormField
               autoCorrect={false}
               icon="clock"
               name="deliveryHours"
               placeholder="Delivery Hours"
-            />
+            /> */}
 
             <FormField
               autoCorrect={false}
@@ -134,12 +154,6 @@ const EditProfile = () => {
               placeholder="Description"
             />
             <SubmitButton title="Save Changes" />
-            {/* <SubmitButton
-              title="Save Changes"
-              onPress={() => {
-                navigation.goBack;
-              }}
-            /> */}
           </Form>
         </View>
       </View>

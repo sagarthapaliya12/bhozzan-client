@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import colors from "../../config/colors";
 import Notifications from "../../screens/Customer/Notifications";
 import { HomeNavigator, BasketNavigator, MoreNavigator, MapNavigator } from "../../navigation/CustomerNavigator";
@@ -22,7 +21,7 @@ const CustomerTab = () => {
 
   useEffect(() => {
     dispatch(getBasketCount());
-  }, []);
+  }, [basketCount]);
 
   return (
     <Tab.Navigator

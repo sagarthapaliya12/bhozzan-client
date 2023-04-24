@@ -10,12 +10,30 @@ const getAllRestaurants = async () => {
   }
 };
 
+const getUnverifiedRestaurants = async () => {
+  try {
+    const { data } = await api.get(`/restaurant/list/unverified`);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
 const getRestaurantDetails = async (restaurantId) => {
   try {
     const { data } = await api.get(`/restaurant/${restaurantId}`);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
+  }
+};
+
+const updateRestaurantDetails = async (restaurantDetails) => {
+  try {
+    const { data } = await api.put(`/restaurant/update`, restaurantDetails);
+    return data;
+  } catch (err) {
+    throw new Error(err.response.data.error);
   }
 };
 
@@ -82,9 +100,29 @@ const addNewTable = async (table) => {
   }
 };
 
+const verifyRestaurant = async (restaurantId) => {
+  try {
+    const { data } = await api.put(`/restaurant/verify/${restaurantId}`);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
+const refuteRestaurant = async (restaurantId) => {
+  try {
+    const { data } = await api.put(`/restaurant/refute/${restaurantId}`);
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+};
+
 const restaurantService = {
   getAllRestaurants,
+  getUnverifiedRestaurants,
   getRestaurantDetails,
+  updateRestaurantDetails,
   getRestaurantUserId,
   getAllDishes,
   getDishesByRestaurantId,
@@ -92,6 +130,8 @@ const restaurantService = {
   addDish,
   updateDish,
   addNewTable,
+  verifyRestaurant,
+  refuteRestaurant,
 };
 
 export default restaurantService;

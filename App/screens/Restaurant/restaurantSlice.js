@@ -6,6 +6,7 @@ const initialState = {
   restaurantUser: {},
   restaurantUserId: null,
   restaurantList: [],
+  unVerifiedRestaurants: [],
   search: null, //move this to  customer
   // restaurant: {},
   dishes: [],
@@ -23,8 +24,17 @@ export const getAllRestaurants = createAsyncThunk("restaurant/list", async () =>
   restaurantService.getAllRestaurants()
 );
 
+export const getUnverifiedRestaurants = createAsyncThunk("restaurant/list/unverifiee", async () =>
+  restaurantService.getUnverifiedRestaurants()
+);
+
 export const getRestaurantDetails = createAsyncThunk("restaurant", async (restaurantId) =>
   restaurantService.getRestaurantDetails(restaurantId)
+);
+
+export const updateRestaurantDetails = createAsyncThunk(
+  "restaurant/update",
+  async (restaurantDetails) => restaurantService.updateRestaurantDetails(restaurantDetails)
 );
 
 export const getRestaurantUserId = createAsyncThunk("user/my-details", async () =>
@@ -53,6 +63,14 @@ export const addNewTable = createAsyncThunk("table/add", async (table) =>
   restaurantService.addNewTable(table)
 );
 
+export const verifyRestaurant = createAsyncThunk("restaurant/verify", async (restaurantId) =>
+  restaurantService.verifyRestaurant(restaurantId)
+);
+
+export const refuteRestaurant = createAsyncThunk("restaurant/refute", async (restaurantId) =>
+  restaurantService.refuteRestaurant(restaurantId)
+);
+
 const restaurantSlice = createSlice({
   name: "restaurant",
   initialState,
@@ -73,7 +91,7 @@ const restaurantSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      //Get All Restaurants
+      // Get All Restaurants
       .addCase(getAllRestaurants.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -86,7 +104,20 @@ const restaurantSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Get Restaurant Details
+      // Get Unverified Restaurants
+      .addCase(getUnverifiedRestaurants.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getUnverifiedRestaurants.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.unVerifiedRestaurants = action.payload.restaurants;
+      })
+      .addCase(getUnverifiedRestaurants.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      // Get Restaurant Details
       .addCase(getRestaurantDetails.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -99,7 +130,19 @@ const restaurantSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Get Restaurant Id
+      // Update Restaurant Details
+      .addCase(updateRestaurantDetails.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(updateRestaurantDetails.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+      })
+      .addCase(updateRestaurantDetails.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      // Get Restaurant Id
       .addCase(getRestaurantUserId.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -181,10 +224,43 @@ const restaurantSlice = createSlice({
       })
       .addCase(addNewTable.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        console.log("fdfd", action.payload);
         state.successMsg = action.payload.message;
       })
       .addCase(addNewTable.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
+      // Verify Restaurant
+      .addCase(verifyRestaurant.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(verifyRestaurant.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.restaurantList.push(action.payload.restaurant);
+        state.unVerifiedRestaurants = state.unVerifiedRestaurants.filter(
+          (item) => item._id !== action.payload.restaurant._id
+        );
+        state.successMsg = action.payload.message;
+      })
+      .addCase(verifyRestaurant.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.message;
+      })
+
+      // Refute Restaurant
+      .addCase(refuteRestaurant.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(refuteRestaurant.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        state.unVerifiedRestaurants.push(action.payload.restaurant);
+        state.restaurantList = state.restaurantList.filter(
+          (item) => item._id !== action.payload.restaurant._id
+        );
+        state.successMsg = action.payload.message;
+      })
+      .addCase(refuteRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
       });

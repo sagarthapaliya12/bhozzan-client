@@ -10,40 +10,14 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-
 import colors from "../../../config/colors";
 import kfcRestaurantThumbnail from "../../../assets/restaurants/kfc.jpg";
 import kfcRestaurantProfile from "../../../assets/restaurants/kfc-profile.png";
-import everestArirangKoreanRestaurantThumbnail from "../../../assets/restaurants/everest-arirang-korean-restaurant.jpg";
-import everestArirangKoreanRestaurant from "../../../assets/restaurants/kfc-profile.png";
 import { getAllRestaurants } from "../../../screens/Restaurant/restaurantSlice";
-import { setSearch } from "../../../screens/Customer/customerSlice";
+// import { setSearch } from "../../../screens/Customer/customerSlice";
+import { setRestaurantSearch } from "../../../redux/ui/uiSlice";
 
-const { height, width } = Dimensions.get("window");
-
-const Restaurants = [
-  {
-    id: 1,
-    name: "KFC Restaurant",
-    location: "Durbarmarg",
-    thumbnail: kfcRestaurantThumbnail,
-    profile: kfcRestaurantProfile,
-  },
-  {
-    id: 2,
-    name: "Everest Korean Restaurant",
-    location: "Jhamsikhel",
-    thumbnail: everestArirangKoreanRestaurantThumbnail,
-    profile: everestArirangKoreanRestaurant,
-  },
-  {
-    id: 3,
-    name: "KFC Restaurant",
-    location: "Durbarmarg",
-    thumbnail: kfcRestaurantThumbnail,
-    profile: kfcRestaurantProfile,
-  },
-];
+const { width } = Dimensions.get("window");
 
 const TopRestaurants = () => {
   const navigation = useNavigation();
@@ -62,7 +36,8 @@ const TopRestaurants = () => {
           key={item._id}
           style={styles.restaurantContainer}
           onPress={() => {
-            dispatch(setSearch(item._id));
+            // dispatch(setSearch(item._id));
+            dispatch(setRestaurantSearch(item._id));
             navigation.navigate("RestaurantProfile");
           }}
         >
