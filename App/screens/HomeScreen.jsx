@@ -13,10 +13,12 @@ import TopDishes from "../components/Customer/HomeScreen/TopDishes";
 import Screen from "../components/Screen";
 import Constants from "expo-constants";
 import { setUniewedNotifications } from "../redux/notifications/notificationSlice";
+import { useNavigation } from "@react-navigation/native";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
   const userId = useSelector((state) => state.authSlice.user.id);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(getAllDishes());
