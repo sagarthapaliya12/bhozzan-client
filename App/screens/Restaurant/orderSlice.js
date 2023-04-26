@@ -7,6 +7,7 @@ const initialState = {
   orderHistories: [],
   orderStatusState: null,
   orderHistoryDetail: {},
+  newOrder: [],
   status: StatusStateEnum.IDLE,
   errorMsg: null,
   successMsg: null,
@@ -54,6 +55,9 @@ const orderSlice = createSlice({
     },
     setOrderHistoryDetail: (state, action) => {
       state.orderHistoryDetail = action.payload;
+    },
+    setNewOrder: (state, action) => {
+      state.newOrder = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -150,8 +154,8 @@ const orderSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-       // deliver Orders
-       .addCase(deliverOrder.pending, (state, _action) => {
+      // deliver Orders
+      .addCase(deliverOrder.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
       .addCase(deliverOrder.fulfilled, (state, action) => {
@@ -164,5 +168,5 @@ const orderSlice = createSlice({
       });
   },
 });
-export const { changeOrderStatusState, setOrderHistoryDetail } = orderSlice.actions;
+export const { changeOrderStatusState, setOrderHistoryDetail, setNewOrder } = orderSlice.actions;
 export default orderSlice.reducer;

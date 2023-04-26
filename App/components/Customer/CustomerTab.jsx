@@ -3,7 +3,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import Notifications from "../../screens/Customer/Notifications";
-import { HomeNavigator, BasketNavigator, MoreNavigator, MapNavigator } from "../../navigation/CustomerNavigator";
+import {
+  HomeNavigator,
+  BasketNavigator,
+  MoreNavigator,
+  // MapNavigator,
+} from "../../navigation/CustomerNavigator";
 import { View } from "react-native";
 import { Badge } from "react-native-paper";
 import Chat from "../../screens/Chat";
@@ -51,8 +56,8 @@ const CustomerTab = () => {
         }}
       />
 
-      <Tab.Screen
-        name="Nearby"
+      {/* <Tab.Screen
+        name="Map"
         component={MapNavigator}
         options={{
           headerShown: true,
@@ -60,7 +65,7 @@ const CustomerTab = () => {
             <MaterialCommunityIcons name="map" color={color} size={size} />
           ),
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="Notifications"

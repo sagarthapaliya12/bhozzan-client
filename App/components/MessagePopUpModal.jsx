@@ -80,7 +80,7 @@ const MessagePopUpModal = (props) => {
                         navigation.navigate("LoginScreen");
                         dispatch(reset());
                       }
-                      if (props.parent === "BasketDetail") {
+                      if (props.parent === "Chekout") {
                         navigation.navigate("OrderHistory");
                         // toggleShowMessageModal
                         // dispatch(reset());

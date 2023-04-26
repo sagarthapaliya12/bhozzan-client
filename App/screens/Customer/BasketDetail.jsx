@@ -6,14 +6,11 @@ import { useState, useEffect } from "react";
 import { Divider } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasketCount, getBasketDishes, removeBasketDish } from "./customerSlice";
-import { placeOrder } from "../Restaurant/orderSlice";
 import Screen from "../../components/Screen";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Constants from "expo-constants";
-import MessagePopUpModal from "../../components/MessagePopUpModal";
-import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 
 const { width } = Dimensions.get("window");
 
@@ -27,7 +24,6 @@ const BasketDetail = () => {
 
   const basketDishes = useSelector((state) => state.customerSlice.basketDishes);
   const basketRestaurant = useSelector((state) => state.customerSlice.basketRestaurantSearch);
-  const status = useSelector((state) => state.orderSlice.status);
 
   useEffect(() => {
     dispatch(getBasketDishes(basketRestaurant));
@@ -79,19 +75,21 @@ const BasketDetail = () => {
     dispatch(removeBasketDish(dishId));
   };
 
-  const checkout = async () => {
+  const handleSubmit = () => {
     const order = basketDishes.map((item) => {
       const dish = item.dish;
-      return { dishId: dish._id, restaurant: dish.restaurant, quantity: quantity[dish._id] };
+      return {
+        dishId: dish._id,
+        name: dish.name,
+        restaurant: dish.restaurant,
+        price: dish.price,
+        quantity: quantity[dish._id],
+      };
     });
-
-    try {
-      const res = await dispatch(placeOrder(order)).unwrap();
-      if (!res.error) dispatch(toggleShowMessageModal(true));
-    } catch (err) {}
+    navigation.navigate("ChooseLocation", { order: { order, subTotalToDisplay } });
   };
 
-  if (basketDishes.length === 0) return navigation.navigate("BasketList");
+  // if (basketDishes.length === 0) return navigation.navigate("BasketList");
 
   return (
     <Screen>
@@ -142,13 +140,12 @@ const BasketDetail = () => {
             {subTotalToDisplay}
           </Text>
         </View>
-        <Pressable style={styles.checkoutButton} onPress={checkout}>
+        <Pressable style={styles.checkoutButton} onPress={handleSubmit}>
           <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
-            Confirm Order
+            Choose Delivery Location
           </Text>
         </Pressable>
       </ScrollView>
-      <MessagePopUpModal parent="BasketDetail" subject="order" />
     </Screen>
   );
 };

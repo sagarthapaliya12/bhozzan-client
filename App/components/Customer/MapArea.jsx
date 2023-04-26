@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,14 +11,18 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-
-import MapView from "react-native-maps";
-
+import * as Location from "expo-location";
+import { Entypo } from "@expo/vector-icons";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Fontisto from "react-native-vector-icons/Fontisto";
-
 import { markers } from "../../datas/MapData";
+import { mapStyle } from "../../config/mapStyles";
+import getMyLocation from "../../utils/getMyLocation";
+import colors from "../../config/colors";
+import { Button } from "react-native-paper";
+
 // import StarRating from '../components/StarRating';
 
 const { width, height } = Dimensions.get("window");
@@ -53,13 +57,53 @@ const MapArea = () => {
     ],
     region: {
       latitude: 27.625349,
-      longitude: 85.556063, 
+      longitude: 85.556063,
       latitudeDelta: 0.05,
       longitudeDelta: 0.05,
-    }, 
+    },
   };
 
-  const [state, setState] = React.useState(initialMapState);
+  const [state, setState] = useState(initialMapState);
+
+  const [mapArea, setMapArea] = useState(null);
+  const [markerCoord, setMarkerCoord] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [markerAddress, setMarkerAddress] = useState(null);
+  // console.log("sds", markerAddress);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const currentLocation = await getMyLocation();
+
+        setMapArea({
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        });
+        setMarkerCoord({
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+        });
+      } catch (err) {
+        console.log("Error: ", err);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const address = await Location.reverseGeocodeAsync(markerCoord);
+      setMarkerAddress(address[0]);
+    })();
+  }, [markerCoord]);
+
+  const confirmLocation = () => {
+    console.log("Submit", markerCoord);
+  };
 
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
@@ -67,9 +111,9 @@ const MapArea = () => {
   useEffect(() => {
     mapAnimation.addListener(({ value }) => {
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
-      if (index >= state.markers.length) {
-        index = state.markers.length - 1;
-      }
+      // if (index >= state.markers.length) {
+      //   index = state.markers.length - 1;
+      // }
       if (index <= 0) {
         index = 0;
       }
@@ -79,31 +123,31 @@ const MapArea = () => {
       const regionTimeout = setTimeout(() => {
         if (mapIndex !== index) {
           mapIndex = index;
-          const { coordinate } = state.markers[index];
-          _map.current.animateToRegion(
-            {
-              ...coordinate,
-              latitudeDelta: state.region.latitudeDelta,
-              longitudeDelta: state.region.longitudeDelta,
-            },
-            350
-          );
+          // const { coordinate } = state.markers[index];
+          // _map.current.animateToRegion(
+          //   {
+          //     ...coordinate,
+          //     latitudeDelta: state.region.latitudeDelta,
+          //     longitudeDelta: state.region.longitudeDelta,
+          //   },
+          //   350
+          // );
         }
       }, 10);
     });
   });
 
-  const interpolations = state.markers.map((marker, index) => {
-    const inputRange = [(index - 1) * CARD_WIDTH, index * CARD_WIDTH, (index + 1) * CARD_WIDTH];
+  // const interpolations = state.markers.map((marker, index) => {
+  //   const inputRange = [(index - 1) * CARD_WIDTH, index * CARD_WIDTH, (index + 1) * CARD_WIDTH];
 
-    const scale = mapAnimation.interpolate({
-      inputRange,
-      outputRange: [1, 1.5, 1],
-      extrapolate: "clamp",
-    });
+  //   const scale = mapAnimation.interpolate({
+  //     inputRange,
+  //     outputRange: [1, 1.5, 1],
+  //     extrapolate: "clamp",
+  //   });
 
-    return { scale };
-  });
+  //   return { scale };
+  // });
 
   const onMarkerPress = (mapEventData) => {
     const markerID = mapEventData._targetInst.return.key;
@@ -121,33 +165,48 @@ const MapArea = () => {
 
   return (
     <View style={styles.container}>
-      <MapView ref={_map} initialRegion={state.region} style={styles.container}>
+      <MapView
+        ref={_map}
+        initialRegion={mapArea}
+        provider={PROVIDER_GOOGLE}
+        style={{ flex: 1 }}
+        customMapStyle={mapStyle}
+        onPress={(event) => setMarkerCoord(event.nativeEvent.coordinate)}
+        // onRegionChange={(region) => console.log(region)}
+      >
         {/* {state.markers.map((marker, index) => {
-           const scaleStyle = {
+          const scaleStyle = {
             transform: [
               {
                 scale: interpolations[index].scale,
               },
-            ], 
+            ],
           };
           return (
-            <MapView.Marker
-              key={index}
-              coordinate={marker.coordinate}
-              onPress={(e) => onMarkerPress(e)}
-            >
+            <Marker key={index} coordinate={marker.coordinate} onPress={(e) => onMarkerPress(e)}>
               <Animated.View style={[styles.markerWrap]}>
                 <Animated.Image
                   source={require("../../assets/mapMarker.png")}
-                  style={[styles.marker, scaleStyle]} 
-                  resizeMode="cover"  
+                  style={[styles.marker, scaleStyle]}
+                  resizeMode="cover"
                 />
               </Animated.View>
-            </MapView.Marker>
+            </Marker>
           );
         })} */}
+        {/* <Marker coordinate={testLocation} title="Marker"></Marker> */}
+        <Marker
+          title="Marker"
+          coordinate={markerCoord}
+          draggable={true}
+          // onDragStart={(e) => console.log("Test: ", e.nativeEvent.coordinate)}
+          // onDragEnd={(e) => {
+          //   console.log("Test: ", e.nativeEvent.coordinate);
+          //   setMarkerCoord(e.nativeEvent.coordinate);
+          // }}
+        />
       </MapView>
-      <View style={styles.searchBox}>
+      {/* <View style={styles.searchBox}>
         <TextInput
           placeholder="Search here"
           placeholderTextColor="#000"
@@ -155,8 +214,8 @@ const MapArea = () => {
           style={{ flex: 1, padding: 0 }}
         />
         <Ionicons name="ios-search" size={20} />
-      </View>
-      <ScrollView
+      </View> */}
+      {/* <ScrollView
         horizontal
         scrollEventThrottle={1}
         showsHorizontalScrollIndicator={false}
@@ -179,8 +238,9 @@ const MapArea = () => {
             <Text>{category.name}</Text>
           </TouchableOpacity>
         ))}
-      </ScrollView>
-      <Animated.ScrollView
+      </ScrollView> */}
+
+      {/* <Animated.ScrollView
         ref={_scrollView}
         horizontal
         pagingEnabled
@@ -218,7 +278,6 @@ const MapArea = () => {
               <Text numberOfLines={1} style={styles.cardtitle}>
                 {marker.title}
               </Text>
-              {/* <StarRating ratings={marker.rating} reviews={marker.reviews} /> */}
               <Text numberOfLines={1} style={styles.cardDescription}>
                 {marker.description}
               </Text>
@@ -248,7 +307,56 @@ const MapArea = () => {
             </View>
           </View>
         ))}
-      </Animated.ScrollView>
+      </Animated.ScrollView> */}
+      {markerAddress && (
+        <View
+          style={{
+            backgroundColor: colors.white,
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            paddingHorizontal: 10,
+            paddingVertical: 15,
+            margin: 15,
+            borderRadius: 8,
+            // justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginBottom: 10,
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <Entypo name="location-pin" size={24} color="black" />
+            <Text style={{ color: colors.black, fontSize: 17 }}>{`${
+              markerAddress.street ? `${markerAddress.street},` : ""
+            } ${markerAddress.city ? `${markerAddress.city},` : ""} ${markerAddress.city}, ${
+              markerAddress.subregion
+            }, ${markerAddress.country}`}</Text>
+          </View>
+          <Button
+            style={{
+              backgroundColor: colors.secondary,
+              color: colors.screen,
+              borderRadius: 15,
+              height: 50,
+              justifyContent: "center",
+              width: "100%",
+            }}
+            onPress={confirmLocation}
+          >
+            <Text style={{ color: colors.screen, fontSize: 20, fontWeight: "700" }}>
+              Confirm Location
+            </Text>
+          </Button>
+        </View>
+      )}
     </View>
   );
 };
@@ -258,6 +366,7 @@ export default MapArea;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: "relative",
   },
   searchBox: {
     position: "absolute",

@@ -17,6 +17,8 @@ import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
 import MyReservation from "../screens/Customer/MyReservation";
 import ExploreScreen from "../screens/Customer/ExploreScreen";
 import ChangePassword from "../screens/Customer/ChangePassword";
+import ChooseLocation from "../screens/Customer/ChooseLocation";
+import Checkout from "../screens/Customer/Checkout";
 
 const Stack = createStackNavigator();
 
@@ -100,12 +102,36 @@ const MapNavigator = () => (
 
 const BasketNavigator = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Basket Details" component={BasketList} options={{ headerShown: false }} />
+    <Stack.Screen name="BasketList" component={BasketList} options={{ headerShown: false }} />
     <Stack.Screen
       name="BasketDetail"
       component={BasketDetail}
       options={{
         title: "Basket Details",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+
+    <Stack.Screen
+      name="ChooseLocation"
+      component={ChooseLocation}
+      options={{
+        title: "Delivery Location",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+
+    <Stack.Screen
+      name="Checkout"
+      component={Checkout}
+      options={{
+        title: "Checkout",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,
