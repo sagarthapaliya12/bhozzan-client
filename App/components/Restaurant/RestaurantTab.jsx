@@ -1,9 +1,7 @@
 import React from "react";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-
 import colors from "../../config/colors";
 import Chat from "../../screens/Chat";
 import {
@@ -18,7 +16,6 @@ const Tab = createBottomTabNavigator();
 const RestaurantTab = () => (
   <Tab.Navigator
     screenOptions={{
-      // headerShown: false,
       headerStyle: {
         backgroundColor: colors.screen,
       },
@@ -36,6 +33,7 @@ const RestaurantTab = () => (
       name="Dashboard"
       component={DashboardNavigator}
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="home" color={color} size={size} />
         ),

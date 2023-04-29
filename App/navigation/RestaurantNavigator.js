@@ -1,6 +1,5 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import colors from "../config/colors";
 import RestaurantProfile from "../screens/Restaurant/RestaurantProfile";
 import EditProfile from "../screens/Restaurant/EditProfile";
@@ -13,32 +12,38 @@ import TableList from "../screens/Restaurant/TableList";
 import AddSeats from "../screens/Restaurant/AddSeats";
 import ConfirmTable from "../screens/Restaurant/ConfirmTable";
 import ReservationDetail from "../screens/Restaurant/ReservationDetail";
-import QrScanner from '../components/Customer/HomeScreen/QrScanner';
+import QrScanner from "../components/Customer/HomeScreen/QrScanner";
+import { useSelector } from "react-redux";
+import OrderStatusEnum from "../enums/orderStatusEnum";
 
 const Stack = createStackNavigator();
 
-const DashboardNavigator = () => (
-  <Stack.Navigator
-    presentation="modal"
-    screenOptions={{
-      headerShown: false,
-      animationDuration: 800,
-    }}
-  >
-    <Stack.Screen name="Feed" component={Dashboard} />
-    <Stack.Screen
-      name="OrderStatus"
-      component={OrderStatus}
-      options={{
-        title: "Orderrrr rrrr",
-        headerTintColor: colors.white,
-        headerStyle: {
-          backgroundColor: colors.screen,
-        },
+const DashboardNavigator = () => {
+  const status = useSelector((state) => state.orderSlice.orderStatusState);
+  return (
+    <Stack.Navigator
+      // presentation="modal"
+      screenOptions={{
+        // headerShown: false,
+        headerTitleAlign: "center",
+        animationDuration: 800,
       }}
-    />
-  </Stack.Navigator>
-);
+    >
+      <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="OrderStatus"
+        component={OrderStatus}
+        options={{
+          title: OrderStatusEnum[status],
+          headerTintColor: colors.white,
+          headerStyle: {
+            backgroundColor: colors.screen,
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const MenuNavigator = () => (
   <Stack.Navigator>

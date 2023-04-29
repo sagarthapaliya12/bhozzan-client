@@ -86,7 +86,6 @@ const CustomerTab = () => {
       />
 
       <Tab.Screen
-        // style={{ backgroundColor: "red" }}
         name="Basket"
         component={BasketNavigator}
         options={{

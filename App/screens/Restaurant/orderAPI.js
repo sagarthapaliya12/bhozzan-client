@@ -31,7 +31,7 @@ const getOrders = async (param) => {
 
 const acceptOrder = async (orderId) => {
   try {
-    console.log(orderId);
+    console.log("here");
     const { data } = await api.put(`/order/accept/${orderId}`);
     console.log("accepted", data);
     return data;

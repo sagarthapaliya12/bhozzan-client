@@ -22,7 +22,7 @@ const Paper = () => {
           return (
             <TouchableHighlight
               onPress={() => {
-                dispatch(changeOrderStatusState(item.state));
+                dispatch(changeOrderStatusState(item.state ? item.state : "all"));
                 navigation.navigate("OrderStatus");
               }}
               style={styles.button}

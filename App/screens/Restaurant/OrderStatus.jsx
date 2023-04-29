@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   Animated,
   TouchableHighlight,
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-
 import colors from "../../config/colors";
-
 import { SwipeListView } from "react-native-swipe-list-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
 import { useDispatch, useSelector } from "react-redux";
 import { acceptOrder, rejectOrder, dispatchOrder, serveOrder, getOrders } from "./orderSlice";
 import { useIsFocused } from "@react-navigation/native";
@@ -23,25 +19,15 @@ const OrderStatus = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const status = useSelector((state) => state.orderSlice.orderStatusState);
-  console.log(status);
   const orders = useSelector((state) => state.orderSlice.orders);
-  console.log(orders);
 
   useEffect(() => {
     dispatch(getOrders(status));
-    // setListData(
-    //   orders.map((order) => ({
-    //     key: order._id,
-    //     dishes: order.dishes,
-    //   }))
-    // );
   }, [status, isFocused]);
-
-  // console.log("List Data: ", listData);
 
   const acceptRow = (_rowMap, orderId) => {
     {
-      console.log("This restaurant is accepted", orderId);
+      // console.log("This restaurant is accepted", orderId);
       status === "pending" && dispatch(acceptOrder(orderId));
     }
 
@@ -63,25 +49,30 @@ const OrderStatus = () => {
   };
 
   const VisibleItem = (props) => {
-    const { data, rowHeightAnimatedValue} = props;
+    const { data, rowHeightAnimatedValue } = props;
 
     return (
-      <Animated.View style={[styles.rowFront, 
-      // { height: rowHeightAnimatedValue }
-      ]}>
+      <Animated.View
+        style={[
+          styles.rowFront,
+          // { height: rowHeightAnimatedValue }
+        ]}
+      >
         <TouchableHighlight style={styles.rowFrontVisible}>
           <View style={styles.mainContainer}>
-            {console.log("Test: ", data.item.dishes)}
-
-            {data?.item.dishes.map((dish) => {
-              return (
-                <View key={dish.dishId._id}>
-                  <Text style={styles.name}>Name: {dish.dishId.name}</Text>
-                  <Text style={styles.location}>Quantity: {dish.quantity}</Text>
-                </View>
-              );
-            })}
-            <Text style={{ color: "white" }}>Total Price: {data.item.totalPrice}</Text>
+            <View style={styles.orders}>
+              {data?.item.dishes.map((dish) => {
+                return (
+                  <View key={dish.dishId._id} style={styles.order}>
+                    <Text style={styles.dishName}>{dish.dishId.name}</Text>
+                    <Text style={styles.quantity}>Qty: {dish.quantity}</Text>
+                  </View>
+                );
+              })}
+            </View>
+            <Text
+              style={{ color: colors.secondary, fontSize: 18 }}
+            >{`Rs. ${data.item.totalPrice}`}</Text>
           </View>
         </TouchableHighlight>
       </Animated.View>
@@ -93,22 +84,20 @@ const OrderStatus = () => {
     return (
       <VisibleItem
         data={data}
-        // rowHeightAnimatedValue={rowHeightAnimatedValue}        
+        // rowHeightAnimatedValue={rowHeightAnimatedValue}
       />
     );
   };
 
-  const HiddenItemWithActions = (props) => {
-    const {
-      swipeAnimatedValue,
-      leftActionActivated,
-      rightActionActivated,
-      rowActionAnimatedValue,
-      rowHeightAnimatedValue,
-      onAccept,
-      onDelete,
-    } = props;
-
+  const HiddenItemWithActions = ({
+    // swipeAnimatedValue,
+    leftActionActivated,
+    rightActionActivated,
+    // rowActionAnimatedValue,
+    // rowHeightAnimatedValue,
+    onAccept,
+    onDelete,
+  }) => {
     return (
       <Animated.View
         style={[
@@ -117,7 +106,7 @@ const OrderStatus = () => {
         ]}
       >
         {(!rightActionActivated && status === "pending" && (
-          <TouchableOpacity style={[styles.frontLeftBtn]} onPress={onAccept}>
+          <TouchableOpacity style={styles.frontLeftBtn} onPress={onAccept}>
             <MaterialCommunityIcons
               name="checkbox-outline"
               size={25}
@@ -127,29 +116,27 @@ const OrderStatus = () => {
           </TouchableOpacity>
         )) ||
           (status === "accepted" && (
-            <TouchableOpacity style={[styles.frontLeftBtn]} onPress={onAccept}>              
-              <Text>Dispatch</Text>
+            <TouchableOpacity style={styles.frontLeftBtn} onPress={onAccept}>
+              <Text style={{ color: colors.white, fontWeight: "700" }}>Dispatch</Text>
             </TouchableOpacity>
           ))}
 
         {(!leftActionActivated && status === "pending" && (
-          <TouchableOpacity
-            style={[styles.backRightBtn, styles.backRightBtnRight]}
-            onPress={onDelete}
-          >
-            <MaterialCommunityIcons name="trash-can-outline"  style={styles.trash} size={25} color="#fff" />
+          <TouchableOpacity style={styles.backRightBtn} onPress={onDelete}>
+            <MaterialCommunityIcons
+              name="trash-can-outline"
+              style={styles.trash}
+              size={25}
+              color="#fff"
+            />
           </TouchableOpacity>
         )) ||
           (status === "accepted" && (
             <TouchableOpacity
-              style={[
-                styles.backRightBtn,
-                styles.backRightBtnRight,
-                { backgroundColor: colors.secondary },
-              ]}
+              style={[styles.backRightBtn, { backgroundColor: colors.secondary }]}
               onPress={onDelete}
-            >            
-              <Text>Serve</Text>
+            >
+              <Text style={{ color: colors.screen, fontWeight: "700" }}>Serve</Text>
             </TouchableOpacity>
           ))}
       </Animated.View>
@@ -182,7 +169,12 @@ const OrderStatus = () => {
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={75}
         rightOpenValue={-75}
-        // disableRightSwipe
+        disableLeftSwipe={
+          status === "rejected" || status === "otw" || status === "served" || status === "delivered"
+        }
+        disableRightSwipe={
+          status === "rejected" || status === "otw" || status === "served" || status === "delivered"
+        }
         leftActionValue={75}
         rightActionValue={-75}
       />
@@ -197,34 +189,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.screen,
     flex: 1,
   },
-  mainContainer: {
-    flexDirection: "column",
-    color: colors.screen,
-  },
+
   restaurantDetail: {
     flexDirection: "column",
   },
   backTextWhite: {
     color: "#FFF",
-  },
-  rowFront: {
-    backgroundColor: colors.screen,
-    borderRadius: 5,
-    // height: 80,
-    margin: 5,
-    marginBottom: 10,
-    shadowColor: "#999",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-  },
-  rowFrontVisible: {
-    backgroundColor: colors.screen,
-    borderRadius: 5,
-    // height: 80,
-    padding: 10,
-    marginBottom: 15,
   },
   rowBack: {
     alignItems: "center",
@@ -234,56 +204,69 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingLeft: 15,
     margin: 5,
-    marginBottom: 15,
+    marginBottom: 10,
     borderRadius: 5,
   },
-  backRightBtn: {
-    alignItems: "flex-end",
-    bottom: 0,
-    justifyContent: "center",
-    position: "absolute",
-    top: 0,
-    width: 75,
-    height: 80,
-    paddingRight: 17,
-  },
-  backRightBtnLeft: {
-    backgroundColor: "#1f65ff",
-    right: 75,
-  },
   frontLeftBtn: {
-    alignItems: "flex-end",
+    alignItems: "center",
     bottom: 0,
     justifyContent: "center",
     position: "absolute",
     top: 0,
     width: 75,
-    paddingRight: 17,
     backgroundColor: "green",
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
   },
-  backRightBtnRight: {
+  backRightBtn: {
+    alignItems: "center",
+    bottom: 0,
+    justifyContent: "center",
+    position: "absolute",
+    top: 0,
+    width: 75,
     backgroundColor: "red",
-    right: 0,
-    height: 80,
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
+    right: 0,
   },
-  trash: {
-    // height: 25,
-    // width: 25,
-    marginRight: 7,
-    overflow: "hidden",
+  // trash: {
+  //   marginRight: 7,
+  //   overflow: "hidden",
+  // },
+  rowFront: {
+    backgroundColor: colors.screen,
+    borderRadius: 5,
+    margin: 5,
+    marginBottom: 10,
+    shadowColor: colors.lightGray,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
-  name: {
-    fontSize: 14,
+  rowFrontVisible: {
+    backgroundColor: colors.screen,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 15,
+  },
+  mainContainer: {
+    flexDirection: "row",
+    color: colors.screen,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  orders: { flexDirection: "column" },
+  order: { marginVertical: 10 },
+  dishName: {
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
     color: "#FFF",
   },
-  location: {
-    fontSize: 12,
-    color: "#999",
+  quantity: {
+    fontSize: 14,
+    color: colors.gray,
   },
 });
