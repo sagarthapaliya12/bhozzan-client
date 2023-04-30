@@ -62,12 +62,12 @@ const RestaurantProfile = () => {
   const [markerAddress, setMarkerAddress] = useState({});
   useEffect(() => {
     if (restaurantDetail.address) {
-      const tempCoord = {
-        latitude: Number(restaurantDetail.address?.latitude),
-        longitude: Number(restaurantDetail.address?.longitude),
-      };
+      // const tempCoord = {
+      //   latitude: Number(restaurantDetail.address?.latitude),
+      //   longitude: Number(restaurantDetail.address?.longitude),
+      // };
       (async () => {
-        const address = await Location.reverseGeocodeAsync(tempCoord);
+        const address = await Location.reverseGeocodeAsync(restaurantDetail.address);
         setMarkerAddress(address[0]);
       })();
     }

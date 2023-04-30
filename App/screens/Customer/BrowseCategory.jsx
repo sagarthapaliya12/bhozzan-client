@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  // TouchableOpacity,
-  // TouchableHighlight,
-  Dimensions,
-  ScrollView,
-} from "react-native";
-import { useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
 import colors from "../../config/colors";
 import { Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +7,9 @@ import { getDishesByCategory } from "../Restaurant/restaurantSlice";
 import Screen from "../../components/Screen";
 import SnackbarMessage from "../../components/SnackbarMessage";
 import AddToBasketButton from "../../components/Customer/AddToBasketButton";
+import updateAddress from "../../utils/getRestaurantListWithAddress";
 
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const BrowseCategory = () => {
   const dispatch = useDispatch();
@@ -28,10 +21,18 @@ const BrowseCategory = () => {
     dispatch(getDishesByCategory(categoryState));
   }, []);
 
+  const [updatedDishes, setUpdatedDishes] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const newDishList = await updateAddress(dishes, "BrowseCategory");
+      setUpdatedDishes(newDishList);
+    })();
+  }, [dishes]);
+
   return (
     <Screen>
       <ScrollView style={styles.container}>
-        {dishes.map((food) => {
+        {updatedDishes.map((food) => {
           return (
             <View key={food._id} style={styles.categoryItem}>
               <View style={styles.itemDetail}>
@@ -44,7 +45,14 @@ const BrowseCategory = () => {
                     color={colors.primary}
                     style={{ fontSize: 20 }}
                   />
-                  <Text style={styles.location}>{food.restaurant.address}</Text>
+                  <Text style={styles.location} numberOfLines={1} ellipsizeMode="tail">
+                    {food.restaurant.address &&
+                      `${
+                        food.restaurant.address.street ? `${food.restaurant.address.street},` : ""
+                      } ${food.restaurant.address.city ? `${food.restaurant.address.city},` : ""} ${
+                        food.restaurant.address.city
+                      }, ${food.restaurant.address.subregion}, ${food.restaurant.address.country}`}
+                  </Text>
                 </View>
               </View>
               <View style={styles.priceCart}>
@@ -98,6 +106,7 @@ const styles = StyleSheet.create({
   },
   location: {
     color: colors.white,
+    maxWidth: 200,
   },
   priceCart: { alignItems: "center" },
   cart: {

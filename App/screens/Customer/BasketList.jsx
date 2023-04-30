@@ -1,11 +1,14 @@
 import { View, Text, StyleSheet, ScrollView, Image, TouchableWithoutFeedback } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasketCount, getBasketRestaurants, setBasketRestaurantSearch } from "./customerSlice";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
+import EmptyBasket from "../../components/Customer/EmptyBasket";
+import updateAddress from "../../utils/getRestaurantListWithAddress";
+import profilePic from "../../assets/App-Logos.png";
 
 const BasketList = () => {
   const navigation = useNavigation();
@@ -19,10 +22,20 @@ const BasketList = () => {
     dispatch(getBasketCount());
   }, [isFocused]);
 
+  const [updatedBasketList, setUpdatedBasketList] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const newBasketList = await updateAddress(basketRestaurants, "RestaurantsList");
+      setUpdatedBasketList(newBasketList);
+    })();
+  }, [basketRestaurants]);
+
+  if (basketRestaurants.length === 0) return <EmptyBasket />;
+
   return (
     <Screen>
       <ScrollView style={styles.layout}>
-        {basketRestaurants?.map((item) => {
+        {updatedBasketList?.map((item) => {
           return (
             <TouchableWithoutFeedback
               key={item._id}
@@ -34,7 +47,7 @@ const BasketList = () => {
               <View style={styles.container}>
                 <View style={styles.basketItem}>
                   <Image
-                    source={require("../../assets/restaurants/kfc-profile.png")}
+                    source={item.profileImageLink ? { uri: item.profileImageLink } : profilePic}
                     style={styles.avatar}
                   />
                   <View style={styles.itemDetail}>
@@ -46,7 +59,14 @@ const BasketList = () => {
                         color={colors.primary}
                         style={{ fontSize: 20 }}
                       />
-                      {/* <Text style={styles.location}>{item.address}</Text> */}
+                      <Text style={styles.location} numberOfLines={1} ellipsizeMode="tail">
+                        {item.address &&
+                          `${item.address.street ? `${item.address.street},` : ""} ${
+                            item.address.city ? `${item.address.city},` : ""
+                          } ${item.address.city}, ${item.address.subregion}, ${
+                            item.address.country
+                          }`}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -100,6 +120,7 @@ const styles = StyleSheet.create({
   },
   location: {
     color: colors.white,
+    maxWidth: 270,
   },
   itemCount: {
     backgroundColor: colors.secondary,

@@ -15,12 +15,12 @@ const OrderHistoryDetail = () => {
   const [markerAddress, setMarkerAddress] = useState({});
   useEffect(() => {
     if (orderDetail.restaurant.address) {
-      const tempCoord = {
-        latitude: Number(orderDetail.restaurant.address?.latitude),
-        longitude: Number(orderDetail.restaurant.address?.longitude),
-      };
+      // const tempCoord = {
+      //   latitude: Number(orderDetail.restaurant.address?.latitude),
+      //   longitude: Number(orderDetail.restaurant.address?.longitude),
+      // };
       (async () => {
-        const address = await Location.reverseGeocodeAsync(tempCoord);
+        const address = await Location.reverseGeocodeAsync(orderDetail.restaurant.address);
         setMarkerAddress(address[0]);
       })();
     }

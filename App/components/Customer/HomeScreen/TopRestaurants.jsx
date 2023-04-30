@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,12 +11,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
-import kfcRestaurantThumbnail from "../../../assets/restaurants/kfc.jpg";
-import kfcRestaurantProfile from "../../../assets/restaurants/kfc-profile.png";
+import profilePic from "../../../assets/App-Logos.png";
+import thumbnail from "../../../assets/thumbnail.jpg";
 import { getAllRestaurants } from "../../../screens/Restaurant/restaurantSlice";
-// import { setSearch } from "../../../screens/Customer/customerSlice";
 import { setRestaurantSearch } from "../../../redux/ui/uiSlice";
-import * as Location from "expo-location";
+import updateAddress from "../../../utils/getRestaurantListWithAddress";
 
 const { width } = Dimensions.get("window");
 
@@ -30,23 +29,16 @@ const TopRestaurants = () => {
     dispatch(getAllRestaurants());
   }, [dispatch]);
 
-  const showAddress = async (geoLocation) => {
-    // delete geoLocation._id;
-    console.log("Test", geoLocation);
-    return "test";
-    // for (let key in geoLocation) {
-    //   geoLocation[key] = Number(geoLocation[key]);
-    // }
-
-    // const address = await Location.reverseGeocodeAsync(geoLocation);
-    // const markerAddress = address[0];
-    // return `${markerAddress.street ? `${markerAddress.street},` : ""} ${
-    //   markerAddress.city ? `${markerAddress.city},` : ""
-    // } ${markerAddress.city}, ${markerAddress.subregion}, ${markerAddress.country}`;
-  };
+  const [updatedRestaurant, setUpdatedRestaurant] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const newRestaurantList = await updateAddress(restaurants, "RestaurantsList");
+      setUpdatedRestaurant(newRestaurantList);
+    })();
+  }, [restaurants]);
 
   const displayRestaurants = () => {
-    return restaurants.map((item) => {
+    return updatedRestaurant.map((item) => {
       return (
         <TouchableWithoutFeedback
           key={item._id}
@@ -59,23 +51,32 @@ const TopRestaurants = () => {
         >
           <View style={{ padding: 5 }}>
             <View style={styles.thumbnailContainer}>
-              <Image style={styles.restaurantImage} source={kfcRestaurantThumbnail} />
+              <Image
+                style={styles.restaurantImage}
+                source={
+                  item.imageLink
+                    ? {
+                        uri: item.imageLink,
+                      }
+                    : thumbnail
+                }
+              />
             </View>
             <View style={styles.restaurantDetail}>
               <View style={styles.profileContainer}>
-                <Image style={styles.restaurantProfile} source={kfcRestaurantProfile} />
+                <Image
+                  style={styles.restaurantProfile}
+                  source={item.profileImageLink ? { uri: item.profileImageLink } : profilePic}
+                />
               </View>
               <View>
                 <Text style={styles.restaurantName}>{item.name}</Text>
-                <Text style={styles.normalText}>
-                  {/* {item.address ? showAddress(item.address) : "No"} */}
-                  {/* {!item.address && console.log("dw", item.address)} */}
-                  {/* {markerAddress &&
-                    `${markerAddress.street ? `${markerAddress.street},` : ""} ${
-                      markerAddress.city ? `${markerAddress.city},` : ""
-                    } ${markerAddress.city}, ${markerAddress.subregion}, ${markerAddress.country}`} */}
+                <Text style={styles.restaurantLocation} numberOfLines={1} ellipsizeMode="tail">
+                  {item.address &&
+                    `${item.address.street ? `${item.address.street},` : ""} ${
+                      item.address.city ? `${item.address.city},` : ""
+                    } ${item.address.city}, ${item.address.subregion}, ${item.address.country}`}
                 </Text>
-                {/* <Text style={styles.restaurantLocation}>{item.address}</Text> */}
               </View>
             </View>
           </View>
@@ -144,5 +145,6 @@ const styles = StyleSheet.create({
   },
   restaurantLocation: {
     color: colors.gray,
+    maxWidth: 270,
   },
 });

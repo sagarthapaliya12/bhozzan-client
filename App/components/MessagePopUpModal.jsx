@@ -54,7 +54,8 @@ const MessagePopUpModal = (props) => {
       <Portal>
         <Modal
           visible={visible}
-          onDismiss={() => dispatch(toggleShowMessageModal(false))}
+          // onDismiss={}
+          // onDismiss={() => dispatch(toggleShowMessageModal(false))}
           contentContainerStyle={containerStyle}
         >
           <View>
@@ -83,19 +84,10 @@ const MessagePopUpModal = (props) => {
                       }
                       if (props.parent === "Checkout") {
                         navigation.popToTop();
+                        navigation.navigate("More");
                         navigation.navigate("OrderHistory");
-
-                        // navigation.navigate("More", { screen: "OrderHistory" });
-                        // toggleShowMessageModal
-                        // dispatch(reset());
                       }
                     }
-
-                    // status === "success" && { if(props.parent === "RegisterScreen" (navigation.navigate("LoginScreen");)}
-                    // status === "success" &&
-                    //   props.parent === "RegisterScreen" &&
-                    //   navigation.navigate("LoginScreen");
-                    // dispatch(reset());
                   }}
                 >
                   <Text>OK</Text>

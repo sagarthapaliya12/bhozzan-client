@@ -18,8 +18,8 @@ import { getAllRestaurants, refuteRestaurant } from "../../screens/Restaurant/re
 import { useNavigation } from "@react-navigation/native";
 import { setRestaurantSearch } from "../../redux/ui/uiSlice";
 import profilePic from "../../assets/App-Logos.png";
-import * as Location from "expo-location";
 import { Entypo } from "@expo/vector-icons";
+import updateAddress from "../../utils/getRestaurantListWithAddress";
 
 const { width } = Dimensions.get("window");
 
@@ -38,28 +38,11 @@ const AdminDashboard = () => {
   };
 
   const [updatedRestaurant, setUpdatedRestaurant] = useState([]);
-  const updateAddress = async () => {
-    const tempRes = restaurants.map((restaurant) => {
-      const _id = restaurant._id;
-      const profileImageLink = restaurant.profileImageLink;
-      const name = restaurant.name;
-      const address = {
-        longitude: Number(restaurant.address.longitude),
-        latitude: Number(restaurant.address.latitude),
-      };
-      return { _id, profileImageLink, name, address };
-    });
-
-    for (const res of tempRes) {
-      const markerAddress = await Location.reverseGeocodeAsync(res.address);
-      res.address = markerAddress[0];
-    }
-
-    setUpdatedRestaurant(tempRes);
-  };
-
   useEffect(() => {
-    updateAddress();
+    (async () => {
+      const newRestaurantList = await updateAddress(restaurants, "RestaurantsList");
+      setUpdatedRestaurant(newRestaurantList);
+    })();
   }, [restaurants]);
 
   const VisibleItem = ({

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,9 +13,10 @@ import colors from "../../config/colors";
 import { getFavoriteRestaurant, removeFavoriteRestaurant, setSearch } from "./customerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import pizzaHut from "../../assets/pizza-hut.png";
+import profilePic from "../../assets/App-Logos.png";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import updateAddress from "../../utils/getRestaurantListWithAddress";
 
 const { width } = Dimensions.get("window");
 
@@ -33,10 +34,18 @@ const FavoritesScreen = () => {
     dispatch(removeFavoriteRestaurant(restaurantId));
   };
 
+  const [updatedFavoriteRestaurant, setUpdatedFavoriteRestaurant] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const newFavoriteRestaurantList = await updateAddress(favouriteRestaurant, "RestaurantsList");
+      setUpdatedFavoriteRestaurant(newFavoriteRestaurantList);
+    })();
+  }, [favouriteRestaurant]);
+
   return (
     <Screen>
       <ScrollView>
-        {favouriteRestaurant?.map((restaurant) => {
+        {updatedFavoriteRestaurant?.map((restaurant) => {
           return (
             <TouchableHighlight
               key={restaurant._id}
@@ -47,12 +56,26 @@ const FavoritesScreen = () => {
             >
               <View style={styles.container}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image style={styles.restaurantImg} source={pizzaHut} />
+                  <Image
+                    style={styles.restaurantImg}
+                    source={
+                      restaurant.profileImageLink
+                        ? { uri: restaurant.profileImageLink }
+                        : profilePic
+                    }
+                  />
                   <View style={styles.itemDetail}>
                     <Text style={styles.restaurantName}>{restaurant.name}</Text>
                     <View style={{ flexDirection: "row" }}>
                       <Entypo name="location-pin" size={20} color={colors.primary} />
-                      <Text style={styles.address}>{restaurant.address}</Text>
+                      <Text style={styles.address} numberOfLines={1} ellipsizeMode="tail">
+                        {restaurant.address &&
+                          `${restaurant.address.street ? `${restaurant.address.street},` : ""} ${
+                            restaurant.address.city ? `${restaurant.address.city},` : ""
+                          } ${restaurant.address.city}, ${restaurant.address.subregion}, ${
+                            restaurant.address.country
+                          }`}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -97,6 +120,7 @@ const styles = StyleSheet.create({
   },
   address: {
     color: colors.gray,
+    maxWidth: 270,
   },
   deleteBtn: {
     backgroundColor: colors.secondary,

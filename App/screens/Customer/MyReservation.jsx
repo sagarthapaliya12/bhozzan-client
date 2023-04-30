@@ -73,7 +73,7 @@ const MyReservation = () => {
                           color={colors.primary}
                           style={{ fontSize: 20 }}
                         />
-                        <Text style={styles.address}>{reservation.restaurant.address}</Text>
+                        {/* <Text style={styles.address}>{reservation.restaurant.address}</Text> */}
                       </View>
                     </View>
                   </View>

@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView, Pressable, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import React from "react";
 import colors from "../../config/colors";
@@ -10,6 +18,7 @@ import { placeOrder } from "../Restaurant/orderSlice";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
 import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { getBasketCount } from "./customerSlice";
 
 const { width } = Dimensions.get("window");
 
@@ -26,8 +35,10 @@ const Checkout = () => {
     // console.log("Sfsdf", tempOrder);
     try {
       const res = await dispatch(placeOrder(order)).unwrap();
-      if (res) dispatch(toggleShowMessageModal(true));
-      // if (!res.error) dispatch(toggleShowMessageModal(true));
+      if (res) {
+        dispatch(toggleShowMessageModal(true));
+        dispatch(getBasketCount());
+      }
     } catch (err) {}
   };
 

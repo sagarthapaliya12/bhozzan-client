@@ -47,7 +47,6 @@ const RestaurantProfile = () => {
   useEffect(() => {
     if (restaurantUser.address) {
       let tempAddress = restaurantUser.address;
-      // delete tempAddress._id;
       for (let key in tempAddress) {
         tempAddress[key] = Number(tempAddress[key]);
       }
