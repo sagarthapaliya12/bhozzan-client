@@ -29,7 +29,7 @@ const validationSchema = Yup.object().shape({
 
   description: Yup.string().label("Description"),
 
-  address: Yup.string().required().min(4).label("Location"),
+  // address: Yup.string().required().min(4).label("Location"),
 
   phoneNumber: Yup.string()
     .phone("NP", true, "${path} is invalid")
@@ -80,11 +80,11 @@ const EditProfile = () => {
         <View style={styles.formContainer}>
           <Form
             initialValues={{
-              profilePicture: null,
-              thumbnailPicture: null,
+              profilePicture: restaurantUser.profileImageLink,
+              thumbnailPicture: restaurantUser.imageLink,
               name: restaurantUser.name,
-              description: "",
-              address: restaurantUser.address,
+              description: restaurantUser.description,
+              // address: restaurantUser.address,
               phoneNumber: restaurantUser.primaryPhoneNumber?.toString(),
               PAN: restaurantUser.PAN.toString(),
               // email: "",
@@ -116,7 +116,7 @@ const EditProfile = () => {
               name="name"
               placeholder="Restaurant Name"
             />
-            <FormField autoCorrect={false} icon="city" name="address" placeholder="Location" />
+            {/* <FormField autoCorrect={false} icon="city" name="address" placeholder="Location" /> */}
             <FormField
               autoCorrect={false}
               icon="phone"

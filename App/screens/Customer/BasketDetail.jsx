@@ -86,7 +86,10 @@ const BasketDetail = () => {
         quantity: quantity[dish._id],
       };
     });
-    navigation.navigate("ChooseLocation", { order: { order, subTotalToDisplay } });
+    navigation.navigate("ChooseLocation", {
+      subject: "customer",
+      order: { order, subTotalToDisplay },
+    });
   };
 
   // if (basketDishes.length === 0) return navigation.navigate("BasketList");

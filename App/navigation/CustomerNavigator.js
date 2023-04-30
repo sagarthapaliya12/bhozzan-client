@@ -16,7 +16,7 @@ import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
 import MyReservation from "../screens/Customer/MyReservation";
 import ExploreScreen from "../screens/Customer/ExploreScreen";
 import ChangePassword from "../screens/Customer/ChangePassword";
-import ChooseLocation from "../screens/Customer/ChooseLocation";
+import ChooseLocation from "../screens/ChooseLocation";
 import Checkout from "../screens/Customer/Checkout";
 import Chat from "../screens/Chat";
 import Messages from "../screens/Customer/Messages";
@@ -30,10 +30,10 @@ const HomeNavigator = () => {
 
   return (
     <Stack.Navigator
-    // presentation="modal"
-    screenOptions={{      
-      animationDuration: 300,
-    }}
+      // presentation="modal"
+      screenOptions={{
+        animationDuration: 300,
+      }}
     >
       <Stack.Screen name="Feed" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen
@@ -180,7 +180,7 @@ const ChatNavigator = () => (
       options={({ route }) => ({
         title: route.params.userName,
         headerTintColor: colors.white,
-        tabBarStyle: {display: "none"},
+        tabBarStyle: { display: "none" },
         headerStyle: {
           backgroundColor: colors.screen,
         },
@@ -190,8 +190,7 @@ const ChatNavigator = () => (
 );
 
 const MoreNavigator = () => (
-  <Stack.Navigator
-  >
+  <Stack.Navigator>
     <Stack.Screen name="Feed" component={More} options={{ headerShown: false }} />
     <Stack.Screen
       name="EditProfile"

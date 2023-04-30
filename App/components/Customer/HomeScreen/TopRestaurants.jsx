@@ -16,6 +16,7 @@ import kfcRestaurantProfile from "../../../assets/restaurants/kfc-profile.png";
 import { getAllRestaurants } from "../../../screens/Restaurant/restaurantSlice";
 // import { setSearch } from "../../../screens/Customer/customerSlice";
 import { setRestaurantSearch } from "../../../redux/ui/uiSlice";
+import * as Location from "expo-location";
 
 const { width } = Dimensions.get("window");
 
@@ -28,6 +29,21 @@ const TopRestaurants = () => {
   useEffect(() => {
     dispatch(getAllRestaurants());
   }, [dispatch]);
+
+  const showAddress = async (geoLocation) => {
+    // delete geoLocation._id;
+    console.log("Test", geoLocation);
+    return "test";
+    // for (let key in geoLocation) {
+    //   geoLocation[key] = Number(geoLocation[key]);
+    // }
+
+    // const address = await Location.reverseGeocodeAsync(geoLocation);
+    // const markerAddress = address[0];
+    // return `${markerAddress.street ? `${markerAddress.street},` : ""} ${
+    //   markerAddress.city ? `${markerAddress.city},` : ""
+    // } ${markerAddress.city}, ${markerAddress.subregion}, ${markerAddress.country}`;
+  };
 
   const displayRestaurants = () => {
     return restaurants.map((item) => {
@@ -51,7 +67,15 @@ const TopRestaurants = () => {
               </View>
               <View>
                 <Text style={styles.restaurantName}>{item.name}</Text>
-                <Text style={styles.restaurantLocation}>{item.address}</Text>
+                <Text style={styles.normalText}>
+                  {/* {item.address ? showAddress(item.address) : "No"} */}
+                  {/* {!item.address && console.log("dw", item.address)} */}
+                  {/* {markerAddress &&
+                    `${markerAddress.street ? `${markerAddress.street},` : ""} ${
+                      markerAddress.city ? `${markerAddress.city},` : ""
+                    } ${markerAddress.city}, ${markerAddress.subregion}, ${markerAddress.country}`} */}
+                </Text>
+                {/* <Text style={styles.restaurantLocation}>{item.address}</Text> */}
               </View>
             </View>
           </View>

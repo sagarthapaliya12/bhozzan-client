@@ -136,6 +136,7 @@ const restaurantSlice = createSlice({
       })
       .addCase(updateRestaurantDetails.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
+        state.restaurantUser = action.payload.restaurant;
       })
       .addCase(updateRestaurantDetails.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;

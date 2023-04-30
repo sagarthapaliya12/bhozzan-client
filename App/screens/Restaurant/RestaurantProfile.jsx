@@ -4,25 +4,26 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity,
   Dimensions,
   Pressable,
+  TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
-import { Entypo } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons, Ionicons, Entypo } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import { logout } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
 import AppButton from "./../../components/AppButton";
 import EditButton from "../../components/shared/EditButton";
 import { useNavigation } from "@react-navigation/native";
 import profilePic from "../../assets/App-Logos.png";
 import thumbnail from "../../assets/thumbnail.jpg";
+import { ScrollView } from "react-native-gesture-handler";
+import * as Location from "expo-location";
 
 const { width } = Dimensions.get("window");
 
@@ -42,77 +43,121 @@ const RestaurantProfile = () => {
     dispatch(logout());
   };
 
+  const [markerAddress, setMarkerAddress] = useState(null);
+  useEffect(() => {
+    if (restaurantUser.address) {
+      let tempAddress = restaurantUser.address;
+      // delete tempAddress._id;
+      for (let key in tempAddress) {
+        tempAddress[key] = Number(tempAddress[key]);
+      }
+      (async () => {
+        const address = await Location.reverseGeocodeAsync(tempAddress);
+        setMarkerAddress(address[0]);
+      })();
+    }
+  }, [restaurantUser.address]);
+
   return (
     <Screen>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.info}>
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.profilePicture}
-              source={
-                restaurantUser.profileImageLink
-                  ? {
-                      uri: restaurantUser.profileImageLink,
-                    }
-                  : profilePic
-              }
-            />
-            <Image
-              style={styles.thumbnailPicture}
-              source={
-                restaurantUser.imageLink
-                  ? {
-                      uri: restaurantUser.imageLink,
-                    }
-                  : thumbnail
-              }
-            />
-            <View style={styles.editButton}>
-              <EditButton />
+      <ScrollView>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.info}>
+            <View style={styles.imageContainer}>
+              <Image
+                style={styles.profilePicture}
+                source={
+                  restaurantUser.profileImageLink
+                    ? {
+                        uri: restaurantUser.profileImageLink,
+                      }
+                    : profilePic
+                }
+              />
+              <Image
+                style={styles.thumbnailPicture}
+                source={
+                  restaurantUser.imageLink
+                    ? {
+                        uri: restaurantUser.imageLink,
+                      }
+                    : thumbnail
+                }
+              />
+              <View style={styles.editButton}>
+                <EditButton />
+              </View>
+            </View>
+            <View style={{ position: "relative" }}>
+              <Text style={styles.title}>{restaurantUser.name}</Text>
+              <Text style={styles.descriptionText}>
+                {restaurantUser.description ? restaurantUser.description : "---"}
+              </Text>
+              <TouchableOpacity
+                style={styles.qrButton}
+                onPress={() => {
+                  navigation.navigate("QrScanner");
+                }}
+              >
+                <AntDesign name="qrcode" size={40} color={colors.gray} />
+              </TouchableOpacity>
             </View>
           </View>
-          <Text style={styles.title}>{restaurantUser.name}</Text>
-          <Text style={styles.descriptionText}>
-            {restaurantUser.description ? restaurantUser.description : "---"}
-          </Text>
-        </View>
-        <View style={styles.details}>
-          <Entypo name="location-pin" size={24} color={colors.secondary} />
-          <Text style={styles.normalText}>&nbsp;{restaurantUser.address}</Text>
-        </View>
-        <View style={styles.details}>
-          <Ionicons name="call" size={24} color={colors.secondary} />
-          <Text style={styles.normalText}>&nbsp;&nbsp;{restaurantUser.primaryPhoneNumber}</Text>
-        </View>
-        <View style={styles.details}>
-          <Text style={{ color: colors.secondary }}>DELIVERY HOURS:&nbsp;</Text>
-          <Text style={styles.normalText}>10:00 AM - 12:00 PM</Text>
-        </View>
-        <View style={styles.details}>
-          <Text style={{ color: colors.secondary }}>PAN/VAT No:&nbsp;</Text>
-          <Text style={styles.normalText}>{restaurantUser.PAN}</Text>
-        </View>
-        <View style={styles.details}>
-          <Text style={{ color: colors.secondary }}>No. of Tables:&nbsp;</Text>
-          <Text style={styles.normalText}>{restaurantUser.tables?.length}</Text>
-        </View>
+          <View style={styles.details}>
+            <Entypo name="location-pin" size={24} color={colors.secondary} />
+            <Text style={styles.normalText}>
+              &nbsp;
+              {markerAddress &&
+                `${markerAddress.street ? `${markerAddress.street},` : ""} ${
+                  markerAddress.city ? `${markerAddress.city},` : ""
+                } ${markerAddress.city}, ${markerAddress.subregion}, ${markerAddress.country}`}
+            </Text>
+          </View>
+          <View style={styles.details}>
+            <Ionicons name="call" size={24} color={colors.secondary} />
+            <Text style={styles.normalText}>&nbsp;&nbsp;{restaurantUser.primaryPhoneNumber}</Text>
+          </View>
+          <View style={styles.details}>
+            <Text style={{ color: colors.secondary }}>DELIVERY HOURS:&nbsp;</Text>
+            <Text style={styles.normalText}>10:00 AM - 12:00 PM</Text>
+          </View>
+          <View style={styles.details}>
+            <Text style={{ color: colors.secondary }}>PAN/VAT No:&nbsp;</Text>
+            <Text style={styles.normalText}>{restaurantUser.PAN}</Text>
+          </View>
+          <View style={styles.details}>
+            <Text style={{ color: colors.secondary }}>No. of Tables:&nbsp;</Text>
+            <Text style={styles.normalText}>{restaurantUser.tables?.length}</Text>
+          </View>
 
-        <AppButton
-          title="Scan QR Code"
-          onPress={() => {
-            navigation.navigate("QrScanner");
-          }}
-        />
+          {/* <AppButton
+            title="Scan QR Code"
+            onPress={() => {
+              navigation.navigate("QrScanner");
+            }}
+          /> */}
 
-        <Pressable
-          style={styles.bottomRow}
-          android_ripple={{ color: colors.lightGray, borderless: true }}
-          onPress={() => handleLogout()}
-        >
-          <MaterialCommunityIcons name="logout" size={24} color={colors.gray} />
-          <Text style={styles.bottomText}>Logout</Text>
-        </Pressable>
-      </SafeAreaView>
+          <View style={{ marginVertical: 9 }}>
+            <Pressable
+              style={styles.bottomRow}
+              android_ripple={{ color: colors.lightGray, borderless: true }}
+              onPress={() => navigation.navigate("ChangeAddress", { subject: "restaurant" })}
+            >
+              <Entypo name="location-pin" size={24} color={colors.gray} />
+              <Text style={styles.bottomText}>Change Address</Text>
+            </Pressable>
+
+            <Pressable
+              style={styles.bottomRow}
+              android_ripple={{ color: colors.lightGray, borderless: true }}
+              onPress={() => handleLogout()}
+            >
+              <MaterialCommunityIcons name="logout" size={24} color={colors.gray} />
+              <Text style={styles.bottomText}>Logout</Text>
+            </Pressable>
+          </View>
+        </SafeAreaView>
+      </ScrollView>
     </Screen>
   );
 };
@@ -166,6 +211,15 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginVertical: 5,
   },
+  qrButton: {
+    position: "absolute",
+    right: 0,
+    top: -50,
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   details: {
     flexDirection: "row",
     marginVertical: 10,
@@ -182,7 +236,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderColor: colors.gray,
     borderBottomWidth: 1,
-    marginTop: 20,
+    // marginTop: 2,
   },
   bottomText: {
     color: colors.gray,

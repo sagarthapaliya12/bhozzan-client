@@ -14,6 +14,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { useDispatch, useSelector } from "react-redux";
 import { acceptOrder, rejectOrder, dispatchOrder, serveOrder, getOrders } from "./orderSlice";
 import { useIsFocused } from "@react-navigation/native";
+import { Entypo } from "@expo/vector-icons";
+import * as Location from "expo-location";
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
@@ -25,32 +27,32 @@ const OrderStatus = () => {
     dispatch(getOrders(status));
   }, [status, isFocused]);
 
-  const acceptRow = (_rowMap, orderId) => {
-    {
-      // console.log("This restaurant is accepted", orderId);
-      status === "pending" && dispatch(acceptOrder(orderId));
-    }
+  // const [markerAddress, setMarkerAddress] = useState(null);
+  // useEffect(() => {
+  //   if (orders.address) {
+  //     let tempAddress = orders.address;
+  //     // delete tempAddress._id;
+  //     for (let key in tempAddress) {
+  //       tempAddress[key] = Number(tempAddress[key]);
+  //     }
+  //     (async () => {
+  //       const address = await Location.reverseGeocodeAsync(tempAddress);
+  //       setMarkerAddress(address[0]);
+  //     })();
+  //   }
+  // }, [restaurantUser.address]);
 
-    {
-      // console.log("This order is dispatched", orderId);
-      status === "accepted" && dispatch(dispatchOrder(orderId));
-    }
+  const acceptRow = (_rowMap, orderId) => {
+    status === "pending" && dispatch(acceptOrder(orderId));
+    status === "accepted" && dispatch(dispatchOrder(orderId));
   };
 
   const deleteRow = (_rowMap, orderId) => {
-    {
-      console.log("This restaurant is rejected", orderId);
-      status === "pending" && dispatch(rejectOrder(orderId));
-    }
-    {
-      // console.log("This order is served", orderId);
-      status === "accepted" && dispatch(serveOrder(orderId));
-    }
+    status === "pending" && dispatch(rejectOrder(orderId));
+    status === "accepted" && dispatch(serveOrder(orderId));
   };
 
-  const VisibleItem = (props) => {
-    const { data, rowHeightAnimatedValue } = props;
-
+  const VisibleItem = ({ data, rowHeightAnimatedValue }) => {
     return (
       <Animated.View
         style={[
@@ -69,6 +71,10 @@ const OrderStatus = () => {
                   </View>
                 );
               })}
+              <View style={{ flexDirection: "row" }}>
+                <Entypo name="location-pin" size={24} color={colors.secondary} />
+                <Text style={{ color: colors.gray, fontSize: 15 }}>{`${data.item.address}`}</Text>
+              </View>
             </View>
             <Text
               style={{ color: colors.secondary, fontSize: 18 }}
@@ -79,7 +85,7 @@ const OrderStatus = () => {
     );
   };
 
-  const renderItem = (data, rowMap) => {
+  const renderItem = (data, _rowMap) => {
     // const rowHeightAnimatedValue = new Animated.Value(80);
     return (
       <VisibleItem
@@ -90,9 +96,9 @@ const OrderStatus = () => {
   };
 
   const HiddenItemWithActions = ({
-    // swipeAnimatedValue,
     leftActionActivated,
     rightActionActivated,
+    // swipeAnimatedValue,
     // rowActionAnimatedValue,
     // rowHeightAnimatedValue,
     onAccept,
@@ -170,10 +176,18 @@ const OrderStatus = () => {
         leftOpenValue={75}
         rightOpenValue={-75}
         disableLeftSwipe={
-          status === "rejected" || status === "otw" || status === "served" || status === "delivered"
+          status === "rejected" ||
+          status === "otw" ||
+          status === "served" ||
+          status === "delivered" ||
+          status === "all"
         }
         disableRightSwipe={
-          status === "rejected" || status === "otw" || status === "served" || status === "delivered"
+          status === "rejected" ||
+          status === "otw" ||
+          status === "served" ||
+          status === "delivered" ||
+          status === "all"
         }
         leftActionValue={75}
         rightActionValue={-75}
@@ -230,10 +244,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     right: 0,
   },
-  // trash: {
-  //   marginRight: 7,
-  //   overflow: "hidden",
-  // },
   rowFront: {
     backgroundColor: colors.screen,
     borderRadius: 5,

@@ -20,13 +20,14 @@ import pizzaHut from "../../assets/pizza-hut.png";
 import Menu from "../../components/Customer/RestaurantProfile/Menu";
 import { getRestaurantDetails } from "../Customer/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addFavoriteRestaurant } from "./customerSlice";
 import SnackbarMessage from "../../components/SnackbarMessage";
 import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
 import { useNavigation } from "@react-navigation/native";
+import * as Location from "expo-location";
 
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const ActionItems = [
   {
@@ -60,6 +61,21 @@ const RestaurantProfile = () => {
     dispatch(getRestaurantDetails(restaurantId));
   }, []);
 
+  const [markerAddress, setMarkerAddress] = useState(null);
+  useEffect(() => {
+    if (restaurantDetail.address) {
+      let tempAddress = restaurantDetail.address;
+      // delete tempAddress._id;
+      for (let key in tempAddress) {
+        tempAddress[key] = Number(tempAddress[key]);
+      }
+      (async () => {
+        const address = await Location.reverseGeocodeAsync(tempAddress);
+        setMarkerAddress(address[0]);
+      })();
+    }
+  }, [restaurantDetail.address]);
+
   const handleFeatures = (index) => {
     index === 1 && Linking.openURL(`tel:${restaurantDetail.primaryPhoneNumber}`); //only works for android
     index === 2 && addFavourite();
@@ -87,7 +103,7 @@ const RestaurantProfile = () => {
             <Text style={styles.title}>{restaurantDetail.name}</Text>
             <View style={styles.location}>
               <Entypo name="location-pin" size={24} color={colors.white} />
-              <Text style={styles.locationText}>{restaurantDetail.address}</Text>
+              {/* <Text style={styles.locationText}>{restaurantDetail.address}</Text> */}
             </View>
             <Text style={styles.descriptionText}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor

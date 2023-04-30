@@ -55,6 +55,7 @@ const RestaurantTab = () => (
       name="Tables"
       component={TablesNavigator}
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="table-furniture" size={size} color={color} />
         ),

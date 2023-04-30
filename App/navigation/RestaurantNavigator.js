@@ -15,6 +15,7 @@ import ReservationDetail from "../screens/Restaurant/ReservationDetail";
 import QrScanner from "../components/Customer/HomeScreen/QrScanner";
 import { useSelector } from "react-redux";
 import OrderStatusEnum from "../enums/orderStatusEnum";
+import ChooseLocation from "../screens/ChooseLocation";
 
 const Stack = createStackNavigator();
 
@@ -29,7 +30,7 @@ const DashboardNavigator = () => {
         animationDuration: 800,
       }}
     >
-      <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
+      <Stack.Screen name="Feed" component={Dashboard} options={{ headerShown: false }} />
       <Stack.Screen
         name="OrderStatus"
         component={OrderStatus}
@@ -74,7 +75,12 @@ const MenuNavigator = () => (
 );
 
 const TablesNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerTitleAlign: "center",
+      animationDuration: 800,
+    }}
+  >
     {/* <Stack.Screen name="Feed" component={AddSeats} options={{ headerShown: false }} />
     <Stack.Screen
       name="ConfirmTable"
@@ -125,7 +131,12 @@ const TablesNavigator = () => (
 );
 
 const ProfileNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerTitleAlign: "center",
+      animationDuration: 800,
+    }}
+  >
     <Stack.Screen name="Feed" component={RestaurantProfile} options={{ headerShown: false }} />
     <Stack.Screen
       name="EditProfile"
@@ -138,7 +149,28 @@ const ProfileNavigator = () => (
         },
       }}
     />
-    <Stack.Screen name="QrScanner" component={QrScanner} options={{ title: "Scan QR" }} />
+    <Stack.Screen
+      name="QrScanner"
+      component={QrScanner}
+      options={{
+        title: "Scan QR",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="ChangeAddress"
+      component={ChooseLocation}
+      options={{
+        title: "Change Address",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
   </Stack.Navigator>
 );
 
