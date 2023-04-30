@@ -1,24 +1,30 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableHighlight,
-  StyleSheet,
-  Dimensions,
-  Linking,
-} from "react-native";
+import { View, Text, Image, TouchableHighlight, StyleSheet, Linking } from "react-native";
 import Screen from "../../components/Screen";
 import QrGenerator from "../../components/Customer/QrGenerator";
 import { useSelector } from "react-redux";
 import colors from "../../config/colors";
-import pizzaHut from "../../assets/pizza-hut.png";
+import profilePic from "../../assets/App-Logos.png";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
-
-const { width } = Dimensions.get("window");
+import { useState, useEffect } from "react";
+import * as Location from "expo-location";
 
 const OrderHistoryDetail = () => {
   const orderDetail = useSelector((state) => state.orderSlice.orderHistoryDetail);
+
+  const [markerAddress, setMarkerAddress] = useState({});
+  useEffect(() => {
+    if (orderDetail.restaurant.address) {
+      const tempCoord = {
+        latitude: Number(orderDetail.restaurant.address?.latitude),
+        longitude: Number(orderDetail.restaurant.address?.longitude),
+      };
+      (async () => {
+        const address = await Location.reverseGeocodeAsync(tempCoord);
+        setMarkerAddress(address[0]);
+      })();
+    }
+  }, [orderDetail.restaurant.address]);
 
   return (
     <Screen>
@@ -37,12 +43,24 @@ const OrderHistoryDetail = () => {
           </View>
           <View style={styles.restaurantContainer}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image style={styles.restaurantImg} source={pizzaHut} />
+              <Image
+                style={styles.restaurantImg}
+                source={
+                  orderDetail.restaurant.profileImageLink
+                    ? { uri: orderDetail.restaurant.profileImageLink }
+                    : profilePic
+                }
+              />
               <View style={styles.itemDetail}>
                 <Text style={styles.restaurantName}>{orderDetail.restaurant.name}</Text>
                 <View style={{ flexDirection: "row" }}>
                   <Entypo name="location-pin" size={20} color={colors.primary} />
-                  <Text style={styles.address}>{orderDetail.restaurant.address}</Text>
+                  <Text style={styles.address}>{`${
+                    markerAddress.street ? `${markerAddress.street},` : ""
+                  } ${markerAddress.city ? `${markerAddress.city},` : ""} ${markerAddress.city}, ${
+                    markerAddress.subregion
+                  }, ${markerAddress.country}`}</Text>
+                  {/* <Text style={styles.address}>{orderDetail.restaurant.address}</Text> */}
                 </View>
               </View>
             </View>

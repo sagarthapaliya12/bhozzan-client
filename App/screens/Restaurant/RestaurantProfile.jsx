@@ -17,7 +17,7 @@ import { logout } from "../Public/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getRestaurantDetails, getRestaurantUserId } from "./restaurantSlice";
-import AppButton from "./../../components/AppButton";
+// import AppButton from "./../../components/AppButton";
 import EditButton from "../../components/shared/EditButton";
 import { useNavigation } from "@react-navigation/native";
 import profilePic from "../../assets/App-Logos.png";
@@ -202,7 +202,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
-    color: colors.white,
+    fontWeight: "800",
+    color: colors.secondary,
   },
   locationText: {
     color: colors.white,

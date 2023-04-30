@@ -55,7 +55,7 @@ const OrderHistoryList = () => {
                       color={colors.primary}
                       style={{ fontSize: 20 }}
                     />
-                    <Text style={styles.location}>{item.restaurant.address}</Text>
+                    {/* <Text style={styles.location}>{item.restaurant.address}</Text> */}
                   </View>
                   <View style={styles.statusContainer}>
                     <Text style={styles.statusText}>

@@ -46,7 +46,7 @@ const BasketList = () => {
                         color={colors.primary}
                         style={{ fontSize: 20 }}
                       />
-                      <Text style={styles.location}>{item.address}</Text>
+                      {/* <Text style={styles.location}>{item.address}</Text> */}
                     </View>
                   </View>
                 </View>

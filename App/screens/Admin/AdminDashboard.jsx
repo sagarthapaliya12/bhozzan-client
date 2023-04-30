@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Image,
@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   StatusBar,
+  Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -17,6 +18,10 @@ import { getAllRestaurants, refuteRestaurant } from "../../screens/Restaurant/re
 import { useNavigation } from "@react-navigation/native";
 import { setRestaurantSearch } from "../../redux/ui/uiSlice";
 import profilePic from "../../assets/App-Logos.png";
+import * as Location from "expo-location";
+import { Entypo } from "@expo/vector-icons";
+
+const { width } = Dimensions.get("window");
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -32,9 +37,38 @@ const AdminDashboard = () => {
     dispatch(refuteRestaurant(rowKey));
   };
 
-  const VisibleItem = (props) => {
-    const { data, rowHeightAnimatedValue, removeRow, leftActionState, rightActionState } = props;
+  const [updatedRestaurant, setUpdatedRestaurant] = useState([]);
+  const updateAddress = async () => {
+    const tempRes = restaurants.map((restaurant) => {
+      const _id = restaurant._id;
+      const profileImageLink = restaurant.profileImageLink;
+      const name = restaurant.name;
+      const address = {
+        longitude: Number(restaurant.address.longitude),
+        latitude: Number(restaurant.address.latitude),
+      };
+      return { _id, profileImageLink, name, address };
+    });
 
+    for (const res of tempRes) {
+      const markerAddress = await Location.reverseGeocodeAsync(res.address);
+      res.address = markerAddress[0];
+    }
+
+    setUpdatedRestaurant(tempRes);
+  };
+
+  useEffect(() => {
+    updateAddress();
+  }, [restaurants]);
+
+  const VisibleItem = ({
+    data,
+    rowHeightAnimatedValue,
+    // removeRow,
+    // leftActionState,
+    // rightActionState,
+  }) => {
     return (
       <Animated.View style={[styles.rowFront, { height: rowHeightAnimatedValue }]}>
         <TouchableHighlight
@@ -49,18 +83,23 @@ const AdminDashboard = () => {
               <View style={styles.profileContainer}>
                 <Image
                   style={styles.restaurantProfile}
-                  source={data.item.profileImageLink ? data.item.profileImageLink : profilePic}
+                  source={
+                    data.item.profileImageLink ? { uri: data.item.profileImageLink } : profilePic
+                  }
                 />
               </View>
             </View>
 
-            <View>
-              <Text style={styles.name} numberOfLines={1}>
-                {data.item.name}
-              </Text>
-              <Text style={styles.location} numberOfLines={1}>
-                {data.item.address}
-              </Text>
+            <View style={{ width: "80%", marginRight: 5 }}>
+              <Text style={styles.name}>{data.item.name}</Text>
+              <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+                <Entypo name="location-pin" size={20} color={colors.gray} />
+                <Text style={styles.location} numberOfLines={2} ellipsizeMode="tail">{`${
+                  data.item.address.street ? `${data.item.address.street},` : ""
+                } ${data.item.address.city ? `${data.item.address.city},` : ""} ${
+                  data.item.address.city
+                }, ${data.item.address.subregion}, ${data.item.address.country}`}</Text>
+              </View>
             </View>
           </View>
         </TouchableHighlight>
@@ -68,21 +107,19 @@ const AdminDashboard = () => {
     );
   };
 
-  const renderItem = (data, rowMap) => {
+  const renderItem = (data, _rowMap) => {
     const rowHeightAnimatedValue = new Animated.Value(80);
 
     return <VisibleItem data={data} rowHeightAnimatedValue={rowHeightAnimatedValue} />;
   };
 
-  const HiddenItemWithActions = (props) => {
-    const {
-      swipeAnimatedValue,
-      leftActionActivated,
-      rowActionAnimatedValue,
-      rowHeightAnimatedValue,
-      onDelete,
-    } = props;
-
+  const HiddenItemWithActions = ({
+    swipeAnimatedValue,
+    leftActionActivated,
+    rowActionAnimatedValue,
+    rowHeightAnimatedValue,
+    onDelete,
+  }) => {
     return (
       <Animated.View style={[styles.rowBack, { height: rowHeightAnimatedValue }]}>
         {!leftActionActivated && (
@@ -145,7 +182,8 @@ const AdminDashboard = () => {
       <StatusBar barStyle="dark-content" />
       <StatusBar backgroundColor="#161B22" barStyle="light-content" />
       <SwipeListView
-        data={restaurants}
+        // data={restaurants}
+        data={updatedRestaurant}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         disableRightSwipe
@@ -169,7 +207,9 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flexDirection: "row",
-    color: colors.screen,
+    // paddingHorizontal: 10,
+    // color: colors.screen,
+    // backgroundColor: colors.primary,
   },
   restaurantDetail: {
     flexDirection: "column",
@@ -259,13 +299,14 @@ const styles = StyleSheet.create({
     marginRight: 7,
   },
   name: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
-    color: "#FFF",
+    color: colors.white,
   },
   location: {
     fontSize: 12,
-    color: "#999",
+    color: colors.gray,
+    maxWidth: 270,
   },
 });

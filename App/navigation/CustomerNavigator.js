@@ -141,7 +141,7 @@ const BasketNavigator = () => (
       }}
     />
 
-    <Stack.Screen
+    {/* <Stack.Screen
       name="OrderHistory"
       component={OrderHistory}
       options={{
@@ -151,7 +151,7 @@ const BasketNavigator = () => (
           backgroundColor: colors.screen,
         },
       }}
-    />
+    /> */}
   </Stack.Navigator>
 );
 

@@ -76,7 +76,7 @@ const RestaurantApproval = () => {
                 {data.item.name}
               </Text>
               <Text style={styles.location} numberOfLines={1}>
-                {data.item.address}
+                {/* {data.item.address} */}
               </Text>
             </View>
           </View>

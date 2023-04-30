@@ -10,13 +10,10 @@ import {
   ScrollView,
   Linking,
 } from "react-native";
-import { Entypo } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { Entypo, Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
-import pizzaHut from "../../assets/pizza-hut.png";
+import profilePic from "../../assets/App-Logos.png";
 import Menu from "../../components/Customer/RestaurantProfile/Menu";
 import { getRestaurantDetails } from "../Customer/customerSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +23,7 @@ import SnackbarMessage from "../../components/SnackbarMessage";
 import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
+import thumbnail from "../../assets/thumbnail.jpg";
 
 const { width } = Dimensions.get("window");
 
@@ -61,16 +59,15 @@ const RestaurantProfile = () => {
     dispatch(getRestaurantDetails(restaurantId));
   }, []);
 
-  const [markerAddress, setMarkerAddress] = useState(null);
+  const [markerAddress, setMarkerAddress] = useState({});
   useEffect(() => {
     if (restaurantDetail.address) {
-      let tempAddress = restaurantDetail.address;
-      // delete tempAddress._id;
-      for (let key in tempAddress) {
-        tempAddress[key] = Number(tempAddress[key]);
-      }
+      const tempCoord = {
+        latitude: Number(restaurantDetail.address?.latitude),
+        longitude: Number(restaurantDetail.address?.longitude),
+      };
       (async () => {
-        const address = await Location.reverseGeocodeAsync(tempAddress);
+        const address = await Location.reverseGeocodeAsync(tempCoord);
         setMarkerAddress(address[0]);
       })();
     }
@@ -96,14 +93,35 @@ const RestaurantProfile = () => {
     <Screen>
       <ScrollView>
         <SafeAreaView style={styles.container}>
-          <View>
-            <Image style={styles.profilePicture} source={pizzaHut} />
+          <View style={{ position: "relative", alignItems: "center", marginBottom: 30 }}>
+            <Image
+              style={styles.thumbnailPicture}
+              source={
+                restaurantDetail.imageLink
+                  ? {
+                      uri: restaurantDetail.imageLink,
+                    }
+                  : thumbnail
+              }
+            />
+            <Image
+              style={styles.profilePicture}
+              source={
+                restaurantDetail.profileImageLink
+                  ? { uri: restaurantDetail.profileImageLink }
+                  : profilePic
+              }
+            />
           </View>
           <View style={styles.infoContainer}>
             <Text style={styles.title}>{restaurantDetail.name}</Text>
             <View style={styles.location}>
-              <Entypo name="location-pin" size={24} color={colors.white} />
-              {/* <Text style={styles.locationText}>{restaurantDetail.address}</Text> */}
+              <Entypo name="location-pin" size={24} color={colors.gray} />
+              <Text style={styles.locationText}>{`${
+                markerAddress.street ? `${markerAddress.street},` : ""
+              } ${markerAddress.city ? `${markerAddress.city},` : ""} ${markerAddress.city}, ${
+                markerAddress.subregion
+              }, ${markerAddress.country}`}</Text>
             </View>
             <Text style={styles.descriptionText}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -156,11 +174,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   profilePicture: {
+    position: "absolute",
+    bottom: -30,
+    justifyContent: "center",
     width: 100,
     height: 100,
     borderRadius: 50,
     marginTop: 15,
     marginBottom: 5,
+    borderWidth: 3,
+    borderColor: colors.gray,
+  },
+  thumbnailPicture: {
+    width: width - 30,
+    height: 175,
+    marginVertical: 5,
+    borderRadius: 10,
   },
   infoContainer: {
     paddingHorizontal: 15,
@@ -168,16 +197,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
-    color: colors.white,
+    fontWeight: "800",
+    color: colors.secondary,
   },
   location: {
     flexDirection: "row",
     alignItems: "center",
   },
   locationText: {
-    color: colors.white,
+    color: colors.gray,
+    textAlign: "center",
   },
   descriptionText: {
+    marginTop: 8,
     color: colors.white,
   },
   actions: {

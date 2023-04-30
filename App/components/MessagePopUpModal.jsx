@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleShowMessageModal } from "../redux/ui/uiSlice";
 import { useNavigation } from "@react-navigation/native";
 import { reset } from "../screens/Public/authSlice";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const MessagePopUpModal = (props) => {
   const containerStyle = { backgroundColor: "white", padding: 20, margin: 20, borderRadius: 8 };
@@ -72,7 +73,7 @@ const MessagePopUpModal = (props) => {
                   borderRadius: 5,
                 }}
               >
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                   onPress={() => {
                     dispatch(toggleShowMessageModal(false));
                     if (status === "success") {
@@ -80,8 +81,11 @@ const MessagePopUpModal = (props) => {
                         navigation.navigate("LoginScreen");
                         dispatch(reset());
                       }
-                      if (props.parent === "Chekout") {
+                      if (props.parent === "Checkout") {
+                        navigation.popToTop();
                         navigation.navigate("OrderHistory");
+
+                        // navigation.navigate("More", { screen: "OrderHistory" });
                         // toggleShowMessageModal
                         // dispatch(reset());
                       }
@@ -95,7 +99,7 @@ const MessagePopUpModal = (props) => {
                   }}
                 >
                   <Text>OK</Text>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

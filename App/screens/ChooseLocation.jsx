@@ -42,8 +42,8 @@ const ChooseLocation = () => {
               ? Number(restaurantAddress.longitude)
               : currentLocation.coords.longitude,
 
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
         });
         setMarkerCoord({
           latitude:
@@ -74,10 +74,8 @@ const ChooseLocation = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const address = await Location.reverseGeocodeAsync(markerCoord);
-        setMarkerAddress(address[0]);
-      } catch (err) {}
+      const address = await Location.reverseGeocodeAsync(markerCoord);
+      setMarkerAddress(address[0]);
     })();
   }, [markerCoord]);
 

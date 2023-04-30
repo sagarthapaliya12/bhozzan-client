@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView, Pressable } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView, Pressable, TouchableOpacity } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import React from "react";
 import colors from "../../config/colors";
@@ -9,6 +9,7 @@ import { useRoute } from "@react-navigation/native";
 import { placeOrder } from "../Restaurant/orderSlice";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
 import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window");
 
@@ -59,18 +60,20 @@ const Checkout = () => {
               Delivery Location:
             </Text>
           </View>
-          <Text style={{ color: colors.screen, fontSize: 18 }}>{`${
-            markerAddress.street ? `${markerAddress.street},` : ""
-          } ${markerAddress.city ? `${markerAddress.city},` : ""} ${markerAddress.city}, ${
-            markerAddress.subregion
-          }, ${markerAddress.country}`}</Text>
+          {markerAddress && (
+            <Text style={{ color: colors.screen, fontSize: 18 }}>{`${
+              markerAddress.street ? `${markerAddress.street},` : ""
+            } ${markerAddress.city ? `${markerAddress.city},` : ""} ${markerAddress.city}, ${
+              markerAddress.subregion
+            }, ${markerAddress.country}`}</Text>
+          )}
         </View>
 
-        <Pressable style={styles.checkoutButton} onPress={checkout}>
+        <TouchableOpacity style={styles.checkoutButton} onPress={checkout}>
           <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
             Confirm Order
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       </ScrollView>
       <MessagePopUpModal parent="Checkout" subject="order" />
     </Screen>
