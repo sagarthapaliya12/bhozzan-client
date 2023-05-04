@@ -3,7 +3,6 @@ import api from "../../helpers/axios";
 const placeOrder = async (order) => {
   try {
     const { data } = await api.post(`/order/create`, order);
-    // console.log("Test", data);
     return data;
   } catch (err) {
     throw new Error(err.response.data.error);
@@ -31,7 +30,6 @@ const getOrders = async (param) => {
 
 const acceptOrder = async (orderId) => {
   try {
-    console.log("here");
     const { data } = await api.put(`/order/accept/${orderId}`);
     console.log("accepted", data);
     return data;

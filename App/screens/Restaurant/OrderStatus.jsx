@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   StatusBar,
+  Dimensions,
 } from "react-native";
 import colors from "../../config/colors";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -15,7 +16,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { acceptOrder, rejectOrder, dispatchOrder, serveOrder, getOrders } from "./orderSlice";
 import { useIsFocused } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
-import * as Location from "expo-location";
+import SnackbarMessage from "../../components/SnackbarMessage";
+import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
+import updateAddress from "../../utils/updateAddressFromList.js";
+
+const { width } = Dimensions.get("window");
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
@@ -27,23 +32,19 @@ const OrderStatus = () => {
     dispatch(getOrders(status));
   }, [status, isFocused]);
 
-  // const [markerAddress, setMarkerAddress] = useState(null);
-  // useEffect(() => {
-  //   if (orders.address) {
-  //     let tempAddress = orders.address;
-  //     // delete tempAddress._id;
-  //     for (let key in tempAddress) {
-  //       tempAddress[key] = Number(tempAddress[key]);
-  //     }
-  //     (async () => {
-  //       const address = await Location.reverseGeocodeAsync(tempAddress);
-  //       setMarkerAddress(address[0]);
-  //     })();
-  //   }
-  // }, [restaurantUser.address]);
+  const [updatedOrders, setUpdatedOrders] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const newOrdersList = await updateAddress(orders, "RestaurantsList");
+      setUpdatedOrders(newOrdersList);
+    })();
+  }, [orders]);
 
-  const acceptRow = (_rowMap, orderId) => {
-    status === "pending" && dispatch(acceptOrder(orderId));
+  const acceptRow = async (_rowMap, orderId) => {
+    if (status === "pending") {
+      const res = await dispatch(acceptOrder(orderId)).unwrap();
+      if (res) dispatch(toggleShowSnackbar(true));
+    }
     status === "accepted" && dispatch(dispatchOrder(orderId));
   };
 
@@ -71,9 +72,16 @@ const OrderStatus = () => {
                   </View>
                 );
               })}
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row", width: width / 1.5 }}>
                 <Entypo name="location-pin" size={24} color={colors.secondary} />
-                <Text style={{ color: colors.gray, fontSize: 15 }}>{`${data.item.address}`}</Text>
+                <Text style={{ color: colors.gray, fontSize: 15 }}>
+                  {data.item.address &&
+                    `${data.item.address.street ? `${data.item.address.street},` : ""} ${
+                      data.item.address.city ? `${data.item.address.city},` : ""
+                    } ${data.item.address.city}, ${data.item.address.subregion}, ${
+                      data.item.address.country
+                    }`}
+                </Text>
               </View>
             </View>
             <Text
@@ -170,7 +178,7 @@ const OrderStatus = () => {
       <StatusBar barStyle="dark-content" />
       <StatusBar backgroundColor="#161B22" barStyle="light-content" />
       <SwipeListView
-        data={orders}
+        data={updatedOrders}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={75}
@@ -192,6 +200,7 @@ const OrderStatus = () => {
         leftActionValue={75}
         rightActionValue={-75}
       />
+      <SnackbarMessage subject="order" />
     </View>
   );
 };

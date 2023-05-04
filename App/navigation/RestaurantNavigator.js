@@ -35,7 +35,7 @@ const DashboardNavigator = () => {
         name="OrderStatus"
         component={OrderStatus}
         options={{
-          title: OrderStatusEnum[status],
+          title: `${OrderStatusEnum[status]} Orders`,
           headerTintColor: colors.white,
           headerStyle: {
             backgroundColor: colors.screen,

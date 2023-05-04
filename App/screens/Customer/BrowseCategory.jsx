@@ -7,7 +7,7 @@ import { getDishesByCategory } from "../Restaurant/restaurantSlice";
 import Screen from "../../components/Screen";
 import SnackbarMessage from "../../components/SnackbarMessage";
 import AddToBasketButton from "../../components/Customer/AddToBasketButton";
-import updateAddress from "../../utils/getRestaurantListWithAddress";
+import updateAddress from "../../utils/updateAddressFromList.js";
 
 const { width } = Dimensions.get("window");
 

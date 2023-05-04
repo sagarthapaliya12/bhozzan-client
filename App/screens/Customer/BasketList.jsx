@@ -7,7 +7,7 @@ import { getBasketCount, getBasketRestaurants, setBasketRestaurantSearch } from 
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import EmptyBasket from "../../components/Customer/EmptyBasket";
-import updateAddress from "../../utils/getRestaurantListWithAddress";
+import updateAddress from "../../utils/updateAddressFromList.js";
 import profilePic from "../../assets/App-Logos.png";
 
 const BasketList = () => {

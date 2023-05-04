@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { setRestaurantSearch } from "../../redux/ui/uiSlice";
 import profilePic from "../../assets/App-Logos.png";
 import { Entypo } from "@expo/vector-icons";
-import updateAddress from "../../utils/getRestaurantListWithAddress";
+import updateAddress from "../../utils/updateAddressFromList.js";
 
 const { width } = Dimensions.get("window");
 

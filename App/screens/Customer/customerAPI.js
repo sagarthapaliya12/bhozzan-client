@@ -102,6 +102,7 @@ const getOrderHistory = async () => {
 const getTodays = async () => {
   try {
     const { data } = await api.get(`dish/best-selling`);
+    console.log("Fw", data)
     return data;
   } catch (err) {
     throw new Error(err.response.data.error);

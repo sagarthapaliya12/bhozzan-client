@@ -10,6 +10,7 @@ const SnackbarMessage = (props) => {
   const dispatch = useDispatch();
 
   const visible = useSelector((state) => state.uiSlice.showSnackbar);
+
   const [status, setStatus] = useState();
   const [successMsg, setSuccessMsg] = useState();
   const [errorMsg, setErrorMsg] = useState();
@@ -17,9 +18,14 @@ const SnackbarMessage = (props) => {
   const statusCustomer = useSelector((state) => state.customerSlice.status);
   const successMsgCustomer = useSelector((state) => state.customerSlice.successMsg);
   const errorMsgCustomer = useSelector((state) => state.customerSlice.errorMsg);
+
   const statusRestaurant = useSelector((state) => state.restaurantSlice.status);
   const successMsgRestaurant = useSelector((state) => state.restaurantSlice.successMsg);
   const errorMsgRestaurant = useSelector((state) => state.restaurantSlice.errorMsg);
+
+  const statusOrder = useSelector((state) => state.orderSlice.status);
+  const successMsgOrder = useSelector((state) => state.orderSlice.successMsg);
+  const errorMsgOrder = useSelector((state) => state.orderSlice.errorMsg);
 
   useEffect(() => {
     if (props.subject === "customer") {
@@ -32,7 +38,12 @@ const SnackbarMessage = (props) => {
       setSuccessMsg(successMsgRestaurant);
       setErrorMsg(errorMsgRestaurant);
     }
-  }, [statusCustomer, statusRestaurant]);
+    if (props.subject === "order") {
+      setStatus(statusOrder);
+      setSuccessMsg(successMsgOrder);
+      setErrorMsg(errorMsgOrder);
+    }
+  }, [statusCustomer, statusRestaurant, statusOrder]);
 
   const onDismissSnackBar = () => {
     dispatch(toggleShowSnackbar(false));

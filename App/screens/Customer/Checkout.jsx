@@ -31,10 +31,10 @@ const Checkout = () => {
   //   const navigation = useNavigation();
 
   const checkout = async () => {
-    const tempOrder = { order, deliveryLocation: markerCoord };
-    // console.log("Sfsdf", tempOrder);
+    const finalOrder = { order, address: markerCoord };
+    console.log("Sfsdf", finalOrder);
     try {
-      const res = await dispatch(placeOrder(order)).unwrap();
+      const res = await dispatch(placeOrder(finalOrder)).unwrap();
       if (res) {
         dispatch(toggleShowMessageModal(true));
         dispatch(getBasketCount());

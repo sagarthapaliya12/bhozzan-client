@@ -109,6 +109,8 @@ const orderSlice = createSlice({
       .addCase(acceptOrder.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         state.orders = state.orders.filter((item) => item._id !== action.payload.order._id);
+        // if (action.payload.order.status)
+        state.successMsg = `Your order is ${action.payload.order.status}`;
       })
       .addCase(acceptOrder.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;

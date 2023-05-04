@@ -12,7 +12,7 @@ const TopDishes = () => {
 
   const todays = useSelector((state) => state.customerSlice.todaysDishes);
 
-  // console.log("jnjn", todays);
+  console.log("jnjn", todays);
 
   useEffect(() => {
     dispatch(getTodays());
@@ -20,7 +20,7 @@ const TopDishes = () => {
 
   return (
     <View style={styles.container}>
-      {/* {todays?.map((item, index) => {
+      {todays?.map((item, index) => {
         return (
           <View
             key={item.dish._id}
@@ -35,7 +35,7 @@ const TopDishes = () => {
                   color={colors.primary}
                   style={{ fontSize: 20 }}
                 />
-                <Text style={styles.location}>{item.restaurant[0].address}</Text>
+                {/* <Text style={styles.location}>{item.restaurant[0].address}</Text> */}
               </View>
             </View>
 
@@ -48,7 +48,7 @@ const TopDishes = () => {
             </View>
           </View>
         );
-      })} */}
+      })}
     </View>
   );
 };
