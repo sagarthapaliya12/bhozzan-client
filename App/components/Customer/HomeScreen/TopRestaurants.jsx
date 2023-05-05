@@ -44,7 +44,6 @@ const TopRestaurants = () => {
           key={item._id}
           style={styles.restaurantContainer}
           onPress={() => {
-            // dispatch(setSearch(item._id));
             dispatch(setRestaurantSearch(item._id));
             navigation.navigate("RestaurantProfile");
           }}

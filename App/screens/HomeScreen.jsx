@@ -15,6 +15,7 @@ import Constants from "expo-constants";
 import { setUniewedNotifications } from "../redux/notifications/notificationSlice";
 import { useNavigation } from "@react-navigation/native";
 import Notification from "../components/Customer/Notification";
+import NearbyRestaurant from "../components/Customer/HomeScreen/NearbyRestaurant";
 
 const HomeScreen = () => {
   const userId = useSelector((state) => state.authSlice.user.id);
@@ -39,6 +40,7 @@ const HomeScreen = () => {
         <LocalCusines />
         <TopRestaurants />
         <TopDishes />
+        <NearbyRestaurant />
       </ScrollView>
       <Notification />
     </Screen>

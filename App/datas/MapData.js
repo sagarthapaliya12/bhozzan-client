@@ -9,7 +9,7 @@ export const markers = [
     {
       coordinate: {
         latitude: 27.6257542,
-        longitude: 85.5502664,
+        longitude: 55.5502664,
       },
       title: "Amazing Food Place",
       description: "This is the best food place",

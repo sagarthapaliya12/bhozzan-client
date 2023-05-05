@@ -14,7 +14,7 @@ import TableList from "../screens/Customer/TableList";
 import ReserveTable from "../screens/Customer/ReserveTable";
 import OrderHistoryDetail from "../screens/Customer/OrderHistoryDetail";
 import MyReservation from "../screens/Customer/MyReservation";
-import ExploreScreen from "../screens/Customer/ExploreScreen";
+// import ExploreScreen from "../screens/Customer/ExploreScreen";
 import ChangePassword from "../screens/Customer/ChangePassword";
 import ChooseLocation from "../screens/ChooseLocation";
 import Checkout from "../screens/Customer/Checkout";
@@ -22,6 +22,7 @@ import Chat from "../screens/Chat";
 import Messages from "../screens/Customer/Messages";
 
 import { useSelector } from "react-redux";
+import NearbyRestaurant from "../screens/Customer/NearbyRestaurant";
 
 const Stack = createStackNavigator();
 
@@ -81,26 +82,37 @@ const HomeNavigator = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="NearbyRestaurant"
+        component={NearbyRestaurant}
+        options={{
+          title: "Nearby Restaurant",
+          headerTintColor: colors.white,
+          headerStyle: {
+            backgroundColor: colors.screen,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 };
 
-const MapNavigator = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Nearby" component={ExploreScreen} options={{ headerShown: false }} />
-    <Stack.Screen
-      name="ExploreScreen"
-      component={ExploreScreen}
-      options={{
-        title: "Nearby",
-        headerTintColor: colors.white,
-        headerStyle: {
-          backgroundColor: colors.screen,
-        },
-      }}
-    />
-  </Stack.Navigator>
-);
+// const MapNavigator = () => (
+//   <Stack.Navigator>
+//     <Stack.Screen name="Nearby" component={ExploreScreen} options={{ headerShown: false }} />
+//     <Stack.Screen
+//       name="ExploreScreen"
+//       component={ExploreScreen}
+//       options={{
+//         title: "Nearby",
+//         headerTintColor: colors.white,
+//         headerStyle: {
+//           backgroundColor: colors.screen,
+//         },
+//       }}
+//     />
+//   </Stack.Navigator>
+// );
 
 const BasketNavigator = () => (
   <Stack.Navigator>
@@ -262,4 +274,4 @@ const MoreNavigator = () => (
 );
 // };
 
-export { HomeNavigator, MapNavigator, BasketNavigator, ChatNavigator, MoreNavigator };
+export { HomeNavigator, BasketNavigator, ChatNavigator, MoreNavigator };

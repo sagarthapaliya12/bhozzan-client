@@ -31,7 +31,6 @@ const getOrders = async (param) => {
 const acceptOrder = async (orderId) => {
   try {
     const { data } = await api.put(`/order/accept/${orderId}`);
-    console.log("accepted", data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -40,9 +39,7 @@ const acceptOrder = async (orderId) => {
 
 const rejectOrder = async (orderId) => {
   try {
-    console.log(orderId);
     const { data } = await api.put(`/order/reject/${orderId}`);
-    console.log("rejected", data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -51,9 +48,7 @@ const rejectOrder = async (orderId) => {
 
 const dispatchOrder = async (orderId) => {
   try {
-    console.log(orderId);
     const { data } = await api.put(`/order/dispatch/${orderId}`);
-    console.log("dispatched", data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -62,9 +57,7 @@ const dispatchOrder = async (orderId) => {
 
 const serveOrder = async (orderId) => {
   try {
-    console.log(orderId);
     const { data } = await api.put(`/order/serve/${orderId}`);
-    console.log("served", data);
     return data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -73,12 +66,9 @@ const serveOrder = async (orderId) => {
 
 const deliverOrder = async (orderId) => {
   try {
-    console.log("fdgfg", orderId);
     const { data } = await api.put(`/order/deliver/${orderId}`);
-    console.log("delivered", data);
     return data;
   } catch (error) {
-    console.log("error delivered", error);
     throw new Error(error.response.data.error);
   }
 };
