@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Text, Image, Pressable } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons, Ionicons, AntDesign } from "@expo/vector-icons";
+import {
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Ionicons,
+  AntDesign,
+  Entypo,
+} from "@expo/vector-icons";
 import colors from "../../config/colors";
 import AppText from "../../components/AppText";
 import { logout, reset } from "../Public/authSlice";
@@ -85,6 +91,15 @@ const More = () => {
             >
               <AntDesign name="heart" size={24} color="red" />
               <Text style={styles.bottomText}>My Favorites</Text>
+            </Pressable>
+            <Pressable
+              style={styles.bottomRow}
+              android_ripple={{ color: colors.lightGray, borderless: true }}
+              // onPress={() => navigation.navigate("ChangeLocation")}
+              onPress={() => navigation.navigate("ChangeAddress", { subject: "user" })}
+            >
+              <Entypo name="location-pin" size={24} color={colors.gray} />
+              <Text style={styles.bottomText}>Change Address</Text>
             </Pressable>
             <Pressable
               style={styles.bottomRow}

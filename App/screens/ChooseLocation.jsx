@@ -94,6 +94,16 @@ const ChooseLocation = () => {
         }
       } catch (err) {}
     }
+
+    if (subject === "user") {
+      try {
+        console.log("Change Address To:", markerCoord);
+        // const res = await dispatch(editUserProfile({ address: markerCoord })).unwrap();
+        // if (res) {
+        navigation.popToTop();
+        // }
+      } catch (err) {}
+    }
   };
 
   const _map = React.useRef(null);

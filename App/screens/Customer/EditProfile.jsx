@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .label("Phone Number"),
 
-  address: Yup.string().required().min(4).label("Address"),
+  // address: Yup.string().required().min(4).label("Address"),
 });
 
 const EditProfile = () => {
@@ -42,7 +42,7 @@ const EditProfile = () => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 phoneNumber: user.phoneNumber?.toString(),
-                address: user.address,
+                // address: user.address,
               }}
               onSubmit={(values) => register(values)}
               validationSchema={validationSchema}

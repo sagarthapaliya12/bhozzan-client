@@ -97,23 +97,6 @@ const HomeNavigator = () => {
   );
 };
 
-// const MapNavigator = () => (
-//   <Stack.Navigator>
-//     <Stack.Screen name="Nearby" component={ExploreScreen} options={{ headerShown: false }} />
-//     <Stack.Screen
-//       name="ExploreScreen"
-//       component={ExploreScreen}
-//       options={{
-//         title: "Nearby",
-//         headerTintColor: colors.white,
-//         headerStyle: {
-//           backgroundColor: colors.screen,
-//         },
-//       }}
-//     />
-//   </Stack.Navigator>
-// );
-
 const BasketNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen name="BasketList" component={BasketList} options={{ headerShown: false }} />
@@ -253,6 +236,17 @@ const MoreNavigator = () => (
       component={MyReservation}
       options={{
         title: "My Reservations",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="ChangeAddress"
+      component={ChooseLocation}
+      options={{
+        title: "Change Address",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,

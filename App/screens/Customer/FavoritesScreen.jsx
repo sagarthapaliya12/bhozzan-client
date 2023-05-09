@@ -12,7 +12,7 @@ import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import { getFavoriteRestaurant, removeFavoriteRestaurant, setSearch } from "./customerSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import profilePic from "../../assets/App-Logos.png";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -23,12 +23,13 @@ const { width } = Dimensions.get("window");
 const FavoritesScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   const favouriteRestaurant = useSelector((state) => state.customerSlice.favoriteRestaurants);
 
   useEffect(() => {
     dispatch(getFavoriteRestaurant());
-  }, []);
+  }, [isFocused]);
 
   const handleDelete = (restaurantId) => {
     dispatch(removeFavoriteRestaurant(restaurantId));
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderBottomColor: colors.gray,
   },
+  itemDetail: { width: "70%" },
   restaurantImg: {
     width: 50,
     height: 50,
