@@ -224,7 +224,18 @@ const MoreNavigator = () => (
       name="FavoritesScreen"
       component={FavoritesScreen}
       options={{
-        title: "Favorites List",
+        title: "My Favorites",
+        headerTintColor: colors.white,
+        headerStyle: {
+          backgroundColor: colors.screen,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="RestaurantProfile"
+      component={RestaurantProfile}
+      options={{
+        title: "Restaurant Profile",
         headerTintColor: colors.white,
         headerStyle: {
           backgroundColor: colors.screen,

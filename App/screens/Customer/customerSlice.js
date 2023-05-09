@@ -70,9 +70,9 @@ const customerSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
-    setSearch: (state, action) => {
-      state.searchedRestaurantId = action.payload;
-    },
+    // setSearch: (state, action) => {
+    //   state.searchedRestaurantId = action.payload;
+    // },
     setBasketRestaurantSearch: (state, action) => {
       state.basketRestaurantSearch = action.payload;
     },
@@ -210,7 +210,7 @@ const customerSlice = createSlice({
       })
       .addCase(removeBasketDish.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        console.log("fdfddfs", action.payload)
+        console.log("fdfddfs", action.payload);
         state.basketDishes = state.basketDishes.filter(
           (item) => item.dish._id !== action.payload.dishId
         );
@@ -251,5 +251,5 @@ const customerSlice = createSlice({
   },
 });
 
-export const { reset, setSearch, setBasketRestaurantSearch, resetStatus } = customerSlice.actions;
+export const { reset, setBasketRestaurantSearch, resetStatus } = customerSlice.actions;
 export default customerSlice.reducer;

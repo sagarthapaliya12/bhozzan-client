@@ -57,17 +57,6 @@ const CustomerTab = () => {
         }}
       />
 
-      {/* <Tab.Screen
-        name="Map"
-        component={MapNavigator}
-        options={{
-          headerShown: true,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="map" color={color} size={size} />
-          ),
-        }}
-      /> */}
-
       <Tab.Screen
         name="Notifications"
         component={Notifications}
