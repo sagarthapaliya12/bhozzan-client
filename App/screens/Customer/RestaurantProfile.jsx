@@ -10,7 +10,7 @@ import {
   ScrollView,
   Linking,
 } from "react-native";
-import { Entypo, Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { Entypo, Ionicons, MaterialIcons, AntDesign, FontAwesome } from "@expo/vector-icons";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import profilePic from "../../assets/App-Logos.png";
@@ -24,6 +24,7 @@ import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import thumbnail from "../../assets/thumbnail.jpg";
+import Rating from "../../components/Customer/Rating";
 
 const { width } = Dimensions.get("window");
 
@@ -117,6 +118,12 @@ const RestaurantProfile = () => {
                 markerAddress.subregion
               }, ${markerAddress.country}`}</Text>
             </View>
+            <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+              <FontAwesome name="star" size={24} color={colors.secondary} />
+              <Text
+                style={{ color: colors.secondary, fontSize: 20, marginLeft: 8 }}
+              >{`4.5 / 5`}</Text>
+            </View>
             <Text style={styles.descriptionText}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -137,6 +144,9 @@ const RestaurantProfile = () => {
               );
             })}
           </View>
+
+          <Rating />
+
           <TouchableHighlight onPress={() => navigation.navigate("RestaurantTables")}>
             <View style={styles.reservationBtn}>
               <AntDesign name="calendar" size={24} color="black" />
@@ -210,7 +220,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     width: width,
-    margin: 20,
+    marginTop: 15,
   },
   iconContainer: {
     backgroundColor: colors.gray,
