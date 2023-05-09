@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import { setRestaurantSearch } from "../../redux/ui/uiSlice";
 
 const { width } = Dimensions.get("window");
+
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 

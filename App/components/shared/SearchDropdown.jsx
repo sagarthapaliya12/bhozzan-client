@@ -1,11 +1,12 @@
 import React from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
-
-import { TouchableOpacity, StyleSheet, ScrollView, View, Text, TextInput } from "react-native";
+import { TouchableOpacity, StyleSheet, View, Text, Image } from "react-native";
 import colors from "../../config/colors";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { setSearch } from "../../screens/Customer/customerSlice";
+import { setRestaurantSearch } from "../../redux/ui/uiSlice";
+import profilePic from "../../assets/App-Logos.png";
 
 export default function SearchDropdown(props) {
   const { dataSource } = props;
@@ -20,14 +21,18 @@ export default function SearchDropdown(props) {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  dispatch(setSearch(item._id));
+                  dispatch(setRestaurantSearch(item._id));
                   navigation.navigate("RestaurantProfile");
                 }}
                 style={styles.itemView}
                 key={index}
               >
                 <View style={styles.searchList}>
-                  <FontAwesome5 name="hotel" size={20} color={colors.darkGray} />
+                  {/* <FontAwesome5 name="hotel" size={20} color={colors.darkGray} /> */}
+                  <Image
+                    style={styles.restaurantProfile}
+                    source={item.profileImageLink ? { uri: item.profileImageLink } : profilePic}
+                  />
                   <Text style={styles.itemText}>{item.name}</Text>
                 </View>
               </TouchableOpacity>
@@ -47,12 +52,15 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: "100%",
-    left: 0,
-    right: 0,
+    // left: 0,
+    // right: 0,
     // bottom: 0,
     backgroundColor: colors.darkGray,
     zIndex: 100,
     elevation: 100,
+    width: "90%",
+    // justifyContent: "center",
+    alignItems: "center",
   },
   subContainer: {
     // backgroundColor: "red",
@@ -60,6 +68,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 4,
     flexDirection: "column",
     alignItems: "center",
+    width: "100%",
   },
   itemView: {
     // backgroundColor: "white",
@@ -76,6 +85,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 10,
+  },
+  restaurantProfile: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
   },
   itemText: {
     fontSize: 16,

@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
     // paddingTop: Constants.statusBarHeight,
     flexDirection: "row",
     alignItems: "center",
+    zIndex: 100,
+    justifyContent: "center",
   },
   input: {
     // backgroundColor: "#f4eded",
