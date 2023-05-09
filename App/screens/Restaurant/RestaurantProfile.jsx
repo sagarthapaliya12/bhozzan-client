@@ -129,13 +129,6 @@ const RestaurantProfile = () => {
             <Text style={styles.normalText}>{restaurantUser.tables?.length}</Text>
           </View>
 
-          {/* <AppButton
-            title="Scan QR Code"
-            onPress={() => {
-              navigation.navigate("QrScanner");
-            }}
-          /> */}
-
           <View style={{ marginVertical: 9 }}>
             <Pressable
               style={styles.bottomRow}

@@ -9,6 +9,7 @@ import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
 import colors from "../../config/colors";
 import { useDispatch, useSelector } from "react-redux";
+import { SubmitButton } from "../../components/forms";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().min(2).label("First Name"),
@@ -28,8 +29,9 @@ const EditProfile = () => {
 
   const user = useSelector((state) => state.customerSlice.user);
 
-  const register = async (values) => {
-    console.log(values);
+  const handleSubmit = async (userInfo) => {
+    console.log("User Info", userInfo);
+    // dispatch(updateUserInfo(userInfo));
   };
 
   return (
@@ -44,7 +46,7 @@ const EditProfile = () => {
                 phoneNumber: user.phoneNumber?.toString(),
                 // address: user.address,
               }}
-              onSubmit={(values) => register(values)}
+              onSubmit={(values) => handleSubmit(values)}
               validationSchema={validationSchema}
             >
               <FormField
@@ -67,19 +69,21 @@ const EditProfile = () => {
                 placeholder="Phone Number"
               />
 
-              <FormField
+              {/* <FormField
                 autoCapitalize="none"
                 autoCorrect={false}
                 icon="city"
                 name="address"
                 placeholder="Address"
-              />
+              /> */}
 
-              <Pressable style={styles.saveButton} onPress={() => console.log("submitted")}>
+              {/* <Pressable style={styles.saveButton} onPress={() => console.log("submitted")}>
                 <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>
                   Save Changes
                 </Text>
-              </Pressable>
+              </Pressable> */}
+
+              <SubmitButton title="Save Changes" />
             </Form>
           </View>
         </View>
