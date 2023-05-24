@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, Image, Pressable } from "react-native";
 import {
   MaterialCommunityIcons,
@@ -14,16 +14,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "./customerSlice";
 import { useNavigation } from "@react-navigation/native";
 import EditButton from "../../components/shared/EditButton";
+import * as Location from "expo-location";
 
 const More = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const user = useSelector((state) => state.customerSlice.user);
-  // console.log("SDf", user);
+
   useEffect(() => {
     dispatch(getUserDetails());
   }, []);
+
+  const [markerAddress, setMarkerAddress] = useState(null);
+  useEffect(() => {
+    if (typeof user.address === "object") {
+      // change this condition  to "if (user.address)" {when all users have object as address
+      (async () => {
+        try {
+          const address = await Location.reverseGeocodeAsync(user.address);
+          setMarkerAddress(address[0]);
+        } catch (err) {
+          console.log("Map Error", err);
+        }
+      })();
+    }
+  }, [user.address]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -55,9 +71,15 @@ const More = () => {
           </View>
           <View style={styles.details}>
             <MaterialIcons name="location-city" size={24} color="white" />
-            <AppText style={{ color: "white", marginLeft: 10, marginBottom: 20 }}>
-              {user.address}
-            </AppText>
+            {/* remove this condition when all users have object as address */}
+            {typeof user.address === "object" && (
+              <AppText style={{ color: "white", marginLeft: 10, marginBottom: 20 }}>
+                {markerAddress &&
+                  `${markerAddress.street ? `${markerAddress.street},` : ""} ${
+                    markerAddress.city ? `${markerAddress.city},` : ""
+                  } ${markerAddress.city}, ${markerAddress.subregion}, ${markerAddress.country}`}
+              </AppText>
+            )}
           </View>
 
           <View style={styles.details}>
@@ -92,7 +114,7 @@ const More = () => {
               <AntDesign name="heart" size={24} color="red" />
               <Text style={styles.bottomText}>My Favorites</Text>
             </Pressable>
-            {/* <Pressable
+            <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               // onPress={() => navigation.navigate("ChangeLocation")}
@@ -100,7 +122,7 @@ const More = () => {
             >
               <Entypo name="location-pin" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Change Address</Text>
-            </Pressable> */}
+            </Pressable>
             <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}

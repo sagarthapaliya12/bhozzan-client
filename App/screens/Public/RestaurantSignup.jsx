@@ -1,20 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, Text, StyleSheet, TouchableHighlight, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
 import "yup-phone";
-
 import Screen from "../../components/Screen";
 import Form from "../../components/forms/Form";
 import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
-import api from "../../helpers/axios";
+import * as Location from "expo-location";
 import colors from "../../config/colors";
 import SubmitButton from "../../components/forms/SubmitButton";
 import { useDispatch, useSelector } from "react-redux";
 import { registerRestaurant } from "./authSlice";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
 import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
+import ChooseLocationButton from "../../components/ChooseLocationButton";
+import { useRoute } from "@react-navigation/native";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(3).label("Restaurant Name"),
@@ -26,21 +27,38 @@ const validationSchema = Yup.object().shape({
 
   phoneNumbers: Yup.string().min(10).max(23).label("Secondary Contact"),
 
-  address: Yup.string().required().min(4).label("Address"),
+  // address: Yup.string().required().min(4).label("Address"),
 
   PAN: Yup.number().positive().required().min(9).label("Pan/Vat No."),
 });
 
 const RestaurantSignup = () => {
   const dispatch = useDispatch();
+  const route = useRoute();
 
   const status = useSelector((state) => state.authSlice.status);
+  const address = route.params?.address;
 
   useEffect(() => {
     if (status === "success") dispatch(toggleShowMessageModal(true));
   }, [status]);
 
+  const [markerAddress, setMarkerAddress] = useState(null);
+  useEffect(() => {
+    if (address) {
+      (async () => {
+        try {
+          const address = await Location.reverseGeocodeAsync(address);
+          setMarkerAddress(address[0]);
+        } catch (err) {
+          console.log("Map Error", err);
+        }
+      })();
+    }
+  }, [address]);
+
   const handleSubmit = (values) => {
+    values = { ...values, address };
     dispatch(registerRestaurant(values));
   };
 
@@ -56,7 +74,7 @@ const RestaurantSignup = () => {
                 marginTop: 25,
                 fontSize: 28,
                 textAlign: "center",
-                fontWeight: "200",
+                fontWeight: "500",
               }}
             >
               Grow Your Business with Bhozzan
@@ -93,13 +111,18 @@ const RestaurantSignup = () => {
                 name="phoneNumbers"
                 placeholder="Secondary Contact"
               />
-              <FormField autoCorrect={false} icon="city" name="address" placeholder="Address" />
+              {/* <FormField autoCorrect={false} icon="city" name="address" placeholder="Address" /> */}
               <FormField autoCorrect={false} icon="file" name="PAN" placeholder="PAN/VAT No." />
+              <ChooseLocationButton
+                address={address}
+                markerAddress={markerAddress}
+                subject="registerRestaurant"
+              />
               <SubmitButton title="Register" />
             </Form>
           </View>
         </View>
-        <MessagePopUpModal parent="RegisterScreen" />
+        <MessagePopUpModal parent="RegisterScreen" subject="auth" />
       </KeyboardAwareScrollView>
     </Screen>
   );

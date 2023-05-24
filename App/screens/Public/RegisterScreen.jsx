@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Yup from "yup";
@@ -12,6 +12,10 @@ import { registerUser } from "./authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
 import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useFormikContext } from "formik";
+import * as Location from "expo-location";
+import ChooseLocationButton from "../../components/ChooseLocationButton";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().min(3).label("First Name"),
@@ -22,7 +26,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .label("Phone Number"),
 
-  address: Yup.string().required().min(4).label("Address"),
+  // address: Yup.object().required(),
 
   password: Yup.string().required().min(6).max(14).label("Password"),
   confirmPassword: Yup.string()
@@ -33,18 +37,43 @@ const validationSchema = Yup.object().shape({
     .label("Password"),
 });
 
-function RegisterScreen({ navigation }) {
+function RegisterScreen() {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const route = useRoute();
+  // const { setFieldValue } = useFormikContext();
 
   const status = useSelector((state) => state.authSlice.status);
+  const address = route.params?.address;
+
+  // useEffect(() => {
+  //   // setFieldValue("address", address);
+  // }, [address]);
 
   useEffect(() => {
     if (status === "success") dispatch(toggleShowMessageModal(true));
   }, [status]);
 
   const register = (values) => {
+    // console.log("Address", address);
+    values = { ...values, address };
+    console.log("Values", values);
     dispatch(registerUser(values));
   };
+
+  const [markerAddress, setMarkerAddress] = useState(null);
+  useEffect(() => {
+    if (address) {
+      (async () => {
+        try {
+          const address = await Location.reverseGeocodeAsync(address);
+          setMarkerAddress(address[0]);
+        } catch (err) {
+          console.log("Map Error", err);
+        }
+      })();
+    }
+  }, [address]);
 
   return (
     <Screen>
@@ -62,10 +91,11 @@ function RegisterScreen({ navigation }) {
                 password: "",
                 confirmPassword: "",
                 phoneNumber: "",
-                address: "",
+                address: {},
               }}
               validationSchema={validationSchema}
               onSubmit={(values) => register(values)}
+              // setFieldValue={setFieldValue}
             >
               <FormField
                 autoCorrect={false}
@@ -85,13 +115,14 @@ function RegisterScreen({ navigation }) {
                 name="phoneNumber"
                 placeholder="Phone Number"
               />
-              <FormField
+              {/* <FormField
                 autoCapitalize="none"
                 autoCorrect={false}
                 icon="city"
                 name="address"
                 placeholder="Address"
-              />
+              /> */}
+              {/* <FormField name="address" /> */}
               <FormField
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -110,6 +141,38 @@ function RegisterScreen({ navigation }) {
                 secureTextEntry
                 textContentType="password"
               />
+              <ChooseLocationButton
+                address={address}
+                markerAddress={markerAddress}
+                subject="registerUser"
+              />
+
+              {/* <TouchableOpacity
+                style={{
+                  borderWidth: 1,
+                  padding: 8,
+                  marginVertical: 8,
+                  borderRadius: 10,
+                  borderColor: colors.lightGray,
+                }}
+                name="address"
+                onPress={() => navigation.navigate("ChooseLocation", { subject: "Register" })}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", overflow: "hidden" }}>
+                  <Entypo name="location-pin" size={40} color={colors.white} />
+                  <Text style={{ color: colors.white }} numberOfLines={1}>
+                    {address
+                      ? markerAddress
+                        ? `${markerAddress.street ? `${markerAddress.street},` : ""} ${
+                            markerAddress.city ? `${markerAddress.city},` : ""
+                          } ${markerAddress.city}, ${markerAddress.subregion}, ${
+                            markerAddress.country
+                          }`
+                        : `${address.latitude} ${address.longitude}`
+                      : "Choose Address"}
+                  </Text>
+                </View>
+              </TouchableOpacity> */}
               <SubmitButton title="Register" onPress={() => navigation.navigate("LoginScreen")} />
             </Form>
             <View

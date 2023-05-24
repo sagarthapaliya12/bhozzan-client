@@ -104,6 +104,14 @@ const ChooseLocation = () => {
         // }
       } catch (err) {}
     }
+
+    if (subject === "registerUser") {
+      navigation.navigate("RegisterScreen", { address: markerCoord });
+    }
+
+    if (subject === "registerRestaurant") {
+      navigation.navigate("RestaurantSignup", { address: markerCoord });
+    }
   };
 
   const _map = React.useRef(null);

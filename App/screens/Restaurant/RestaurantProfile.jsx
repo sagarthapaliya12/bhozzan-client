@@ -46,12 +46,13 @@ const RestaurantProfile = () => {
   const [markerAddress, setMarkerAddress] = useState(null);
   useEffect(() => {
     if (restaurantUser.address) {
-      let tempAddress = restaurantUser.address;
-      for (let key in tempAddress) {
-        tempAddress[key] = Number(tempAddress[key]);
-      }
+      // let tempAddress = restaurantUser.address;
+      // for (let key in tempAddress) {
+      //   tempAddress[key] = Number(tempAddress[key]);
+      // }
       (async () => {
-        const address = await Location.reverseGeocodeAsync(tempAddress);
+        // const address = await Location.reverseGeocodeAsync(tempAddress);
+        const address = await Location.reverseGeocodeAsync(restaurantUser.address);
         setMarkerAddress(address[0]);
       })();
     }
