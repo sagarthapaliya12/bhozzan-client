@@ -4,6 +4,8 @@ import colors from "../../../config/colors";
 import { Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getTodays } from "../../../screens/Customer/customerSlice";
+import AddToBasketButton from "../AddToBasketButton";
+import SnackbarMessage from "../../SnackbarMessage";
 
 const { height, width } = Dimensions.get("window");
 
@@ -27,7 +29,9 @@ const TopDishes = () => {
           return (
             <View key={index} style={styles.categoryItem}>
               <View style={styles.itemDetail}>
-                <Text style={styles.dishName}>{item.dish[0].name}</Text>
+                <Text style={styles.dishName} numberOfLines={2}>
+                  {item.dish[0].name}
+                </Text>
                 <Text style={styles.restaurantName}>{item.restaurant[0].name}</Text>
                 {/* <View style={styles.locationContainer}>
                   <Entypo
@@ -48,12 +52,13 @@ const TopDishes = () => {
                 </View>
               </View>
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.addToBasketbtn}
                 onPress={() => console.log("Dish Id:", item.dish[0]._id)}
               >
                 <Text style={styles.addToBasketText}>Add to Basket</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
+              <AddToBasketButton dishId={item.dish[0]._id} />
             </View>
           );
         })}

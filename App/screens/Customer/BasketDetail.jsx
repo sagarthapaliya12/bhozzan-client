@@ -22,7 +22,7 @@ const BasketDetail = () => {
   const [quantity, setQuantity] = useState({});
   const [subTotalToDisplay, setSubTotalToDisplay] = useState(0);
 
-  const basketDishes = useSelector((state) => state.customerSlice.basketDishes);
+  const { basketDishes, status } = useSelector((state) => state.customerSlice);
   const basketRestaurant = useSelector((state) => state.customerSlice.basketRestaurantSearch);
 
   useEffect(() => {
@@ -71,8 +71,8 @@ const BasketDetail = () => {
     }
   };
 
-  const handleDelete = (dishId) => {
-    dispatch(removeBasketDish(dishId));
+  const handleDelete = async (dishId) => {
+    dispatch(removeBasketDish(dishId)).unwrap();
   };
 
   const handleSubmit = () => {
@@ -92,7 +92,9 @@ const BasketDetail = () => {
     });
   };
 
-  // if (basketDishes.length === 0) return navigation.navigate("BasketList");
+  useEffect(() => {
+    basketDishes.length === 0 && navigation.goBack();
+  }, [basketDishes.length]);
 
   return (
     <Screen>

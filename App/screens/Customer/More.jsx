@@ -20,7 +20,7 @@ const More = () => {
   const navigation = useNavigation();
 
   const user = useSelector((state) => state.customerSlice.user);
-
+  // console.log("SDf", user);
   useEffect(() => {
     dispatch(getUserDetails());
   }, []);
@@ -92,7 +92,7 @@ const More = () => {
               <AntDesign name="heart" size={24} color="red" />
               <Text style={styles.bottomText}>My Favorites</Text>
             </Pressable>
-            <Pressable
+            {/* <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               // onPress={() => navigation.navigate("ChangeLocation")}
@@ -100,7 +100,7 @@ const More = () => {
             >
               <Entypo name="location-pin" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Change Address</Text>
-            </Pressable>
+            </Pressable> */}
             <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}

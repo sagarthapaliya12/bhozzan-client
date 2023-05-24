@@ -50,7 +50,15 @@ const SnackbarMessage = (props) => {
   };
 
   return (
-    <Snackbar visible={visible} onDismiss={onDismissSnackBar} style={styles.snackbar}>
+    <Snackbar
+      visible={status !== "loading" ? visible : false}
+      onDismiss={onDismissSnackBar}
+      style={{
+        ...styles.snackbar,
+        backgroundColor: status === "success" ? colors.darkGreen : "red",
+      }}
+      duration={1000}
+    >
       <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
         <AntDesign name="checkcircle" size={24} color="white" />
         <Text style={{ color: colors.white, marginLeft: 8 }}>
@@ -66,7 +74,7 @@ export default SnackbarMessage;
 
 const styles = StyleSheet.create({
   snackbar: {
-    backgroundColor: "green",
+    // backgroundColor: "green",
     color: "red",
     borderRadius: 40,
     width: "95%",

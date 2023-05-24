@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import colors from "../../config/colors";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -9,6 +9,7 @@ import Screen from "../../components/Screen";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import StatusStateEnum from "../../enums/statusEnum";
 import Loading from "../../components/Loading/Loading";
+import updateAddress from "../../utils/updateAddressFromList.js";
 
 const { height, width } = Dimensions.get("window");
 
@@ -22,6 +23,14 @@ const OrderHistoryList = () => {
     dispatch(getOrderHistory());
   }, []);
 
+  const [updatedOrderHistories, setUpdatedOrderHistories] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const newOrderHistoryList = await updateAddress(orderHistories, "RestaurantsList");
+      setUpdatedOrderHistories(newOrderHistoryList);
+    })();
+  }, [orderHistories]);
+
   if (status === StatusStateEnum.LOADING)
     return (
       <Screen>
@@ -32,7 +41,7 @@ const OrderHistoryList = () => {
   return (
     <Screen>
       <ScrollView>
-        {orderHistories?.map((item) => {
+        {updatedOrderHistories?.map((item) => {
           return (
             <TouchableHighlight
               key={item._id}
@@ -49,13 +58,25 @@ const OrderHistoryList = () => {
                   </View>
                   <Text style={styles.restaurantName}>{item.restaurant.name}</Text>
                   <View style={styles.locationContainer}>
-                    <Entypo
-                      name="location-pin"
-                      size={24}
-                      color={colors.primary}
-                      style={{ fontSize: 20 }}
-                    />
-                    {/* <Text style={styles.location}>{item.restaurant.address}</Text> */}
+                    <Text style={{ color: colors.lightGray, fontSize: 15, fontWeight: "700" }}>
+                      Delivery Location:
+                    </Text>
+                    <View style={styles.locationMain}>
+                      <Entypo
+                        name="location-pin"
+                        size={24}
+                        color={colors.primary}
+                        style={{ fontSize: 20 }}
+                      />
+                      <Text style={styles.location} numberOfLines={1} ellipsizeMode="tail">
+                        {item.address &&
+                          `${item.address.street ? `${item.address.street},` : ""} ${
+                            item.address.city ? `${item.address.city},` : ""
+                          } ${item.address.city}, ${item.address.subregion}, ${
+                            item.address.country
+                          }`}
+                      </Text>
+                    </View>
                   </View>
                   <View style={styles.statusContainer}>
                     <Text style={styles.statusText}>
@@ -107,11 +128,17 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   locationContainer: {
+    // flexDirection: "row",
+    // alignItems: "center",
+    marginVertical: 4,
+  },
+  locationMain: {
     flexDirection: "row",
     alignItems: "center",
   },
   location: {
     color: colors.white,
+    maxWidth: 200,
   },
   priceCart: { alignItems: "center" },
   cart: {

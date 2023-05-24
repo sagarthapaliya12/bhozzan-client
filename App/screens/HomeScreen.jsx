@@ -16,6 +16,7 @@ import { setUniewedNotifications } from "../redux/notifications/notificationSlic
 import { useNavigation } from "@react-navigation/native";
 import Notification from "../components/Customer/Notification";
 import NearbyRestaurant from "../components/Customer/HomeScreen/NearbyRestaurant";
+import SnackbarMessage from "../components/SnackbarMessage";
 
 const HomeScreen = () => {
   const userId = useSelector((state) => state.authSlice.user.id);
@@ -37,12 +38,13 @@ const HomeScreen = () => {
       <ScrollView style={styles.container}>
         <SearchBar />
         <BrowseCategories onPress={() => navigation.navigate("BrowseCategory")} />
-        <LocalCusines />
+        {/* <LocalCusines /> */}
         <TopRestaurants />
         <TopDishes />
         <NearbyRestaurant />
       </ScrollView>
       <Notification />
+      <SnackbarMessage subject="customer" />
     </Screen>
   );
 };

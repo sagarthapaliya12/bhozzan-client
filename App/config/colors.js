@@ -15,5 +15,8 @@ export default {
   green: "#16FD34",
   blue: "#2F7ED9",
   darkBlue: "#002B5D",
-  darkGreen: "#4CCE5B",
+  // darkGreen: "#4CCE5B",
+  darkGreen: "#008601",
+
 };
+

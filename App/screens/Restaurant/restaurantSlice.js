@@ -8,7 +8,7 @@ const initialState = {
   restaurantList: [],
   unVerifiedRestaurants: [],
   search: null, //move this to  customer
-  // restaurant: {},
+  rating: null,
   dishes: [],
   allDishes: [],
   categoryState: null,
@@ -71,14 +71,19 @@ export const refuteRestaurant = createAsyncThunk("restaurant/refute", async (res
   restaurantService.refuteRestaurant(restaurantId)
 );
 
+export const getRestaurantRating = createAsyncThunk("restaurant/rating", async (restaurantId) =>
+  restaurantService.getRestaurantRating(restaurantId)
+);
+
+export const rateRestaurant = createAsyncThunk("restaurant/rate", async (detail) =>
+  restaurantService.rateRestaurant(detail)
+);
+
 const restaurantSlice = createSlice({
   name: "restaurant",
   initialState,
   reducers: {
     reset: () => initialState,
-    // setSearch: (state, action) => {
-    //   state.search = action.payload;
-    // },
     changeCategoryState: (state, action) => {
       state.categoryState = action.payload;
     },
@@ -156,7 +161,7 @@ const restaurantSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Get All Dishes
+      // Get All Dishes
       .addCase(getAllDishes.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -169,7 +174,7 @@ const restaurantSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Get Dishes By RestaurantId
+      // Get Dishes By RestaurantId
       .addCase(getDishesByRestaurantId.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -182,7 +187,7 @@ const restaurantSlice = createSlice({
         state.errorMsg = action.error.errorMsg;
       })
 
-      //Get Dishes By Category
+      // Get Dishes By Category
       .addCase(getDishesByCategory.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -194,7 +199,8 @@ const restaurantSlice = createSlice({
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       })
-      //Add dish
+
+      // Add dish
       .addCase(addDish.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
       })
@@ -207,6 +213,7 @@ const restaurantSlice = createSlice({
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       })
+
       // Update dish
       .addCase(updateDish.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
@@ -219,6 +226,7 @@ const restaurantSlice = createSlice({
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.errorMsg;
       })
+
       // Add new table
       .addCase(addNewTable.pending, (state, _action) => {
         state.status = StatusStateEnum.LOADING;
@@ -264,6 +272,32 @@ const restaurantSlice = createSlice({
       .addCase(refuteRestaurant.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
         state.errorMsg = action.error.message;
+      })
+
+      // Get Restaurant Rating
+      .addCase(getRestaurantRating.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(getRestaurantRating.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+        console.log("Sdfsd", action.payload);
+        state.rating = action.payload;
+      })
+      .addCase(getRestaurantRating.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
+      })
+
+      // Add Restaurant Rating
+      .addCase(rateRestaurant.pending, (state, _action) => {
+        state.status = StatusStateEnum.LOADING;
+      })
+      .addCase(rateRestaurant.fulfilled, (state, action) => {
+        state.status = StatusStateEnum.SUCCESS;
+      })
+      .addCase(rateRestaurant.rejected, (state, action) => {
+        state.status = StatusStateEnum.FAILED;
+        state.errorMsg = action.error.errorMsg;
       });
   },
 });

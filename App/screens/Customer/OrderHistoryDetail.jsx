@@ -15,10 +15,6 @@ const OrderHistoryDetail = () => {
   const [markerAddress, setMarkerAddress] = useState({});
   useEffect(() => {
     if (orderDetail.restaurant.address) {
-      // const tempCoord = {
-      //   latitude: Number(orderDetail.restaurant.address?.latitude),
-      //   longitude: Number(orderDetail.restaurant.address?.longitude),
-      // };
       (async () => {
         const address = await Location.reverseGeocodeAsync(orderDetail.restaurant.address);
         setMarkerAddress(address[0]);
@@ -38,6 +34,17 @@ const OrderHistoryDetail = () => {
                   ? "On The Way"
                   : orderDetail.status.charAt(0).toUpperCase() + orderDetail.status.slice(1)}
                 {/* {orderDetail.status.charAt(0).toUpperCase() + orderDetail.status.slice(1)} */}
+              </Text>
+            </View>
+            <View style={styles.deliveryLocationContainer}>
+              <Text style={styles.deliveryLocationTitle}>Delivey Location:</Text>
+              <Text style={styles.deliveryLocation} numberOfLines={2}>
+                {orderDetail.address &&
+                  `${orderDetail.address.street ? `${orderDetail.address.street},` : ""} ${
+                    orderDetail.address.city ? `${orderDetail.address.city},` : ""
+                  } ${orderDetail.address.city}, ${orderDetail.address.subregion}, ${
+                    orderDetail.address.country
+                  }`}
               </Text>
             </View>
           </View>
@@ -60,7 +67,6 @@ const OrderHistoryDetail = () => {
                   } ${markerAddress.city ? `${markerAddress.city},` : ""} ${markerAddress.city}, ${
                     markerAddress.subregion
                   }, ${markerAddress.country}`}</Text>
-                  {/* <Text style={styles.address}>{orderDetail.restaurant.address}</Text> */}
                 </View>
               </View>
             </View>
@@ -117,6 +123,11 @@ const styles = StyleSheet.create({
     color: colors.screen,
     fontWeight: "700",
     fontSize: 20,
+  },
+  deliveryLocationContainer: { alignItems: "center", marginVertical: 10 },
+  deliveryLocationTitle: { color: colors.gray, fontSize: 20, fontWeight: "800" },
+  deliveryLocation: {
+    color: colors.gray,
   },
   restaurantContainer: {
     flexDirection: "row",

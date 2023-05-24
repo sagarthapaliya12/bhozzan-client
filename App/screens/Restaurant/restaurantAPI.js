@@ -1,4 +1,3 @@
-import { useLinkBuilder } from "@react-navigation/native";
 import api from "../../helpers/axios";
 
 const getAllRestaurants = async () => {
@@ -118,6 +117,27 @@ const refuteRestaurant = async (restaurantId) => {
   }
 };
 
+const getRestaurantRating = async (restaurantId) => {
+  try {
+    const { data } = await api.get(`/restaurant/ratings/${restaurantId}`);
+    return data;
+  } catch (error) {
+    console.log("Sdfsd", error.response.data);
+    throw new Error(error.response.data.error);
+  }
+};
+
+const rateRestaurant = async (detail) => {
+  try {
+    const { data } = await api.post(`/user/rate`, detail);
+    console.log("Success", data);
+    return data;
+  } catch (error) {
+    console.log("RaTE Restaurant Error", error.response.data);
+    throw new Error(error.response.data.error);
+  }
+};
+
 const restaurantService = {
   getAllRestaurants,
   getUnverifiedRestaurants,
@@ -132,6 +152,8 @@ const restaurantService = {
   addNewTable,
   verifyRestaurant,
   refuteRestaurant,
+  getRestaurantRating,
+  rateRestaurant,
 };
 
 export default restaurantService;

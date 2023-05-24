@@ -21,7 +21,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .label("Phone Number"),
 
-  // address: Yup.string().required().min(4).label("Address"),
+  address: Yup.string().required().min(4).label("Address"),
 });
 
 const EditProfile = () => {
@@ -69,13 +69,13 @@ const EditProfile = () => {
                 placeholder="Phone Number"
               />
 
-              {/* <FormField
+              <FormField
                 autoCapitalize="none"
                 autoCorrect={false}
                 icon="city"
                 name="address"
                 placeholder="Address"
-              /> */}
+              />
 
               {/* <Pressable style={styles.saveButton} onPress={() => console.log("submitted")}>
                 <Text style={{ fontSize: 18, fontWeight: "600", color: colors.screen }}>

@@ -9,9 +9,7 @@ const AddToBasketButton = ({ dishId }) => {
   const dispatch = useDispatch();
 
   const handleBasket = async () => {
-    await dispatch(addToBasket(dishId)).then((res) => {
-      if (!res.error) dispatch(toggleShowSnackbar(true));
-    });
+    await dispatch(addToBasket(dishId)).then(() => dispatch(toggleShowSnackbar(true)));
   };
 
   return (

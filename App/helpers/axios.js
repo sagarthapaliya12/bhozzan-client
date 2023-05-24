@@ -6,13 +6,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
   // baseURL: "http://bhozzan.onrender.com",
-  baseURL: "http://192.168.1.65:7000",
+  baseURL: "http://192.168.1.74:7000",
   headers: {
     Accept: "application/json",
   },
 });
 
-//run before any http request
+// run before any http request
 api.interceptors.request.use(
   async (req) => {
     const user = await AsyncStorage.getItem("user");

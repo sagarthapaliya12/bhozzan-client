@@ -1,19 +1,14 @@
 import { View, TextInput, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import Constants from "expo-constants";
-
 import { React, useState } from "react";
 import colors from "../../../config/colors";
-import RestaurantProfile from "../../../screens/Customer/RestaurantProfile";
 import SearchDropdown from "../../shared/SearchDropdown";
 import { useSelector } from "react-redux";
-import navigationTheme from "../../../navigation/navigationTheme";
 import { useNavigation } from "@react-navigation/native";
 import generateRegex from "../../../utils/generateRegex";
 
 export default function SearchBar(props) {
   const dataSource = useSelector((state) => state.restaurantSlice.restaurantList);
-  const navigation = useNavigation();
 
   const [filtered, setFiltered] = useState(dataSource);
   const [searching, setSearching] = useState(false);

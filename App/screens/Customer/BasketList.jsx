@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { getBasketCount, getBasketRestaurants, setBasketRestaurantSearch } from "./customerSlice";
+import {
+  getBasketCount,
+  getBasketDishes,
+  getBasketRestaurants,
+  setBasketRestaurantSearch,
+} from "./customerSlice";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import EmptyBasket from "../../components/Customer/EmptyBasket";
@@ -30,7 +35,7 @@ const BasketList = () => {
     })();
   }, [basketRestaurants]);
 
-  if (basketRestaurants.length === 0) return <EmptyBasket />;
+  if (updatedBasketList?.length === 0) return <EmptyBasket />;
 
   return (
     <Screen>
@@ -39,8 +44,9 @@ const BasketList = () => {
           return (
             <TouchableWithoutFeedback
               key={item._id}
-              onPress={() => {
+              onPress={async () => {
                 dispatch(setBasketRestaurantSearch(item._id));
+                await dispatch(getBasketDishes(item._id)).unwrap();
                 navigation.navigate("BasketDetail");
               }}
             >

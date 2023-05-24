@@ -25,6 +25,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import thumbnail from "../../assets/thumbnail.jpg";
 import Rating from "../../components/Customer/Rating";
+import { getRestaurantRating } from "../Restaurant/restaurantSlice";
 
 const { width } = Dimensions.get("window");
 
@@ -56,6 +57,7 @@ const RestaurantProfile = () => {
 
   useEffect(() => {
     dispatch(getRestaurantDetails(restaurantId));
+    dispatch(getRestaurantRating(restaurantId));
   }, []);
 
   const [markerAddress, setMarkerAddress] = useState({});
