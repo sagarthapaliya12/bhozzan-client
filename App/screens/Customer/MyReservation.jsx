@@ -7,12 +7,13 @@ import {
   TouchableHighlight,
   Linking,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyReservation } from "../../redux/reservation/reservationSlice";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import { Ionicons, Entypo } from "@expo/vector-icons";
+import updateAddress from "../../utils/updateAddressFromList.js";
 
 const { width } = Dimensions.get("window");
 
@@ -25,13 +26,22 @@ const MyReservation = () => {
     dispatch(getMyReservation());
   }, []);
 
+  const [updatedReservations, setUpdatedReservations] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const newReservationList = await updateAddress(reservations, "BrowseCategory");
+      setUpdatedReservations(newReservationList);
+    })();
+  }, [reservations]);
+
+
   return (
     <Screen>
       <ScrollView
         showsVerticalScrollIndicator={false}
         // style={{ paddingBottom: 100, marginBottom: 278 }}
       >
-        {reservations.map((reservation) => {
+        {updatedReservations.map((reservation) => {
           return (
             <View style={styles.reservationContainer} key={reservation._id}>
               <Text style={styles.showTime}>
@@ -73,7 +83,20 @@ const MyReservation = () => {
                           color={colors.primary}
                           style={{ fontSize: 20 }}
                         />
-                        {/* <Text style={styles.address}>{reservation.restaurant.address}</Text> */}
+                        <Text style={styles.address} numberOfLines={1} ellipsizeMode="tail">
+                          {reservation.restaurant.address &&
+                            `${
+                              reservation.restaurant.address.street
+                                ? `${reservation.restaurant.address.street},`
+                                : ""
+                            } ${
+                              reservation.restaurant.address.city
+                                ? `${reservation.restaurant.address.city},`
+                                : ""
+                            } ${reservation.restaurant.address.city}, ${
+                              reservation.restaurant.address.subregion
+                            }, ${reservation.restaurant.address.country}`}
+                        </Text>
                       </View>
                     </View>
                   </View>

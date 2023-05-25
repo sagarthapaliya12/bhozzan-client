@@ -32,7 +32,7 @@ const ReservationDetail = () => {
   return (
     <Screen>
       <View style={styles.container}>
-        <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 25 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 15 }}>
           <Image style={styles.tableImg} source={tableImg} />
           <View style={styles.itemDetail}>
             <Text style={styles.tableName}>{tableInfo.name}</Text>
@@ -84,9 +84,9 @@ const ReservationDetail = () => {
                             <View style={styles.phoneContainer}>
                               <Ionicons name="call" size={20} color={colors.screen} />
                               <Text style={styles.reserverName}>
-                                {reservation.customer.firstName +
+                                {reservation.customer?.firstName +
                                   " " +
-                                  reservation.customer.lastName}
+                                  reservation.customer?.lastName}
                               </Text>
                             </View>
                           </TouchableHighlight>
