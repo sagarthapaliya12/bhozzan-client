@@ -6,7 +6,6 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Yup from "yup";
 import "yup-phone";
 import SubmitButton from "../../components/forms/SubmitButton";
-
 import Screen from "../../components/Screen";
 import Form from "../../components/forms/Form";
 import FormField from "../../components/forms/FormField";
@@ -28,7 +27,7 @@ const AddMenu = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [selected, setSelected] = useState("");
+  // const [selected, setSelected] = useState("");
 
   const [category, setCategory] = useState(null);
   const [showOption, setShowOption] = useState(false);
@@ -38,9 +37,9 @@ const AddMenu = () => {
     setCategory(item);
   };
 
-  const handleSubmit = (dish) => {
+  const handleSubmit = async (dish) => {
     dish = { ...dish, category: category.value };
-    dispatch(addDish(dish));
+    await dispatch(addDish(dish)).unwrap();
     dispatch(toggleShowSnackbar(true));
     navigation.navigate("Menu");
   };
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: defaultStyles.colors.screen,
     alignItems: "center",
-    padding: 20,
+    // padding: 20,
   },
 
   logo: {
@@ -156,7 +155,7 @@ const styles = StyleSheet.create({
   formContainer: {
     display: "flex",
     width: "90%",
-    marginVertical: 40,
+    marginVertical: 20,
   },
 
   text: {

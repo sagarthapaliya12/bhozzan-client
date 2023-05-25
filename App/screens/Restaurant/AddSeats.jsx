@@ -5,10 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
-  StatusBar,
   TouchableOpacity,
   Image,
-  SafeAreaView,
 } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 const { width, height } = Dimensions.get("window");

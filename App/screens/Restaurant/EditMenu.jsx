@@ -5,16 +5,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Divider } from "react-native-paper";
 import * as Yup from "yup";
 import "yup-phone";
-
 import Screen from "../../components/Screen";
 import Form from "../../components/forms/Form";
 import FormField from "../../components/forms/FormField";
 import defaultStyles from "../../config/styles";
-// import api from "../../helpers/axios";
 import colors from "../../config/colors";
 import { updateDish } from "./restaurantSlice";
 import { SubmitButton } from "../../components/forms";
-import navigationTheme from "../../navigation/navigationTheme";
 import { useNavigation } from "@react-navigation/native";
 import { toggleShowSnackbar } from "../../redux/ui/uiSlice";
 
@@ -63,6 +60,7 @@ const EditMenu = () => {
                 autoCorrect={false}
                 // icon="lock"
                 // placeholder="Food Price"
+                keyboardType="number-pad"
                 name="price"
               />
               <Divider
