@@ -90,15 +90,6 @@ const updateDish = async (update) => {
   }
 };
 
-const addNewTable = async (table) => {
-  try {
-    const { data } = await api.post(`/table/add`, table);
-    return data;
-  } catch (error) {
-    throw new Error(error.response.data.error);
-  }
-};
-
 const verifyRestaurant = async (restaurantId) => {
   try {
     const { data } = await api.put(`/restaurant/verify/${restaurantId}`);
@@ -149,7 +140,6 @@ const restaurantService = {
   getDishesByCategory,
   addDish,
   updateDish,
-  addNewTable,
   verifyRestaurant,
   refuteRestaurant,
   getRestaurantRating,

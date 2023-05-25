@@ -22,7 +22,6 @@ const { width } = Dimensions.get("window");
 const TableList = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
 
   const restaurantId = useSelector((state) => state.restaurantSlice.restaurantUserId);
   const tableList = useSelector((state) => state.tableSlice.tableList);
@@ -33,7 +32,7 @@ const TableList = () => {
 
   useEffect(() => {
     dispatch(getTablesByRestaurant(restaurantId));
-  }, [restaurantId, isFocused]);
+  }, [restaurantId]);
 
   return (
     <Screen>
@@ -44,7 +43,7 @@ const TableList = () => {
               key={table._id}
               onPress={() => {
                 dispatch(setTableId(table._id));
-                dispatch(setTableInfo(table))
+                dispatch(setTableInfo(table));
                 navigation.navigate("ReservationDetail");
               }}
             >

@@ -96,7 +96,7 @@ const AddSeats = () => {
   const renderHeader = () => {
     return (
       <View style={styles.header}>
-        <Text style={{ color: colors.white, fontSize: 19 }}>No. of Seats: {items.length}</Text>
+        <Text style={{ color: colors.secondary, fontSize: 19 }}>No. of Seats: {items.length}</Text>
         <View style={styles.headerBtnContainer}>
           {/* ///////////////////////////////*/}
           {/* ////////// Add Seats //////////*/}
@@ -262,6 +262,7 @@ const styles = StyleSheet.create({
     width,
     alignItems: "center",
     paddingHorizontal: 18,
+    marginVertical: 20,
   },
   headerBtnContainer: {
     width,
