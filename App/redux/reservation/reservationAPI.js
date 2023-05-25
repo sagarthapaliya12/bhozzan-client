@@ -3,7 +3,6 @@ import api from "../../helpers/axios";
 const getReservationByTableCustomer = async (tableId) => {
   try {
     const { data } = await api.get(`/reservation/table/${tableId}`);
-    // console.log("dsad", data);
     return data;
   } catch (err) {
     throw new Error(err.response.data.error);
@@ -30,12 +29,10 @@ const getMyReservation = async () => {
 
 const createReservation = async (reservationDetail) => {
   try {
-    // console.log("fdf", reservationDetail)
     const { data } = await api.post(`/reservation/create`, reservationDetail);
-    console.log("fdf", data);
     return data;
   } catch (err) {
-    throw new Error(err.response.data.error);
+    throw new Error(err.response.data.errorMsg);
   }
 };
 

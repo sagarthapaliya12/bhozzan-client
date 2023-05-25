@@ -41,7 +41,6 @@ const reservationSlice = createSlice({
       })
       .addCase(getReservationByTableCustomer.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
-        console.log("hbhb", action.payload);
         state.reservationList = action.payload.reservations;
       })
       .addCase(getReservationByTableCustomer.rejected, (state, action) => {
@@ -82,12 +81,11 @@ const reservationSlice = createSlice({
       .addCase(createReservation.fulfilled, (state, action) => {
         state.status = StatusStateEnum.SUCCESS;
         state.successMsg = action.payload.message;
-        // state.reservationList = action.payload.reservations;
+        state.reservationList.push(action.payload.reservation);
       })
       .addCase(createReservation.rejected, (state, action) => {
         state.status = StatusStateEnum.FAILED;
-        console.log("sdsd", action);
-        state.errorMsg = action.error.errorMsg;
+        state.errorMsg = action.error.message;
       });
   },
 });

@@ -1,18 +1,26 @@
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Screen from "../../components/Screen";
 import tableImg from "../../assets/table.png";
 import colors from "../../config/colors";
 import DateTime from "../../components/Customer/DateTime";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MessagePopUpModal from "../../components/MessagePopUpModal";
 import getFormattedTime from "../../utils/getFormattedTime";
+import { getReservationByTableCustomer } from "../../redux/reservation/reservationSlice";
 
 const { width } = Dimensions.get("window");
 
 const ReserveTable = () => {
+  const dispatch = useDispatch();
+
+  const tableId = useSelector((state) => state.tableSlice.tableId);
   const tableInfo = useSelector((state) => state.tableSlice.tableInfo);
   const reservations = useSelector((state) => state.reservationSlice.reservationList);
+
+  useEffect(() => {
+    dispatch(getReservationByTableCustomer(tableId));
+  }, [tableId]);
 
   return (
     <Screen>

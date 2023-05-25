@@ -11,7 +11,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import colors from "../../config/colors";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { createReservation } from "../../redux/reservation/reservationSlice";
+import {
+  createReservation,
+  getReservationByTableCustomer,
+} from "../../redux/reservation/reservationSlice";
 import { useSelector } from "react-redux";
 import { toggleShowMessageModal } from "../../redux/ui/uiSlice";
 
@@ -19,7 +22,7 @@ const DateTime = () => {
   const dispatch = useDispatch();
 
   const tableId = useSelector((state) => state.tableSlice.tableId);
-  const status = useSelector((state) => state.tableSlice.status);
+  // const status = useSelector((state) => state.tableSlice.status);
 
   const [cDate, setCDate] = useState(new Date());
 
@@ -60,17 +63,17 @@ const DateTime = () => {
     setEndTime(fEndTime);
   };
 
-  const handleReservation = () => {
+  const handleReservation = async () => {
     const reservationDetail = {
       tableId,
       reservedSince: `${date} ${startTime}`,
       reservedUntil: `${date} ${endTime}`,
     };
-    dispatch(createReservation(reservationDetail));
-
-    if(status === "success"){
-      dispatch(toggleShowMessageModal(true))
-    }
+    await dispatch(createReservation(reservationDetail))
+      .then(() => {
+        dispatch(toggleShowMessageModal(true));
+      });
+    // dispatch(getReservationByTableCustomer(tableId));
   };
 
   return (

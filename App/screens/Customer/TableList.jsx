@@ -12,7 +12,7 @@ const TableList = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const restaurantId = useSelector((state) => state.customerSlice.searchedRestaurantId);
+  const restaurantId = useSelector((state) => state.uiSlice.restaurantIdSearch);
   const tableList = useSelector((state) => state.tableSlice.tableList);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const TableList = () => {
                   onPress={() => {
                     dispatch(setTableInfo(item));
                     dispatch(setTableId(item._id));
-                    dispatch(getReservationByTableCustomer(item._id));
+                    // dispatch(getReservationByTableCustomer(item._id));
                     navigation.navigate("ReserveTable");
                   }}
                 >
