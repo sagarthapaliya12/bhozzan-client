@@ -5,8 +5,6 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  Pressable,
-  TouchableHighlight,
   TouchableOpacity,
 } from "react-native";
 import { AntDesign, MaterialCommunityIcons, Ionicons, Entypo } from "@expo/vector-icons";
@@ -131,23 +129,23 @@ const RestaurantProfile = () => {
           </View>
 
           <View style={{ marginVertical: 9 }}>
-            <Pressable
+            <TouchableOpacity
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => navigation.navigate("ChangeAddress", { subject: "restaurant" })}
             >
               <Entypo name="location-pin" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Change Address</Text>
-            </Pressable>
+            </TouchableOpacity>
 
-            <Pressable
+            <TouchableOpacity
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => handleLogout()}
             >
               <MaterialCommunityIcons name="logout" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Logout</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </SafeAreaView>
       </ScrollView>

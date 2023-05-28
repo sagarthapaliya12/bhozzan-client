@@ -30,7 +30,7 @@ const Menu = () => {
       <ScrollView style={styles.container}>
         {dishes?.map((item, index) => {
           return (
-            <View key={index} style={{ marginBottom: 0, paddingVertical: 200 }}>
+            <View key={index} style={{ marginBottom: 0, paddingVertical: 0 }}>
               <View style={{ position: "relative" }}>
                 <View
                   style={{
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.screen,
     // paddingTop: Constants.statusBarHeight,
     height: height,
-    paddingBottom: 600,
+    // paddingBottom: 600,
     // marginBottom: 80,
   },
   menuContainer: {

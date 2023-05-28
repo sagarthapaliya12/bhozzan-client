@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, Image, Pressable } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import {
   MaterialCommunityIcons,
   MaterialIcons,
@@ -28,7 +28,7 @@ const More = () => {
 
   const [markerAddress, setMarkerAddress] = useState(null);
   useEffect(() => {
-    if (typeof user.address === "object") {
+    if (typeof user?.address === "object") {
       // change this condition  to "if (user.address)" {when all users have object as address
       (async () => {
         try {
@@ -39,7 +39,7 @@ const More = () => {
         }
       })();
     }
-  }, [user.address]);
+  }, [user?.address]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -72,7 +72,7 @@ const More = () => {
           <View style={styles.details}>
             <MaterialIcons name="location-city" size={24} color="white" />
             {/* remove this condition when all users have object as address */}
-            {typeof user.address === "object" && (
+            {typeof user?.address === "object" && (
               <AppText style={{ color: "white", marginLeft: 10, marginBottom: 20 }}>
                 {markerAddress &&
                   `${markerAddress.street ? `${markerAddress.street},` : ""} ${
@@ -90,31 +90,31 @@ const More = () => {
           </View>
 
           <View style={styles.features}>
-            <Pressable
+            <TouchableOpacity
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => navigation.navigate("OrderHistory")}
             >
               <MaterialCommunityIcons name="history" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Order History</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => navigation.navigate("MyReservation")}
             >
               <AntDesign name="calendar" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>My Reservations</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => navigation.navigate("FavoritesScreen")}
             >
               <AntDesign name="heart" size={24} color="red" />
               <Text style={styles.bottomText}>My Favorites</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               // onPress={() => navigation.navigate("ChangeLocation")}
@@ -122,23 +122,23 @@ const More = () => {
             >
               <Entypo name="location-pin" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Change Address</Text>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            {/* <Pressable
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => navigation.navigate("ChangePassword")}
             >
               <Ionicons name="ellipsis-horizontal-circle-sharp" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Change Password</Text>
-            </Pressable>
-            <Pressable
+            </Pressable> */}
+            <TouchableOpacity
               style={styles.bottomRow}
               android_ripple={{ color: colors.lightGray, borderless: true }}
               onPress={() => handleLogout()}
             >
               <MaterialCommunityIcons name="logout" size={24} color={colors.gray} />
               <Text style={styles.bottomText}>Logout</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       ) : null}
